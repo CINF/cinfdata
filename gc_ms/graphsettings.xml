@@ -96,6 +96,151 @@
       <color>9</color>
     </dateplot9>
 
+    <dateplot10>
+      <title>Source Roughpump Temperature</title>
+      <legend>Source RP Temperature</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 550 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>10</color>
+    </dateplot10>
+
+    <dateplot11>
+      <title>Source Roughpump Controller Temperature</title>
+      <legend>Source RP Cont.Temp.</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 551 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>11</color>
+    </dateplot11>
+
+    <dateplot12>
+      <title>Source Roughpump Rotational Speed</title>
+      <legend>Source RP Rot Speed</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 553 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>rpm</ylabel>
+      <color>12</color>
+    </dateplot12>
+
+    <dateplot13>
+      <title>Source Roughpump Run Hours</title>
+      <legend>Source RP Run Hour</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 552 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>13</color>
+    </dateplot13>
+
+    <dateplot14>
+      <title>Source Roughpump Time To Service</title>
+      <legend>Source RP TTS</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 554 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>14</color>
+    </dateplot14>
+
+    <dateplot15>
+      <title>Source Roughpump Controller Run Hours</title>
+      <legend>Source RP Controller Run Hour</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 555 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>15</color>
+    </dateplot15>
+
+    <dateplot16>
+      <title>Analyzer Roughpump Temperature</title>
+      <legend>Analyzer RP Temperature</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 556 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>16</color>
+    </dateplot16>
+
+    <dateplot17>
+      <title>Analyzer Roughpump Controller Temperature</title>
+      <legend>Analyzer RP Cont.Temp.</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 557 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>17</color>
+    </dateplot17>
+
+    <dateplot17>
+      <title>Analyzer Roughpump Rotational Speed</title>
+      <legend>Analyzer RP Rot Speed</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 559 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>rpm</ylabel>
+      <color>17</color>
+    </dateplot17>
+
+    <dateplot17>
+      <title>Analyzer Roughpump Run Hours</title>
+      <legend>Analyzer RP Run Hour</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 558 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>17</color>
+    </dateplot17>
+
+    <dateplot18>
+      <title>Analyzer Roughpump Time To Service</title>
+      <legend>Analyzer RP TTS</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 560 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>18</color>
+    </dateplot18>
+
+    <dateplot19>
+      <title>Analyzer Roughpump Controller Run Hours</title>
+      <legend>Analyzer RP Controller Run Hour</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 561 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>19</color>
+    </dateplot19>
+
+    <dateplot20>
+      <title>Inlet Roughpump Temperature</title>
+      <legend>Inlet RP Temperature</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 562 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>20</color>
+    </dateplot20>
+
+    <dateplot21>
+      <title>Inlet Roughpump Controller Temperature</title>
+      <legend>Inlet RP Cont.Temp.</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 563 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>21</color>
+    </dateplot21>
+
+    <dateplot22>
+      <title>Inlet Roughpump Rotational Speed</title>
+      <legend>Inlet RP Rot Speed</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 565 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>rpm</ylabel>
+      <color>22</color>
+    </dateplot22>
+
+    <dateplot23>
+      <title>Inlet Roughpump Run Hours</title>
+      <legend>Inlet RP Run Hour</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 564 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>23</color>
+    </dateplot23>
+
+    <dateplot24>
+      <title>Inlet Roughpump Time To Service</title>
+      <legend>Inlet RP TTS</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 566 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>24</color>
+    </dateplot24>
+
+    <dateplot25>
+      <title>Inlet Roughpump Controller Run Hours</title>
+      <legend>Inlet RP Controller Run Hour</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_gc_ms where type = 567 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>25</color>
+    </dateplot25>
+
+
     <!-- data treatment -->
     <as_function_of>
       <gui>As function of T</gui>

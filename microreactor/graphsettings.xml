@@ -296,7 +296,7 @@
 	<figure>
 	  <plot0>
             <color>#000000</color>
-            <data_channel>rasppi24:M13201551A</data_channel>
+            <data_channel>rasppi95:M13201551A</data_channel>
             <label>Sample pressure</label>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_microreactor where type=(SELECT id FROM dateplots_descriptions where codename="mr_reactor_pressure") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
@@ -330,12 +330,12 @@
 	<figure>
 	  <plot0>
             <color>#0000FF</color>
-            <data_channel>rasppi24:M11200362F</data_channel>
+            <data_channel>rasppi95:M11200362F</data_channel>
             <label>Flow 2</label>
 	  </plot0>
 	  <plot1>
             <color>#00AA00</color>
-            <data_channel>rasppi24:M8203814B</data_channel>
+            <data_channel>rasppi95:M8203814B</data_channel>
             <label>Flow 1</label>
 	  </plot1>
 	  <plot2>
@@ -350,7 +350,7 @@
 	  </plot3>
 	  <plot4>
             <color>#00FFFF</color>
-            <data_channel>rasppi24:M8203814A</data_channel>
+            <data_channel>rasppi95:M8203814A</data_channel>
             <label>Flow 5</label>
 	  </plot4>
 	  <plot5>
@@ -372,7 +372,7 @@
 	<padding>20px 0px 0px 0px</padding>
 	<data>
 	  <item0>
-	    <data_channel>rasppi24:M13201551A</data_channel>
+	    <data_channel>rasppi95:M13201551A</data_channel>
 	    <label>Sample pressure</label>
 	    <color>#000000</color>
 	    <format>.3f</format>
@@ -387,14 +387,14 @@
 	  </item1>
 	  <item2>
             <color>#00AA00</color>
-            <data_channel>rasppi24:M8203814B</data_channel>
+            <data_channel>rasppi95:M8203814B</data_channel>
             <label>Flow 1</label>
 	    <format>.3f</format>
 	    <unit>mL/min</unit>
 	  </item2>
 	  <item3>
             <color>#0000FF</color>
-            <data_channel>rasppi24:M11200362F</data_channel>
+            <data_channel>rasppi95:M11200362F</data_channel>
             <label>Flow 2</label>
 	    <color>#0000FF</color>
 	    <format>.3f</format>
@@ -416,7 +416,7 @@
 	  </item5>
 	  <item6>
             <color>#00FFFF</color>
-            <data_channel>rasppi24:M8203814A</data_channel>
+            <data_channel>rasppi95:M8203814A</data_channel>
             <label>Flow 5</label>
 	    <unit>mL/min</unit>
 	    <format>.3f</format>

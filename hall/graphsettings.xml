@@ -465,6 +465,30 @@
             <label>Sputterchamber Temperature</label>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_sputterchamber where type=(SELECT id FROM dateplots_descriptions where codename="sputterchamber_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot2>
+	  <plot3>
+            <color>#00FFFF</color>
+            <data_channel>rasppi97:uhv_sputterchamber_chiller_temperature</data_channel>
+            <label>UHV Sputterchamber Temperature</label>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_uhv_sputterchamber where type=(SELECT id FROM dateplots_descriptions where codename="uhv_sputterchamber_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot3>
+	  <plot4>
+            <color>#aa5500</color>
+            <data_channel>rasppi20:omicron_chiller_temperature</data_channel>
+            <label>Omicron Temperature</label>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot4>
+	  <plot5>
+            <color>#000000</color>
+            <data_channel>rasppi60:new_xrd_chiller_temperature</data_channel>
+            <label>New XRD Temperature</label>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_new_xrd where type=(SELECT id FROM dateplots_descriptions where codename="new_xrd_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot5>
+	  <plot6>
+            <color>#00aa55</color>
+            <data_channel>rasppi94:gc_ms_chiller_temperature</data_channel>
+            <label>GCMS Temperature</label>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gc_ms where type=(SELECT id FROM dateplots_descriptions where codename="gc_ms_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot6>
 	</figure>
       </container3>
 
@@ -497,21 +521,45 @@
 	  <plot0>
             <color>#0000FF</color>
             <data_channel>rasppi57:thetaprobe_chiller_pressure</data_channel>
-            <label>Thetaprobe Pressure</label>
+            <label>Thetaprobe pressure</label>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_thetaprobe where type=(SELECT id FROM dateplots_descriptions where codename="thetaprobe_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
 	  <plot1>
             <color>#00FF00</color>
             <data_channel>rasppi60:xrd_chiller_pressure</data_channel>
-            <label>XRD Pressure</label>
+            <label>XRD pressure</label>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_xrd where type=(SELECT id FROM dateplots_descriptions where codename="xrd_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot1>
 	  <plot2>
             <color>#FF0000</color>
             <data_channel>rasppi21:sputterchamber_chiller_pressure</data_channel>
-            <label>Sputterchamber Pressure</label>
+            <label>Sputterchamber pressure</label>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_sputterchamber where type=(SELECT id FROM dateplots_descriptions where codename="sputterchamber_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot2>
+	  <plot3>
+            <color>#00FFFF</color>
+            <data_channel>rasppi97:uhv_sputterchamber_chiller_pressure</data_channel>
+            <label>UHV Sputterchamber pressure</label>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_uhv_sputterchamber where type=(SELECT id FROM dateplots_descriptions where codename="uhv_sputterchamber_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot3>
+	  <plot4>
+            <color>#aa5500</color>
+            <data_channel>rasppi20:omicron_chiller_pressure</data_channel>
+            <label>Omicron pressure</label>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot4>
+	  <plot5>
+            <color>#000000</color>
+            <data_channel>rasppi60:new_xrd_chiller_pressure</data_channel>
+            <label>New XRD pressure</label>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_new_xrd where type=(SELECT id FROM dateplots_descriptions where codename="new_xrd_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot5>
+	  <plot6>
+            <color>#00aa55</color>
+            <data_channel>rasppi94:gc_ms_chiller_pressure</data_channel>
+            <label>GCMS pressure</label>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gc_ms where type=(SELECT id FROM dateplots_descriptions where codename="gc_ms_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot6>
 	</figure>
       </container4>
 
@@ -559,7 +607,7 @@
 	<logscale>false</logscale> <!-- optional bool, default false -->
 	<data_reduction>
 	  <time>600</time>
-	  <absolute>0.2</absolute>
+	  <absolute>1.2</absolute>
 	</data_reduction>
 	<figure>
 	  <plot0>

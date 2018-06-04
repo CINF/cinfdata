@@ -374,7 +374,7 @@
       <container0>
 	<type>date_figure</type>
 	<x_window>600</x_window> <!-- x axis interval, seconds -->
-	<width>1050</width>
+	<width>950</width>
 	<height>600</height>
 	<!-- General plot options -->
 	<bgcolor>#CCCCCC</bgcolor> <!-- optional color, default #FFFFFF -->
@@ -394,11 +394,32 @@
 	<figure>
 	  <plot0>
             <color>#0000FF</color>
-            <data_channel>cinf-microreactorNG-ms:qms-value</data_channel>
+            <data_channel>microreactorNG-ms:qms-value</data_channel>
             <label>QMS current / A</label>
 	  </plot0>
 	</figure>
       </container0>
+
+      <container1>
+	<type>table</type>
+	<!--<bgcolor>#FF0000</bgcolor>-->
+	<width>400</width>
+	<height>300</height>
+	<fontsize>14</fontsize>
+	<!-- optional html padding string, remember to subtract the padding in
+	     the size top, right, bottom, top, right, bottom, left-->
+	<padding>20px 0px 0px 0px</padding>
+	<data>
+	  <item0>
+	    <data_channel>microreactorNG-ms:qms-value</data_channel>
+	    <label>Value</label>
+	    <color>#000000</color>
+	    <format>.2e</format>
+	    <unit>A</unit>
+	  </item0>
+	</data>
+      </container1>
+
 
     </containers>
   </graph>

@@ -17,7 +17,7 @@
     <dateplot1>
       <title>Chamber pressure</title>
       <legend>Ion Gauge</legend>
-      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 488 and time between "{from}" and "{to}" order by time</query>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where value > 0 and type = 488 and time between "{from}" and "{to}" order by time</query>
       <ylabel>Pressure / mbar</ylabel>
       <color>1</color>
     </dateplot1>
@@ -34,39 +34,149 @@
     <!-- Pirani pressure -->
     <dateplot3>
       <title>Pirani pressure</title>
-      <legend>Pirani</legend>
-      <query>SELECT unix_timestamp(time), value FROM dateplots_sputterchamber where type = 489 and time between "{from}" and "{to}" order by time</query>
+      <legend>Main Pirani</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 489 and time between "{from}" and "{to}" order by time</query>
       <ylabel>Pressure / mbar</ylabel>
       <color>3</color>
     </dateplot3>
 
-
-    <!-- Chiller flow -->
+    <!-- Main rough pressure -->
     <dateplot4>
+      <title>Main rough pressure</title>
+      <legend>RP Pirani</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 513 and value > 0 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Pressure / mbar</ylabel>
+      <color>4</color>
+    </dateplot4>
+
+    <!-- LL rough pressure -->
+    <dateplot5>
+      <title>Load loack rough pressure</title>
+      <legend>LL Pirani</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 512 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Pressure / mbar</ylabel>
+      <color>5</color>
+    </dateplot5>
+
+    <dateplot6>
       <title>Chiller flow</title>
       <legend>Flow</legend>
       <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 480 and time between "{from}" and "{to}" order by time</query>
       <ylabel>Flow / L/min</ylabel>
-      <color>4</color>
-    </dateplot4>
+      <color>6</color>
+    </dateplot6>
 
-    <!-- Chiller pressure -->
-    <dateplot5>
+    <dateplot7>
       <title>Chiller Pressure</title>
       <legend>Pressure</legend>
       <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 481 and time between "{from}" and "{to}" order by time</query>
       <ylabel>Pressure / Bar</ylabel>
-      <color>5</color>
-    </dateplot5>
+      <color>7</color>
+    </dateplot7>
 
-    <!-- Chiller temperature -->
-    <dateplot5>
+    <dateplot7>
       <title>Chiller Temperature</title>
       <legend>Temperature</legend>
       <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 482 and time between "{from}" and "{to}" order by time</query>
       <ylabel>Temperature / C</ylabel>
-      <color>5</color>
-    </dateplot5>
+      <color>7</color>
+    </dateplot7>
+
+    <dateplot8>
+      <title>Main Roughpump Temperature</title>
+      <legend>RP Temperature</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 514 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>8</color>
+    </dateplot8>
+
+    <dateplot9>
+      <title>Main Roughpump Controller Temperature</title>
+      <legend>Main RP Cont.Temp.</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 515 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>9</color>
+    </dateplot9>
+
+    <dateplot10>
+      <title>Main Roughpump Rotational Speed</title>
+      <legend>Main RP Rot Speed</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 541 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>rpm</ylabel>
+      <color>10</color>
+    </dateplot10>
+
+    <dateplot11>
+      <title>Main Roughpump Run Hours</title>
+      <legend>Main RP Run Hour</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 540 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>11</color>
+    </dateplot11>
+
+    <dateplot12>
+      <title>Main Roughpump Time To Service</title>
+      <legend>Main RP TTS</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 518 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>12</color>
+    </dateplot12>
+
+    <dateplot13>
+      <title>Main Roughpump Controller Run Hours</title>
+      <legend>Main RP Controller Run Hour</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 544 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>13</color>
+    </dateplot13>
+
+    <dateplot14>
+      <title>LL Roughpump Temperature</title>
+      <legend>LL Temperature</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 516 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>14</color>
+    </dateplot14>
+
+    <dateplot15>
+      <title>LL Roughpump Controller Temperature</title>
+      <legend>LL Cont.Temp.</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 517 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>15</color>
+    </dateplot15>
+
+    <dateplot16>
+      <title>LL Roughpump Rotational Speed</title>
+      <legend>Main RP Rot Speed</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 543 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>rpm</ylabel>
+      <color>16</color>
+    </dateplot16>
+
+    <dateplot17>
+      <title>LL Roughpump Run Hours</title>
+      <legend>LL RP Run Hour</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 542 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>17</color>
+    </dateplot17>
+
+   <dateplot18>
+      <title>LL Roughpump Time To Service</title>
+      <legend>LL RP TTS</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 519 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>18</color>
+    </dateplot18>
+
+    <dateplot19>
+      <title>LL Roughpump Controller Run Hours</title>
+      <legend>LL RP Controller Run Hour</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_uhv_sputterchamber where type = 545 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>h</ylabel>
+      <color>19</color>
+    </dateplot19>
 
 
     <!-- data treatment -->
@@ -122,6 +232,16 @@
 	<name>Comment</name>
       </field3>
     </mandatory_export_fields>
+    <matplotlib_settings>
+      <width>1300</width>
+      <height>800</height>
+      <title_size>24</title_size>
+      <xtick_labelsize>12</xtick_labelsize>
+      <ytick_labelsize>12</ytick_labelsize>
+      <legend_fontsize>10</legend_fontsize>
+      <label_fontsize>16</label_fontsize>
+    </matplotlib_settings>
+
   </global_settings>
 </graphs>
 

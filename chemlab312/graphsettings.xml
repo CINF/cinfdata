@@ -37,7 +37,48 @@
       <ylabel>Humidity / %</ylabel>
       <color>3</color>
     </dateplot3>
-
+    <dateplot4>
+      <title>Fumehood 1</title>
+      <legend>Fumehood 1</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_chemlab312 where type = 450 and value > -1 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Sensor voltage</ylabel>
+      <color>4</color>
+    </dateplot4>
+    <dateplot5>
+      <title>Fumehood 2</title>
+      <legend>Fumehood 2</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_chemlab312 where type = 451 and value > -1 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Sensor voltage</ylabel>
+      <color>5</color>
+    </dateplot5>
+    <dateplot6>
+      <title>Fumehood 3</title>
+      <legend>Fumehood 3</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_chemlab312 where type = 452 and value > -1 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>Sensor voltage</ylabel>
+      <color>6</color>
+    </dateplot6>
+    <dateplot4>
+      <title>Fumehood 1 Wind</title>
+      <legend>Fumehood 1 Wind</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_chemlab312 where type = 453 and value > -1 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>m/s</ylabel>
+      <color>4</color>
+    </dateplot4>
+    <dateplot5>
+      <title>Fumehood 2 Wind</title>
+      <legend>Fumehood 2 Wind</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_chemlab312 where type = 454 and value > -1 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>m/s</ylabel>
+      <color>5</color>
+    </dateplot5>
+    <dateplot6>
+      <title>Fumehood 3 Wind</title>
+      <legend>Fumehood 3 Wind</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_chemlab312 where type = 455 and value > -1 and time between "{from}" and "{to}" order by time</query>
+      <ylabel>m/s</ylabel>
+      <color>6</color>
+    </dateplot6>
  </graph>
 
   <global_settings>

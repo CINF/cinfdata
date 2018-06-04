@@ -293,7 +293,7 @@
       <column>label</column>
       <extra0>
 	<match>current</match>
-	<query>SELECT x, y/1000  FROM xy_values_large_CO2_MEA where measurement = {id} order by id</query>
+	<query>SELECT x, y*1000  FROM xy_values_large_CO2_MEA where measurement = {id} order by id</query>
       </extra0>
     </queries>
     <!-- ylabel -->
@@ -306,7 +306,7 @@
       </pattern0>
       <pattern1>
 	<reg_match>current</reg_match>
-	<ylabel>Current / A</ylabel>
+	<ylabel>Current / mA</ylabel>
       </pattern1>
     </ylabel>
     <!-- legend -->

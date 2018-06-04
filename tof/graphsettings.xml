@@ -501,7 +501,7 @@ type=
       <default>SEM current / A</default>
     </ylabel>
     <queries>
-      <default>SELECT x,y  FROM xy_values_tof where measurement = {id} order by id</default>
+      <default>SELECT x,y  FROM xy_values_tof where measurement = {id} order by x</default>
     </queries>
     <legend>
       <default>{id}</default>
