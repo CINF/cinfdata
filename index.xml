@@ -545,7 +545,7 @@
     </link>
     <link>
       <title>Leak Search</title>
-      <ref>microreactor/live.php?type=live_single_mass</ref>
+      <ref>microreactorNG/live.php?type=live_single_mass</ref>
     </link>
   </setup>
 
@@ -705,6 +705,10 @@
     <link>
       <title>Web-Socket Status</title>
       <ref>other/live_old.php?type=live_values_wss</ref>
+    </link>
+    <link>
+      <title>Fridays User</title>
+      <ref>other/fridays_user.php</ref>
     </link>
     <link>
       <title>Fridays List of Items</title>
