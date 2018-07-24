@@ -57,6 +57,7 @@ REPLACEMENTS = [
     (re.compile(r'(istrue)'), r'== 1'),
     (re.compile(r'(isfalse)'), r'== 0'),
 ]
+MARKER_SIMPLIFICATION = re.compile(r'{(\w*):?.*?}')
 
 
 # pylint: disable=too-many-arguments, too-many-locals
@@ -399,7 +400,20 @@ class CheckAlarms(object):
 
         if arguments:
             try:
-                body = body.format(**arguments)
+                try:
+                    body = body.format(**arguments)
+                except ValueError as val_error:
+                    simplified_body = MARKER_SIMPLIFICATION.sub(r'{\1}', body)
+                    simplified_body = simplified_body.format(**arguments)
+                    message = (
+                        "A ValueError occured while trying to format arguments into "
+                        "the email body. Most likely due to wrong marker formatting. "
+                        "The email body with simplified marker replacement is below\n"
+                        "The error was: {0}\n"
+                        "The arguments were: {1}\n"
+                        "---------------------------------------------------------\n"
+                        ).format(repr(val_error), arguments)
+                    body = message + simplified_body
             except Exception as exp:  # We don't want to risk this not being sent
                 message = (
                     "An error occured while trying to format arguments into "
