@@ -912,6 +912,10 @@
       <ref>dummy/xyplot.php?type=xps</ref>
     </link>
     <link>
+      <title>Voltage Monitor</title>
+      <ref>dummy/xyplot.php?type=voltage_monitor</ref>
+    </link>
+    <link>
       <title>RTD Calib</title>
       <ref>dummy/xyplot.php?type=rtd_calib</ref>
     </link>
