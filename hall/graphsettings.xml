@@ -81,6 +81,7 @@
     <matplotlib_settings>
       <width>1400</width>
       <height>800</height>
+      <linewidth>8</linewidth>
     </matplotlib_settings>
 
     <right_legend_suffix> (r)</right_legend_suffix>
