@@ -233,7 +233,7 @@
   <setup codename="gc_ms">
     <setup_title>GC MS</setup_title>
      <link>
-      <title>Chiller Flow</title>
+      <title>Chillers and Roughing pumps</title>
       <ref>gc_ms/dateplot.php?type=multidateplot&amp;left_ymin=0&amp;left_ymax=0&amp;left_plotlist[]=5&amp;right_ymin=0&amp;right_ymax=0</ref>
     </link>
   </setup>
@@ -260,6 +260,10 @@
     <link>
       <title>Live Values</title>
       <ref>hall/live.php?type=live_values</ref>
+    </link>
+    <link>
+      <title>Workday Fall 2018</title>
+      <ref>hall/dateplot.php?type=work</ref>
     </link>
   </setup>
 
