@@ -213,6 +213,12 @@
     <legend>
       <default>{id} - {mass_label}</default>
     </legend>
+    <plugins>
+      <OverflowFilter>
+	<title>Overflow filter</title>
+	<output>raw</output>
+      </OverflowFilter>
+    </plugins>
 
     <parameters>
       <param0>
