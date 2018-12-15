@@ -477,7 +477,7 @@ def main():
         _LOG.exception("An error occoured during alarm script")
         check_alarms._send_email("Alarm script generated error",
                                  str(exp.args),
-                                 ['knielsen@fysik.dtu.dk'])
+                                 ['jejsor@fysik.dtu.dk'])
 
     _LOG.debug('Execution time: {0}'.format(time.time() - start_time))
 
