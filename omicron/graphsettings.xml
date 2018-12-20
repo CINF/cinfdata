@@ -218,6 +218,12 @@
 	<title>Overflow filter</title>
 	<output>raw</output>
       </OverflowFilter>
+      <Dummy>
+	<title>Dummy plugin to print various python types/inputs</title>
+	<input>Enter string</input>
+	<size>90</size>
+	<output>raw</output>
+      </Dummy>
     </plugins>
 
     <parameters>
@@ -230,85 +236,82 @@
 	<name>He flow / ml/min</name>
       </param1>
       <param2>
-	<field>beam_potential</field>
-	<name>Beam potential / V</name>
-      </param2>
-      <param3>
-	<field>skimmer</field>
-	<name>Skimmer / V</name>
-      </param3>
-      <param4>
-	<field>lens1</field>
-	<name>Lens 1 / V</name>
-      </param4>
-      <param5>
-	<field>lens2</field>
-	<name>Lens 2 / V</name>
-      </param5>
-      <param6>
-	<field>lensx_plus</field>
-	<name>Lens X + / V</name>
-      </param6>
-      <param7>
-	<field>lensx_minus</field>
-	<name>Lens X - / V</name>
-      </param7>
-      <param8>
-	<field>lensy_plus</field>
-	<name>Lens Y + / V</name>
-      </param8>
-      <param9>
-	<field>lensy_minus</field>
-	<name>Lens Y - / V</name>
-      </param9>
-      <param10>
-	<field>lens6</field>
-	<name>Lens 6 / V</name>
-      </param10>
-      <param11>
-	<field>lensb</field>
-	<name>Lens B / V</name>
-      </param11>
-      <param12>
-	<field>lense</field>
-	<name>Lens E / V</name>
-      </param12>
-      <param13>
-	<field>spare1</field>
-	<name>Spare 1 / V</name>
-      </param13>
-      <param14>
-	<field>substrate</field>
-	<name>Substrate potential / V</name>
-      </param14>
-      <param15>
-	<field>range_from</field>
-	<name>Range (from) / amu</name>
-      </param15>
-      <param16>
-	<field>range_to</field>
-	<name>Range (to) / amu</name>
-      </param16>
-      <param17>
-	<field>steps</field>
-	<name>Steps</name>
-      </param17>
-      <param18>
-	<field>Comment</field>
-	<name>Comment</name>
-      </param18>
-      <param19>
 	<field>magnetron_power</field>
 	<name>Magnetron power / W</name>
-      </param19>
-      <param20>
+      </param2>
+      <param3>
 	<field>pirani4</field>
 	<name>Pirani 4 / mbar</name>
-      </param20>
-      <param21>
+      </param3>
+      <param4>
+	<field>beam_potential</field>
+	<name>Beam potential / V</name>
+      </param4>
+      <param5>
+	<field>skimmer</field>
+	<name>Skimmer / V</name>
+      </param5>
+      <param6>
+	<field>lens1</field>
+	<name>Lens 1 / V</name>
+      </param6>
+      <param7>
+	<field>lens2</field>
+	<name>Lens 2 / V</name>
+      </param7>
+      <param8>
+	<field>lensx_plus</field>
+	<name>Lens X + / V</name>
+      </param8>
+      <param9>
+	<field>lensx_minus</field>
+	<name>Lens X - / V</name>
+      </param9>
+      <param10>
+	<field>lensy_plus</field>
+	<name>Lens Y + / V</name>
+      </param10>
+      <param11>
+	<field>lensy_minus</field>
+	<name>Lens Y - / V</name>
+      </param11>
+      <param12>
+	<field>lens6</field>
+	<name>Lens 6 / V</name>
+      </param12>
+      <param13>
+	<field>lensb</field>
+	<name>Lens B / V</name>
+      </param13>
+      <param14>
+	<field>lense</field>
+	<name>Lens E / V</name>
+      </param14>
+      <param15>
+	<field>spare1</field>
+	<name>Spare 1 / V</name>
+      </param15>
+      <param16>
+	<field>substrate</field>
+	<name>Substrate potential / V</name>
+      </param16>
+      <param17>
+	<field>range_from</field>
+	<name>Range (from) / amu</name>
+      </param17>
+      <param18>
+	<field>range_to</field>
+	<name>Range (to) / amu</name>
+      </param18>
+      <param19>
+	<field>steps</field>
+	<name>Steps</name>
+      </param19>
+      <param20>
 	<field>condensation_length</field>
 	<name>Condensation Length / mm</name>
-      </param21>
+      </param20>
+      <!--
       <param22>
 	<field>condensation_temp</field>
 	<name>Condensation temperature / K</name>
@@ -337,6 +340,7 @@
 	<field>material</field>
 	<name>Material</name>
       </param28>
+      -->
     </parameters>
   </graph>  
 
