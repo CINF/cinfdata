@@ -315,8 +315,9 @@ function display_plugin($name, $plugin){
   echo("$plugin[title]: <input type=\"checkbox\" name=\"plugin_settings[{$name}][activate]\" value=\"checked\" $activated><br>\n");
   # If this array takes input
   if (array_key_exists("input", $plugin)){
+    $plugin['size'] = isset($plugin['size']) ? $plugin['size']-1.3 : '10';
     $input = isset($my_plugin["input"]) ? $my_plugin["input"] : "";
-    echo("$plugin[input]: <input name=\"plugin_settings[{$name}][input]\" type=\"text\" value=\"$input\"><br>\n");
+    echo("$plugin[input]: <input name=\"plugin_settings[{$name}][input]\" type=\"text\" value=\"$input\" style=\"width:$plugin[size]%\"><br>\n");
   }
   # If the array produces output
   if (array_key_exists("output", $plugin) and in_array($plugin["output"], Array('html', 'raw'))){
