@@ -317,7 +317,7 @@
     </link>
     <link>
       <title>Cluster deposition</title>
-      <ref>omicron/xyplot.php?type=cluster_deposition</ref>
+      <ref>omicron/xyplot.php?type=cluster_deposition&amp;plugin_settings[CalculateCoverage][input]=TARGET=0;MODEL=NP;SA_DENSITY=1;PARTICLE_DIAMETER=5;APERTURE_DIAMETER=4.5;FIRST_LIMIT=10.0;SENSITIVITY_LIMIT=0.7;SENSITIVITY_FILTER=1.;TIME=[]</ref>
     </link>
     <link>
       <title>Modify comments</title>

@@ -218,12 +218,12 @@
 	<title>Overflow filter</title>
 	<output>raw</output>
       </OverflowFilter>
-      <Dummy>
-	<title>Dummy plugin to print various python types/inputs</title>
-	<input>Enter string</input>
-	<size>90</size>
+      <CalculateCoverage>
+	<title>Activate</title>
+	<input>Parameters</input>
+	<size>100</size>
 	<output>raw</output>
-      </Dummy>
+      </CalculateCoverage>
     </plugins>
 
     <parameters>
