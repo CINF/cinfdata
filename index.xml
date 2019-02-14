@@ -293,15 +293,15 @@
     </link>
     <link>
       <title>Pressure, analytical chamber</title>
-      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=3&amp;left_logscale=checked</ref>
+      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=2&amp;left_logscale=checked</ref>
     </link>
     <link>
       <title>Pressure, prep chamber</title>
-      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=7&amp;left_logscale=checked</ref>
+      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=4&amp;left_logscale=checked</ref>
     </link>
     <link>
       <title>Pressure, nanobeam</title>
-      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=5&amp;left_logscale=checked</ref>
+      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=3&amp;left_logscale=checked</ref>
     </link>
     <link>
       <title>Deposition</title>
@@ -390,6 +390,10 @@
     <link>
       <title>XPS-data</title>
       <ref>stm312/xyplot.php?type=xps&amp;flip_x=checked&amp;matplotlib=checked</ref>
+    </link>
+    <link>
+      <title>Cluster deposition</title>
+      <ref>stm312/xyplot.php?type=cluster_deposition</ref>
     </link>
     <link>
       <title>Chiller control</title>

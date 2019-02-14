@@ -427,6 +427,115 @@
     </linscale_right_y0>
   </graph>
 
+  <!-- CLUSTER DEPOSITION -->
+  <graph type='cluster_deposition'>
+    <title>Cluster deposition</title>
+    <xlabel>Time / s</xlabel>
+    <grouping_column>time</grouping_column>
+    <right_legend_suffix> (r)</right_legend_suffix>
+    <default_xscale>lin</default_xscale>
+    <image_format>pdf</image_format>
+    <type>10</type>
+    <!-- queries -->
+    <queries>
+      <default>SELECT x,y  FROM xy_values_stm312 where measurement = {id} order by id</default>
+    </queries>
+    <ylabel>
+      <default>Current / A &amp; pressure / mbar &amp; flow / ml/m</default>
+    </ylabel>
+    <legend>
+      <default>{id} - {mass_label}</default>
+    </legend>
+    <!-- Optional parameters to show in infobox -->
+    <parameters>
+      <param0>
+        <field>ar_flow</field>
+        <name>Ar flow / ml/min</name>
+      </param0>
+      <param1>
+        <field>he_flow</field>
+        <name>He flow / ml/min</name>
+      </param1>
+      <param2>
+        <field>magnetron_power</field>
+        <name>Magnetron power / W</name>
+      </param2>
+      <param3>
+        <field>pirani4</field>
+        <name>Pirani 4 / mbar</name>
+      </param3>
+      <param4>
+        <field>beam_potential</field>
+        <name>Beam potential / V</name>
+      </param4>
+      <param5>
+        <field>skimmer</field>
+        <name>Skimmer / V</name>
+      </param5>
+      <param6>
+        <field>lens1</field>
+        <name>Lens 1 / V</name>
+      </param6>
+      <param7>
+        <field>lens2</field>
+        <name>Lens 2 / V</name>
+      </param7>
+      <param8>
+        <field>lensx_plus</field>
+        <name>Lens X + / V</name>
+      </param8>
+      <param9>
+        <field>lensx_minus</field>
+        <name>Lens X - / V</name>
+      </param9>
+      <param10>
+        <field>lensy_plus</field>
+        <name>Lens Y + / V</name>
+      </param10>
+      <param11>
+        <field>lensy_minus</field>
+        <name>Lens Y - / V</name>
+      </param11>
+      <param12>
+        <field>lens6</field>
+        <name>Lens 6 / V</name>
+      </param12>
+      <param13>
+        <field>lensb</field>
+        <name>Lens B / V</name>
+      </param13>
+      <param14>
+        <field>lense</field>
+        <name>Lens E / V</name>
+      </param14>
+      <param15>
+        <field>spare1</field>
+        <name>Spare 1 / V</name>
+      </param15>
+      <param16>
+        <field>substrate</field>
+        <name>Substrate potential / V</name>
+      </param16>
+      <param17>
+        <field>range_from</field>
+        <name>Range (from) / amu</name>
+      </param17>
+      <param18>
+        <field>range_to</field>
+        <name>Range (to) / amu</name>
+      </param18>
+      <param19>
+        <field>steps</field>
+        <name>Steps</name>
+      </param19>
+      <param20>
+        <field>condensation_length</field>
+        <name>Condensation Length / mm</name>
+      </param20>
+    </parameters>
+  </graph>
+
+
   <global_settings>
     <measurements_table>measurements_stm312</measurements_table>
     <xyvalues_table>xy_values_stm312</xyvalues_table>
