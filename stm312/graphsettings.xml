@@ -449,89 +449,461 @@
     <!-- Optional parameters to show in infobox -->
     <parameters>
       <param0>
-        <field>ar_flow</field>
+        <field>ar</field>
         <name>Ar flow / ml/min</name>
       </param0>
       <param1>
-        <field>he_flow</field>
+        <field>he</field>
         <name>He flow / ml/min</name>
       </param1>
       <param2>
-        <field>magnetron_power</field>
-        <name>Magnetron power / W</name>
+        <field>ar_2</field>
+        <name>Ar 2 flow / ml/min</name>
       </param2>
       <param3>
-        <field>pirani4</field>
-        <name>Pirani 4 / mbar</name>
+        <field>he_2</field>
+        <name>He 2 flow / ml/min</name>
       </param3>
       <param4>
         <field>beam_potential</field>
-        <name>Beam potential / V</name>
+        <name>Beam Potential</name>
       </param4>
       <param5>
         <field>skimmer</field>
-        <name>Skimmer / V</name>
+        <name>Skimmer</name>
       </param5>
       <param6>
-        <field>lens1</field>
-        <name>Lens 1 / V</name>
+        <field>lens_xplus</field>
+        <name>Lens X+</name>
       </param6>
       <param7>
-        <field>lens2</field>
-        <name>Lens 2 / V</name>
+        <field>lens_xminus</field>
+        <name>Lens X-</name>
       </param7>
       <param8>
-        <field>lensx_plus</field>
-        <name>Lens X + / V</name>
+        <field>lens_yplus</field>
+        <name>Lens Y+</name>
       </param8>
       <param9>
-        <field>lensx_minus</field>
-        <name>Lens X - / V</name>
+        <field>lens_yminus</field>
+        <name>Lens Y-</name>
       </param9>
       <param10>
-        <field>lensy_plus</field>
-        <name>Lens Y + / V</name>
+        <field>extractor</field>
+        <name>Extractor</name>
       </param10>
       <param11>
-        <field>lensy_minus</field>
-        <name>Lens Y - / V</name>
+        <field>lens1</field>
+        <name>Focus Lens 1</name>
       </param11>
       <param12>
-        <field>lens6</field>
-        <name>Lens 6 / V</name>
+        <field>lens2</field>
+        <name>Focus Lens 2</name>
       </param12>
       <param13>
-        <field>lensb</field>
-        <name>Lens B / V</name>
+        <field>lens3</field>
+        <name>Focus Lens 3</name>
       </param13>
       <param14>
-        <field>lense</field>
-        <name>Lens E / V</name>
+        <field>spare1</field>
+        <name>Spare 1</name>
       </param14>
       <param15>
-        <field>spare1</field>
-        <name>Spare 1 / V</name>
+        <field>lensa</field>
+        <name>Lens A</name>
       </param15>
       <param16>
-        <field>substrate</field>
-        <name>Substrate potential / V</name>
+        <field>lensb</field>
+        <name>Lens B</name>
       </param16>
       <param17>
-        <field>range_from</field>
-        <name>Range (from) / amu</name>
+        <field>lensc</field>
+        <name>Lens C</name>
       </param17>
       <param18>
-        <field>range_to</field>
-        <name>Range (to) / amu</name>
+        <field>lensd</field>
+        <name>Lens D</name>
       </param18>
       <param19>
-        <field>steps</field>
-        <name>Steps</name>
+        <field>lensa_polarity</field>
+        <name>Lens A polarity</name>
       </param19>
       <param20>
-        <field>condensation_length</field>
-        <name>Condensation Length / mm</name>
+        <field>lensb_polarity</field>
+        <name>Lens B polarity</name>
       </param20>
+      <param21>
+        <field>lensc_polarity</field>
+        <name>Lens C polarity</name>
+      </param21>
+      <param22>
+        <field>lensd_polarity</field>
+        <name>Lens D polarity</name>
+      </param22>
+      <param23>
+        <field>polarity</field>
+        <name>Overall Polarity</name>
+      </param23>
+      <param24>
+        <field>glassman1</field>
+        <name>Glassman 1</name>
+      </param24>
+      <param25>
+        <field>glassman2</field>
+        <name>Glassman 2</name>
+      </param25>
+      <param26>
+        <field>mf_mass</field>
+        <name>MF Mass</name>
+      </param26>
+      <param27>
+        <field>mf_tof</field>
+        <name>MF TOF Deflect Voltage</name>
+      </param27>
+      <param28>
+        <field>mf_n</field>
+        <name>MF n</name>
+      </param28>
+      <param29>
+        <field>mf_r</field>
+        <name>MF r</name>
+      </param29>
+      <param30>
+        <field>mf_axis</field>
+        <name>MF X Axis Mode</name>
+      </param30>
+      <param31>
+        <field>mf_numdata</field>
+        <name>MF Num Data Points</name>
+      </param31>
+      <param32>
+        <field>mf_startmass</field>
+        <name>MF Start Mass</name>
+      </param32>
+      <param33>
+        <field>mf_endmass</field>
+        <name>MF End Mass</name>
+      </param33>
+      <param34>
+        <field>mf_range</field>
+        <name>MF Range Mode</name>
+      </param34>
+      <param35>
+        <field>mf_atomweight</field>
+        <name>MF Atomic Weight</name>
+      </param35>
+      <param36>
+        <field>pm_readinterval</field>
+        <name>Picoameter Read Interval</name>
+      </param36>
+      <param37>
+        <field>pm_averages</field>
+        <name>Picoameter #Averages</name>
+      </param37>
+      <param38>
+        <field>pm_warmup</field>
+        <name>Picoameter Warmup Time</name>
+      </param38>
+      <param39>
+        <field>linshift1</field>
+        <name>Linear Shift 1</name>
+      </param39>
+      <param40>
+        <field>linshift2</field>
+        <name>Linear Shift 2</name>
+      </param40>
+      <param41>
+        <field>pm_source</field>
+        <name>Picoameter Source Voltage</name>
+      </param41>
+      <param42>
+        <field>psu1_output</field>
+        <name>PSU 1 Output On</name>
+      </param42>
+      <param43>
+        <field>psu1_setpoint</field>
+        <name>PSU 1 Setpoint</name>
+      </param43>
+      <param44>
+        <field>psu1_current</field>
+        <name>PSU 1 Current</name>
+      </param44>
+      <param45>
+        <field>psu1_voltage</field>
+        <name>PSU 1 Voltage</name>
+      </param45>
+      <param46>
+        <field>psu1_power</field>
+        <name>PSU 1 Power</name>
+      </param46>
+      <param47>
+        <field>psu2_output</field>
+        <name>PSU 2 Output On</name>
+      </param47>
+      <param48>
+        <field>psu2_setpoint</field>
+        <name>PSU 2 Setpoint</name>
+      </param48>
+      <param49>
+        <field>psu2_current</field>
+        <name>PSU 2 Current</name>
+      </param49>
+      <param50>
+        <field>psu2_voltage</field>
+        <name>PSU 2 Voltage</name>
+      </param50>
+      <param51>
+        <field>psu2_power</field>
+        <name>PSU 2 Power</name>
+      </param51>
+      <param52>
+        <field>pirani4</field>
+        <name>Pirani 4</name>
+      </param52>
+      <param53>
+        <field>pirani5</field>
+        <name>Pirani 5</name>
+      </param53>
+    </parameters>
+  </graph>
+
+  <!-- CLUSTER SPECTRUM -->
+  <graph type='cluster_spectrum'>
+    <title>Cluster spectrum</title>
+    <xlabel>Mass / amu</xlabel>
+    <grouping_column>time</grouping_column>
+    <right_legend_suffix> (r)</right_legend_suffix>
+    <default_xscale>lin</default_xscale>
+    <image_format>pdf</image_format>
+    <type>11</type>
+    <!-- queries -->
+    <queries>
+      <default>SELECT x,y  FROM xy_values_stm312 where measurement = {id} order by id</default>
+    </queries>
+    <ylabel>
+      <default>Current / A &amp; pressure / mbar &amp; flow / ml/m</default>
+    </ylabel>
+    <legend>
+      <default>{id} - {mass_label}</default>
+    </legend>
+    <!-- Optional parameters to show in infobox -->
+    <parameters>
+      <param0>
+        <field>ar</field>
+        <name>Ar flow / ml/min</name>
+      </param0>
+      <param1>
+        <field>he</field>
+        <name>He flow / ml/min</name>
+      </param1>
+      <param2>
+        <field>ar_2</field>
+        <name>Ar 2 flow / ml/min</name>
+      </param2>
+      <param3>
+        <field>he_2</field>
+        <name>He 2 flow / ml/min</name>
+      </param3>
+      <param4>
+        <field>beam_potential</field>
+        <name>Beam Potential</name>
+      </param4>
+      <param5>
+        <field>skimmer</field>
+        <name>Skimmer</name>
+      </param5>
+      <param6>
+        <field>lens_xplus</field>
+        <name>Lens X+</name>
+      </param6>
+      <param7>
+        <field>lens_xminus</field>
+        <name>Lens X-</name>
+      </param7>
+      <param8>
+        <field>lens_yplus</field>
+        <name>Lens Y+</name>
+      </param8>
+      <param9>
+        <field>lens_yminus</field>
+        <name>Lens Y-</name>
+      </param9>
+      <param10>
+        <field>extractor</field>
+        <name>Extractor</name>
+      </param10>
+      <param11>
+        <field>lens1</field>
+        <name>Focus Lens 1</name>
+      </param11>
+      <param12>
+        <field>lens2</field>
+        <name>Focus Lens 2</name>
+      </param12>
+      <param13>
+        <field>lens3</field>
+        <name>Focus Lens 3</name>
+      </param13>
+      <param14>
+        <field>spare1</field>
+        <name>Spare 1</name>
+      </param14>
+      <param15>
+        <field>lensa</field>
+        <name>Lens A</name>
+      </param15>
+      <param16>
+        <field>lensb</field>
+        <name>Lens B</name>
+      </param16>
+      <param17>
+        <field>lensc</field>
+        <name>Lens C</name>
+      </param17>
+      <param18>
+        <field>lensd</field>
+        <name>Lens D</name>
+      </param18>
+      <param19>
+        <field>lensa_polarity</field>
+        <name>Lens A polarity</name>
+      </param19>
+      <param20>
+        <field>lensb_polarity</field>
+        <name>Lens B polarity</name>
+      </param20>
+      <param21>
+        <field>lensc_polarity</field>
+        <name>Lens C polarity</name>
+      </param21>
+      <param22>
+        <field>lensd_polarity</field>
+        <name>Lens D polarity</name>
+      </param22>
+      <param23>
+        <field>polarity</field>
+        <name>Overall Polarity</name>
+      </param23>
+      <param24>
+        <field>glassman1</field>
+        <name>Glassman 1</name>
+      </param24>
+      <param25>
+        <field>glassman2</field>
+        <name>Glassman 2</name>
+      </param25>
+      <param26>
+        <field>mf_mass</field>
+        <name>MF Mass</name>
+      </param26>
+      <param27>
+        <field>mf_tof</field>
+        <name>MF TOF Deflect Voltage</name>
+      </param27>
+      <param28>
+        <field>mf_n</field>
+        <name>MF n</name>
+      </param28>
+      <param29>
+        <field>mf_r</field>
+        <name>MF r</name>
+      </param29>
+      <param30>
+        <field>mf_axis</field>
+        <name>MF X Axis Mode</name>
+      </param30>
+      <param31>
+        <field>mf_numdata</field>
+        <name>MF Num Data Points</name>
+      </param31>
+      <param32>
+        <field>mf_startmass</field>
+        <name>MF Start Mass</name>
+      </param32>
+      <param33>
+        <field>mf_endmass</field>
+        <name>MF End Mass</name>
+      </param33>
+      <param34>
+        <field>mf_range</field>
+        <name>MF Range Mode</name>
+      </param34>
+      <param35>
+        <field>mf_atomweight</field>
+        <name>MF Atomic Weight</name>
+      </param35>
+      <param36>
+        <field>pm_readinterval</field>
+        <name>Picoameter Read Interval</name>
+      </param36>
+      <param37>
+        <field>pm_averages</field>
+        <name>Picoameter #Averages</name>
+      </param37>
+      <param38>
+        <field>pm_warmup</field>
+        <name>Picoameter Warmup Time</name>
+      </param38>
+      <param39>
+        <field>linshift1</field>
+        <name>Linear Shift 1</name>
+      </param39>
+      <param40>
+        <field>linshift2</field>
+        <name>Linear Shift 2</name>
+      </param40>
+      <param41>
+        <field>pm_source</field>
+        <name>Picoameter Source Voltage</name>
+      </param41>
+      <param42>
+        <field>psu1_output</field>
+        <name>PSU 1 Output On</name>
+      </param42>
+      <param43>
+        <field>psu1_setpoint</field>
+        <name>PSU 1 Setpoint</name>
+      </param43>
+      <param44>
+        <field>psu1_current</field>
+        <name>PSU 1 Current</name>
+      </param44>
+      <param45>
+        <field>psu1_voltage</field>
+        <name>PSU 1 Voltage</name>
+      </param45>
+      <param46>
+        <field>psu1_power</field>
+        <name>PSU 1 Power</name>
+      </param46>
+      <param47>
+        <field>psu2_output</field>
+        <name>PSU 2 Output On</name>
+      </param47>
+      <param48>
+        <field>psu2_setpoint</field>
+        <name>PSU 2 Setpoint</name>
+      </param48>
+      <param49>
+        <field>psu2_current</field>
+        <name>PSU 2 Current</name>
+      </param49>
+      <param50>
+        <field>psu2_voltage</field>
+        <name>PSU 2 Voltage</name>
+      </param50>
+      <param51>
+        <field>psu2_power</field>
+        <name>PSU 2 Power</name>
+      </param51>
+      <param52>
+        <field>pirani4</field>
+        <name>Pirani 4</name>
+      </param52>
+      <param53>
+        <field>pirani5</field>
+        <name>Pirani 5</name>
+      </param53>
     </parameters>
   </graph>
 

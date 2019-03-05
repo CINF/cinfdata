@@ -396,6 +396,10 @@
       <ref>stm312/xyplot.php?type=cluster_deposition</ref>
     </link>
     <link>
+      <title>Cluster spectrum</title>
+      <ref>stm312/xyplot.php?type=cluster_spectrum</ref>
+    </link>
+    <link>
       <title>Chiller control</title>
       <ref>stm312/chiller.php</ref>
     </link>
