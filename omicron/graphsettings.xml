@@ -8,7 +8,7 @@
     <ylabel>Mixed</ylabel>
     <default_time>24</default_time>
 
-    <!-- Temperature -->
+    <!-- Temperature_TPD -->
     <dateplot1>
       <title>Temperature of the Omicron RTD stage</title>
       <legend>temp. omicron</legend>
@@ -17,59 +17,68 @@
       <color>1</color>
     </dateplot1>
 
-    <!-- PRESSURE_ANA -->
+    <!-- Temperature_Nanobeam -->
     <dateplot2>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_omicron where type = 389 and time between "{from}" and "{to}" order by time desc</query>
+      <ylabel>Temperature / C</ylabel>
+      <title>Temperature in the Omicron Nanobeam agg. chamber</title>
+      <legend>Temperature aggregation zone</legend>
+      <color>2</color>
+    </dateplot2>
+
+    <!-- PRESSURE_ANA -->
+    <dateplot3>
       <query>SELECT unix_timestamp(time), value FROM dateplots_omicron where type = 386 and time between "{from}" and "{to}" order by time desc</query>
       <ylabel>Pressure / mbar</ylabel>
       <title>Pressure in the Omicron Analytical chamber</title>
-      <legend>pressure omicron ana</legend>
+      <legend>pressure omicron ANA</legend>
       <color>3</color>
-    </dateplot2>
+    </dateplot3>
 
     <!-- PRESSURE_Nanobeam -->
-    <dateplot3>
-      <query>SELECT unix_timestamp(time), pressure FROM pressure_omicron_nanobeam where time between "{from}" and "{to}" order by time desc</query>
+    <dateplot4>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_omicron where type = 388 and time between "{from}" and "{to}" order by time desc</query>
       <ylabel>Pressure / mbar</ylabel>
       <title>Pressure in the Omicron Nanobeam chamber</title>
-      <legend>p omicron nanobeam</legend>
+      <legend>pressure nanobeam 2011</legend>
       <color>5</color>
-    </dateplot3>
+    </dateplot4>
   
     <!-- PRESSURE_PREP -->
-    <dateplot4>
+    <dateplot5>
       <query>SELECT unix_timestamp(time), value FROM dateplots_omicron where type = 387 and time between "{from}" and "{to}" and value &gt; 1e-13 order by time desc</query>
       <ylabel>Pressure / mbar</ylabel>
       <title>Pressure in the Omicron Prep chamber</title>
-      <legend>p. omicron prep</legend>
+      <legend>pressure omicron PREP</legend>
       <color>7</color>
-    </dateplot4>
+    </dateplot5>
 
     <!-- PRESSURE_ANA_ROUGH -->
-    <dateplot5>
+    <dateplot6>
       <query>SELECT unix_timestamp(time), value FROM dateplots_omicron where type = 460 and time between "{from}" and "{to}" order by time desc</query>
       <ylabel>Pressure / mbar</ylabel>
       <title>Rouging pump pressure, analysis chamber turbo</title>
       <legend>Rough ana</legend>
       <color>2</color>
-    </dateplot5>
+    </dateplot6>
 
     <!-- PRESSURE_PREP_ROUGH -->
-    <dateplot6>
+    <dateplot7>
       <query>SELECT unix_timestamp(time), value FROM dateplots_omicron where type = 461 and time between "{from}" and "{to}" order by time desc</query>
       <ylabel>Pressure / mbar</ylabel>
       <title>Rouging pump pressure, preparation chamber turbo</title>
       <legend>Rough prep</legend>
       <color>4</color>
-    </dateplot6>
+    </dateplot7>
 
     <!-- PRESSURE_DIFF_PREP -->
-    <dateplot7>
+    <dateplot8>
       <query>SELECT unix_timestamp(time), value FROM dateplots_omicron where type = 462 and time between "{from}" and "{to}" order by time desc</query>
       <ylabel>Pressure / mbar</ylabel>
       <title>Rouhing pump pressure, ion gun diff turbo</title>
       <legend>Rough diff</legend>
       <color>6</color>
-    </dateplot7>
+    </dateplot8>
   </graph>
 
   <!-- DEPOSITION -->
@@ -484,7 +493,7 @@
 	    <data_channel>rasppi98:omicron_roughing_2_prep</data_channel>
 	    <label>Rough prep [mbar]</label>
 	    <color>#000000</color>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_thetaprobe where type=(SELECT id FROM dateplots_descriptions where codename="omicron_roughing_2_prep") and unix_timestamp(time) > {from}</old_data_query>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_roughing_2_prep") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
 	</figure>
       </container3>
@@ -512,7 +521,7 @@
 	    <data_channel>rasppi98:omicron_roughing_3_diff</data_channel>
 	    <label>Rough diff [mbar]</label>
 	    <color>#D7DF01</color>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_thetaprobe where type=(SELECT id FROM dateplots_descriptions where codename="omicron_roughing_3_diff") and unix_timestamp(time) > {from}</old_data_query>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_roughing_3_diff") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
 	</figure>
       </container4>
