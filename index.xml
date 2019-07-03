@@ -28,6 +28,15 @@
     </link>
   </setup>
 
+  <!-- b307_139  -->
+  <setup codename="b307_139">
+    <setup_title>B307-139</setup_title>
+    <link>
+      <title>FTIR</title>
+      <ref>b307_139/dateplot.php?type=multidateplot&amp;left_plotlist[]=1</ref>
+    </link>
+  </setup>
+
   <!--Booking-->
   <setup codename="booking">
     <setup_title>Booking</setup_title>
@@ -288,20 +297,16 @@
       <ref>omicron/live.php?type=live_pressures</ref>
     </link>
     <link>
-      <title>Temperature of TPD stage</title>
-      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=1</ref>
+      <title>Temperatures</title>
+      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=1&amp;right_plotlist[]=2</ref>
     </link>
     <link>
-      <title>Pressure, analytical chamber</title>
-      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=2&amp;left_logscale=checked</ref>
+      <title>UHV Pressures</title>
+      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=3&amp;left_plotlist[]=5&amp;left_plotlist[]=4&amp;left_logscale=checked</ref>
     </link>
     <link>
-      <title>Pressure, prep chamber</title>
-      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=4&amp;left_logscale=checked</ref>
-    </link>
-    <link>
-      <title>Pressure, nanobeam</title>
-      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=3&amp;left_logscale=checked</ref>
+      <title>Roughing Pressures</title>
+      <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=6&amp;left_plotlist[]=7&amp;left_plotlist[]=8&amp;</ref>
     </link>
     <link>
       <title>Deposition</title>
