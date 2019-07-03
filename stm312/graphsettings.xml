@@ -449,19 +449,19 @@
     <!-- Optional parameters to show in infobox -->
     <parameters>
       <param0>
-        <field>ar</field>
+        <field>Ar</field>
         <name>Ar flow / ml/min</name>
       </param0>
       <param1>
-        <field>he</field>
+        <field>He</field>
         <name>He flow / ml/min</name>
       </param1>
       <param2>
-        <field>ar_2</field>
+        <field>Ar_2</field>
         <name>Ar 2 flow / ml/min</name>
       </param2>
       <param3>
-        <field>he_2</field>
+        <field>He_2</field>
         <name>He 2 flow / ml/min</name>
       </param3>
       <param4>
@@ -556,34 +556,18 @@
         <field>mf_mass</field>
         <name>MF Mass</name>
       </param26>
-      <param27>
-        <field>mf_tof</field>
-        <name>MF TOF Deflect Voltage</name>
-      </param27>
       <param28>
         <field>mf_n</field>
-        <name>MF n</name>
+        <name>TOF n</name>
       </param28>
       <param29>
         <field>mf_r</field>
-        <name>MF r</name>
+        <name>TOF r</name>
       </param29>
-      <param30>
-        <field>mf_axis</field>
-        <name>MF X Axis Mode</name>
-      </param30>
       <param31>
         <field>mf_numdata</field>
         <name>MF Num Data Points</name>
       </param31>
-      <param32>
-        <field>mf_startmass</field>
-        <name>MF Start Mass</name>
-      </param32>
-      <param33>
-        <field>mf_endmass</field>
-        <name>MF End Mass</name>
-      </param33>
       <param34>
         <field>mf_range</field>
         <name>MF Range Mode</name>
@@ -618,52 +602,80 @@
       </param41>
       <param42>
         <field>psu1_output</field>
-        <name>PSU 1 Output On</name>
+        <name>Mag1 Output On</name>
       </param42>
       <param43>
         <field>psu1_setpoint</field>
-        <name>PSU 1 Setpoint</name>
+        <name>Mag1 Setpoint</name>
       </param43>
       <param44>
         <field>psu1_current</field>
-        <name>PSU 1 Current</name>
+        <name>Mag1 Current</name>
       </param44>
       <param45>
         <field>psu1_voltage</field>
-        <name>PSU 1 Voltage</name>
+        <name>Mag1 Voltage</name>
       </param45>
       <param46>
         <field>psu1_power</field>
-        <name>PSU 1 Power</name>
+        <name>Mag1 Power</name>
       </param46>
       <param47>
         <field>psu2_output</field>
-        <name>PSU 2 Output On</name>
+        <name>Mag2 Output On</name>
       </param47>
       <param48>
         <field>psu2_setpoint</field>
-        <name>PSU 2 Setpoint</name>
+        <name>Mag2 Setpoint</name>
       </param48>
       <param49>
         <field>psu2_current</field>
-        <name>PSU 2 Current</name>
+        <name>Mag2 Current</name>
       </param49>
       <param50>
         <field>psu2_voltage</field>
-        <name>PSU 2 Voltage</name>
+        <name>Mag2 Voltage</name>
       </param50>
       <param51>
         <field>psu2_power</field>
-        <name>PSU 2 Power</name>
+        <name>Mag2 Power</name>
       </param51>
       <param52>
-        <field>pirani4</field>
-        <name>Pirani 4</name>
+        <field>bender_inner</field>
+        <name>Bender Inner</name>
       </param52>
       <param53>
-        <field>pirani5</field>
-        <name>Pirani 5</name>
+        <field>bender_outer</field>
+        <name>Bender Outer</name>
       </param53>
+      <param54>
+        <field>raster_center_X</field>
+        <name>Raster Center X</name>
+      </param54>
+      <param55>
+        <field>raster_center_Y</field>
+        <name>Raster Center Y</name>
+      </param55>
+      <param56>
+        <field>raster_delta_X</field>
+        <name>Raster Delta X</name>
+      </param56>
+      <param57>
+        <field>raster_delta_Y</field>
+        <name>Raster Delta Y</name>
+      </param57>
+      <param58>
+        <field>raster_Amplitude</field>
+        <name>Raster Amplitude</name>
+      </param58>
+      <param59>
+        <field>raster_time</field>
+        <name>Raster Time</name>
+      </param59>
+      <param60>
+        <field>raster_step</field>
+        <name>Raster Step</name>
+      </param60>
     </parameters>
   </graph>
 
@@ -681,7 +693,7 @@
       <default>SELECT x,y  FROM xy_values_stm312 where measurement = {id} order by id</default>
     </queries>
     <ylabel>
-      <default>Current / A &amp; pressure / mbar &amp; flow / ml/m</default>
+      <default>Current / A</default>
     </ylabel>
     <legend>
       <default>{id} - {mass_label}</default>
@@ -689,19 +701,19 @@
     <!-- Optional parameters to show in infobox -->
     <parameters>
       <param0>
-        <field>ar</field>
+        <field>Ar</field>
         <name>Ar flow / ml/min</name>
       </param0>
       <param1>
-        <field>he</field>
+        <field>He</field>
         <name>He flow / ml/min</name>
       </param1>
       <param2>
-        <field>ar_2</field>
+        <field>Ar_2</field>
         <name>Ar 2 flow / ml/min</name>
       </param2>
       <param3>
-        <field>he_2</field>
+        <field>He_2</field>
         <name>He 2 flow / ml/min</name>
       </param3>
       <param4>
@@ -792,26 +804,14 @@
         <field>glassman2</field>
         <name>Glassman 2</name>
       </param25>
-      <param26>
-        <field>mf_mass</field>
-        <name>MF Mass</name>
-      </param26>
-      <param27>
-        <field>mf_tof</field>
-        <name>MF TOF Deflect Voltage</name>
-      </param27>
       <param28>
         <field>mf_n</field>
-        <name>MF n</name>
+        <name>TOF n</name>
       </param28>
       <param29>
         <field>mf_r</field>
-        <name>MF r</name>
+        <name>TOF r</name>
       </param29>
-      <param30>
-        <field>mf_axis</field>
-        <name>MF X Axis Mode</name>
-      </param30>
       <param31>
         <field>mf_numdata</field>
         <name>MF Num Data Points</name>
@@ -858,52 +858,80 @@
       </param41>
       <param42>
         <field>psu1_output</field>
-        <name>PSU 1 Output On</name>
+        <name>Mag1 Output On</name>
       </param42>
       <param43>
         <field>psu1_setpoint</field>
-        <name>PSU 1 Setpoint</name>
+        <name>Mag1 Setpoint</name>
       </param43>
       <param44>
         <field>psu1_current</field>
-        <name>PSU 1 Current</name>
+        <name>Mag1 Current</name>
       </param44>
       <param45>
         <field>psu1_voltage</field>
-        <name>PSU 1 Voltage</name>
+        <name>Mag1 Voltage</name>
       </param45>
       <param46>
         <field>psu1_power</field>
-        <name>PSU 1 Power</name>
+        <name>Mag1 Power</name>
       </param46>
       <param47>
         <field>psu2_output</field>
-        <name>PSU 2 Output On</name>
+        <name>Mag2 Output On</name>
       </param47>
       <param48>
         <field>psu2_setpoint</field>
-        <name>PSU 2 Setpoint</name>
+        <name>Mag2 Setpoint</name>
       </param48>
       <param49>
         <field>psu2_current</field>
-        <name>PSU 2 Current</name>
+        <name>Mag2 Current</name>
       </param49>
       <param50>
         <field>psu2_voltage</field>
-        <name>PSU 2 Voltage</name>
+        <name>Mag2 Voltage</name>
       </param50>
       <param51>
         <field>psu2_power</field>
-        <name>PSU 2 Power</name>
+        <name>Mag2 Power</name>
       </param51>
       <param52>
-        <field>pirani4</field>
-        <name>Pirani 4</name>
+        <field>bender_inner</field>
+        <name>Bender Inner</name>
       </param52>
       <param53>
-        <field>pirani5</field>
-        <name>Pirani 5</name>
+        <field>bender_outer</field>
+        <name>Bender Outer</name>
       </param53>
+      <param54>
+        <field>raster_center_X</field>
+        <name>Raster Center X</name>
+      </param54>
+      <param55>
+        <field>raster_center_Y</field>
+        <name>Raster Center Y</name>
+      </param55>
+      <param56>
+        <field>raster_delta_X</field>
+        <name>Raster Delta X</name>
+      </param56>
+      <param57>
+        <field>raster_delta_Y</field>
+        <name>Raster Delta Y</name>
+      </param57>
+      <param58>
+        <field>pirani4</field>
+        <name>Pirani 4 (agg. zone)</name>
+      </param58>
+      <param59>
+        <field>pirani5</field>
+        <name>Pirani 5 (turbo)</name>
+      </param59>
+      <param60>
+        <field>temperature</field>
+        <name>Temperature (nozzle)</name>
+      </param60>
     </parameters>
   </graph>
 
