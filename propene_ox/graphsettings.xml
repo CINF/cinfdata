@@ -26,13 +26,13 @@
 
   <graph type="live_values">
     <page_width>1250</page_width>
-    <page_title>Hall Live Plots</page_title> <!-- option page title -->
+    <page_title>Propene Oxidation Live Plots</page_title> <!-- option page title -->
     <containers>
 
       <!-- Container 1, contains the second plot -->
       <container0>
 	<type>date_figure</type>
-	<title>Pressure [bar]</title>
+	<title>Pressure [mbar]</title>
 	<!-- <bgcolor>#E7E7E7</bgcolor>-->
 	<width>400</width>
 	<height>350</height>
@@ -72,7 +72,7 @@
 	    <label>Pressure</label>
 	    <color>#990099</color>
 	    <format>.2f</format>
-	    <unit>bar</unit>
+	    <unit>mbar</unit>
 	  </item0>
 	</data>
       </container1>
