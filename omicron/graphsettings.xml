@@ -527,8 +527,160 @@
       </container4>
     </containers>
   </graph>
-####
+#### LIVE CHILLER
+  <graph type="live_chiller">
+    <page_width>1280</page_width>
+    <page_title>Omicron Live Plots</page_title> <!-- option page title -->
+    <containers>
 
+      <!-- Container 1, contains the second plot -->
+      <container0>
+	<type>date_figure</type>
+	<min_update_time>1</min_update_time>
+	<title>Chiller Temperature [Celcius]</title>
+	<!--<bgcolor>#E7E7E7</bgcolor>-->
+	<width>700</width>
+	<height>500</height>
+	<jump_ahead>0.3</jump_ahead>
+	<x_window>3600</x_window>
+	<logscale>false</logscale>
+	<!-- Experimental, to fix bad y-range selection with log plot and
+	     constant values -->
+	<!-- <yrangepad>10</yrangepad> -->
+	<yrangepad>100</yrangepad>
+	<line_width>3</line_width>
+	<format>.1</format>
+	<data_reduction>
+	  <time>600</time>
+	  <relative>0.05</relative>
+	</data_reduction>
+	<figure>
+	  <plot0>
+	    <data_channel>rasppi20:omicron_chiller_temperature</data_channel>
+	    <label>Temperature Anode Cooling [C]</label>
+	    <color>#0000FF</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot0>
+	  <plot1>
+	    <data_channel>rasppi20:omicron_chiller_temperature_ambient</data_channel>
+	    <label>Temperature Ambient [C]</label>
+	    <color>#FF0000</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_chiller_temperature_ambient") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot1>
+	  <plot2>
+	    <data_channel>rasppi20:omicron_chiller_temperature_setpoint</data_channel>
+	    <label>Temperature setpoint [C]</label>
+	    <color>#00FF00</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_chiller_temperature_setpoint") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot2>
+	</figure>
+      </container0>
+
+      <container1>
+	<type>table</type>
+	<!--<bgcolor>#FF00FF</bgcolor>-->
+	<width>580</width>
+	<height>500</height>
+	<fontsize>24</fontsize>
+	<!--<show_diff>true</show_diff>-->
+	<data>
+	  <item0>
+	    <data_channel>rasppi20:omicron_chiller_temperature</data_channel>
+	    <label>Chiller Temperature</label>
+	    <color>#0000FF</color>
+	    <format>.3</format>
+	    <unit>C</unit>
+	  </item0>
+	  <item1>
+	    <data_channel>rasppi20:omicron_chiller_temperature_ambient</data_channel>
+	    <label>Temperature Ambient</label>
+	    <color>#FF0000</color>
+	    <format>.2</format>
+	    <unit>C</unit>
+	  </item1>
+	  <item2>
+	    <data_channel>rasppi20:omicron_chiller_temperature_setpoint</data_channel>
+	    <label>Temperature Setpoint</label>
+	    <color>#00FF00</color>
+	    <format>.2</format>
+	    <unit>C</unit>
+	  </item2>
+	  <item3>
+	    <data_channel>rasppi20:omicron_chiller_flow</data_channel>
+	    <label>Flow</label>
+	    <color>#000000</color>
+	    <format>.3</format>
+	    <unit>L/min</unit>
+	  </item3>
+	  <item4>
+	    <data_channel>rasppi20:omicron_chiller_pressure</data_channel>
+	    <label>Pressure</label>
+	    <color>#D7DF01</color>
+	    <format>.2</format>
+	    <unit>bar</unit>
+	  </item4>
+	</data>
+      </container1>
+
+      <!-- Container 2, contains the second plot -->
+      <container2>
+	<type>date_figure</type>
+	<title>Chiller Flow [L/min]</title>
+	<!-- <bgcolor>#E7E7E7</bgcolor>-->
+	<width>420</width>
+	<height>300</height>
+	<jump_ahead>0.3</jump_ahead>
+	<x_window>3600</x_window>
+	<logscale>false</logscale>
+	<!-- Experimental, to fix bad y-range selection with log plot and
+	     constant values -->
+	<!-- <yrangepad>10</yrangepad> -->
+	<line_width>3</line_width>
+	<data_reduction>
+	  <time>600</time>
+	  <relative>0.05</relative>
+	</data_reduction>
+	<figure>
+	  <plot0>
+	    <data_channel>rasppi20:omicron_chiller_flow</data_channel>
+	    <label>Flow [L/min]</label>
+	    <color>#000000</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_chiller_flow") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot0>
+	</figure>
+      </container2>
+
+      <!-- Container 2, contains the second plot -->
+      <container3>
+	<type>date_figure</type>
+	<title>Pressure [bar]</title>
+	<!-- <bgcolor>#E7E7E7</bgcolor>-->
+	<width>420</width>
+	<height>300</height>
+	<jump_ahead>0.3</jump_ahead>
+	<x_window>3600</x_window>
+	<logscale>false</logscale>
+	<!-- Experimental, to fix bad y-range selection with log plot and
+	     constant values -->
+	<!-- <yrangepad>10</yrangepad> -->
+	<line_width>3</line_width>
+	<!--
+	<data_reduction>
+	  <time>600</time>
+	  <relative>0.05</relative>
+	</data_reduction>  -->
+	<figure>
+	  <plot0>
+	    <data_channel>rasppi20:omicron_chiller_pressure</data_channel>
+	    <label>Pressure [bar]</label>
+	    <color>#D7DF01</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot0>
+	</figure>
+      </container3>
+    </containers>
+  </graph>
+### End of LIVE_CHILLER
 
 
 

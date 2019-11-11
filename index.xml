@@ -297,6 +297,10 @@
       <ref>omicron/live.php?type=live_pressures</ref>
     </link>
     <link>
+      <title>Chiller Live</title>
+      <ref>omicron/live.php?type=live_chiller</ref>
+    </link>
+    <link>
       <title>Temperatures</title>
       <ref>omicron/dateplot.php?type=multidateplot&amp;matplotlib=checked&amp;left_plotlist[]=1&amp;right_plotlist[]=2</ref>
     </link>
