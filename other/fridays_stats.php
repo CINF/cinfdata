@@ -34,7 +34,13 @@ $query = "" .
 $pie_info = Array("title" => 'Top 10 items');
 $pie_info['data'] = items_from_query($query);
 $pie_json = JSON_encode($pie_info);
-echo('<img alt="Vertical bar chart" class="centered" width="800" height="500" src="pie.php?data=' . urlencode($pie_json) . '&element_count=10"/>' . "\n");
+if (strlen($pie_json) < 1900) {
+  echo('<img alt="Vertical bar chart" class="centered" width="800" height="500" src="pie.php?data=' . urlencode($pie_json) . '&element_count=10"/>' . "\n");
+} else {
+  echo('<p>Size of data as JSON: ' . strlen($pie_json)  .
+       ' Size of data as URL_JSON: ' . strlen(urlencode($pie_json)) .
+       ' Data: ' . $pie_json . '</p>');
+}
 
 
 echo("<h1>Revenue by item</h1>\n");
@@ -50,7 +56,14 @@ $pie_info = Array("title" => 'Top 10 revenue by item');
 $pie_info['data'] = items_from_query($query);
 $pie_json = JSON_encode($pie_info);
 
-echo('<img alt="Vertical bar chart" class="centered" width="800" height="500" src="pie.php?data=' . urlencode($pie_json) . '&element_count=10"/>' . "\n");
+if (strlen($pie_json) < 1900) {
+  echo('<img alt="Vertical bar chart" class="centered" width="800" height="500" src="pie.php?data=' . urlencode($pie_json) . '&element_count=10"/>' . "\n");
+} else {
+  echo('<p>Size of data as JSON: ' . strlen($pie_json)  .
+       ' Size of data as URL_JSON: ' . strlen(urlencode($pie_json)) .
+       ' Data: ' . $pie_json . '</p>');
+}
+
 
 echo("<h1>Volume by item</h1>\n");
 $query = "" . 
@@ -65,7 +78,14 @@ $query = "" .
 $pie_info = Array("title" => 'Top 10 volume by item');
 $pie_info['data'] = items_from_query($query, $type='float');
 $pie_json = JSON_encode($pie_info);
-echo('<img alt="Vertical bar chart" class="centered" width="800" height="500" src="pie.php?data=' . urlencode($pie_json) . '&element_count=10&decimals=2"/>' . "\n");
+if (strlen($pie_json) < 1900) {
+  echo('<img alt="Vertical bar chart" class="centered" width="800" height="500" src="pie.php?data=' . urlencode($pie_json) . '&element_count=10&decimals=2"/>' . "\n");
+} else {
+  
+  echo('<p>Size of data as JSON: ' . strlen($pie_json)  .
+       ' Size of data as URL_JSON: ' . strlen(urlencode($pie_json)) .
+       ' Data: ' . $pie_json . '</p>');
+}
 
 
 ?>
