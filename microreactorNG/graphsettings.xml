@@ -154,24 +154,38 @@
 	  <relative>1</relative>
 	</data_reduction>
 	<figure>
-	  <plot0>
+<!--	  <plot0>
             <color>#0000FF</color>
             <data_channel>rasppi12:microreactorng_temp_sample</data_channel>
             <label>Temperature / [C]</label>
 	  </plot0>
+-->
 <!--
             <socket>1</socket>
             <color>#0000FF</color>
             <id>mr_iongauge_pressure</id>
             <label>IG Pressure / mbar</label>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_microreactor where type=(SELECT id FROM dateplots_descriptions where codename="mr_iongauge_pressure") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot0>-->
+	  <plot0>
+            <color>#FF0000</color>
+            <data_channel>rasppi36:microreactorng_pressure_buffer</data_channel>
+            <label>Buf Pressure / mbar</label>
+<!--	    <old_data_query>select unix_timestamp(time), value from dateplots_microreactorNG where type=(SELECT id FROM dateplots_descriptions where codename="mr_buffer_pressure") and unix_timestamp(time) > {from}</old_data_query>-->
+	    <old_data_query>select unix_timestamp(time), value from dateplots_microreactorNG where type=(SELECT id FROM dateplots_descriptions where codename="microreactorng_pressure_buffer") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
 	  <plot1>
-            <color>#FF0000</color>
-            <data_channel>cinf-microreactorNG-ms:mr_buffer_pressure</data_channel>
-            <label>Buf Pressure / mbar</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_microreactor where type=(SELECT id FROM dateplots_descriptions where codename="mr_buffer_pressure") and unix_timestamp(time) > {from}</old_data_query>
+            <color>#0000FF</color>
+	    <data_channel>rasppi124:read_main_pressure_NG</data_channel>
+            <label>Ion Gauge / mbar</label>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_microreactorNG where type=(SELECT id FROM dateplots_descriptions where codename="microreactorng_pressure") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot1>
+	  <plot2>
+            <color>#00BB00</color>
+	    <data_channel>rasppi124:read_containment_pressure_NG</data_channel>
+            <label>Containment Pressure / mbar</label>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_microreactorNG where type=(SELECT id FROM dateplots_descriptions where codename="microreactorng_pressure_containment") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot2>
 -->
 	</figure>
       </container1>
@@ -193,21 +207,28 @@
 	    <format>.1f</format>
 	    <unit>&amp;deg;C</unit>
 	  </item0>
-<!--
+
 	  <item1>
-	    <data_channel>rasppi12:mr_iongauge_pressure</data_channel>
+	    <data_channel>rasppi124:read_main_pressure_NG</data_channel>
 	    <label>Ion Gauge</label>
 	    <color>#0000FF</color>
 	    <format>.2e</format>
 	    <unit>mbar</unit>
 	  </item1>
 	  <item2>
-	    <data_channel>rasppi12:mr_buffer_pressure</data_channel>
+            <data_channel>rasppi36:microreactorng_pressure_buffer</data_channel>
 	    <label>Buffer</label>
 	    <color>#FF0000</color>
 	    <format>.3e</format>
 	    <unit>mbar</unit>
 	  </item2>
+	  <item3>
+	    <data_channel>rasppi124:read_containment_pressure_NG</data_channel>
+	    <label>Containment Pressure</label>
+	    <color>#00BB00</color>
+	    <format>.2e</format>
+	    <unit>mbar</unit>
+	  </item3>
 -->
 	</data>
       </container2>
@@ -238,7 +259,7 @@
 	<figure>
 	  <plot0>
             <color>#000000</color>
-            <data_channel>rasppi16:M11213502A</data_channel>
+            <data_channel>rasppi16:M11200362H</data_channel>
             <label>Sample pressure</label>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_microreactorNG where type=(SELECT id FROM dateplots_descriptions where codename="microreactorng_pressure_reactor") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
@@ -313,7 +334,7 @@
 	<padding>20px 0px 0px 0px</padding>
 	<data>
 	  <item0>
-	    <data_channel>rasppi16:M11213502A</data_channel>
+	    <data_channel>rasppi16:M11200362H</data_channel>
 	    <label>Sample pressure</label>
 	    <color>#000000</color>
 	    <format>.3f</format>
