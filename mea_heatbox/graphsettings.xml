@@ -1,0 +1,63 @@
+<?xml version='1.0' standalone='yes'?>
+<graphs> 
+  <!-- multidateplot -->
+  <graph type="multidateplot">
+    <default_xscale>dat</default_xscale>
+    <right_legend_suffix> (r)</right_legend_suffix>
+    <title>Multiple dateplots</title>
+    <ylabel>Mixed</ylabel>
+    <default_time>24</default_time>
+
+    <!-- Temperature_1 -->
+    <dateplot1>
+      <title>Temperature 1</title>
+      <legend>Temp 1</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_mea_heatbox where type = 602 and time between "{from}" and "{to}" order by time desc</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>1</color>
+    </dateplot1>
+
+
+    <!-- Temperature_2 -->
+    <dateplot2>
+      <title>Temperature 2</title>
+      <legend>Temp 2</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_mea_heatbox where type = 603 and time between "{from}" and "{to}" order by time desc</query>
+      <ylabel>Temperature / C</ylabel>
+      <color>1</color>
+    </dateplot2>
+
+  </graph>
+
+
+
+
+  <global_settings>
+    <measurements_table>measurements_mea_heatbox</measurements_table>
+    <xyvalues_table>xy_values_mea_heatbox</xyvalues_table>
+    <chamber_name>mea_heatbox</chamber_name>
+    <sql_username>mea_heatbox</sql_username>
+    <folder_name>mea_heatbox</folder_name>
+    <image_format>png</image_format>
+    <label_column>mass_label</label_column>
+    <mandatory_export_fields>
+      <field0>
+	<field>id</field>
+	<name>Id</name>
+      </field0>
+      <field1>
+	<field>type</field>
+	<name>Type</name>
+      </field1>
+      <field2>
+	<field>time</field>
+	<name>Recorded at</name>
+      </field2>
+      <field3>
+	<field>Comment</field>
+	<name>Comment</name>
+      </field3>
+    </mandatory_export_fields>
+  </global_settings>
+</graphs>
+    

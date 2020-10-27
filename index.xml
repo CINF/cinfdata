@@ -1067,4 +1067,21 @@
       <ref>large_CO2_MEA/xyplot.php?type=MEA_experiment</ref>
     </link>
   </setup>
+
+  <!-- mea_heatbox setup -->
+  <setup codename="mea_heatbox">
+    <setup_title>MEA Heatbox</setup_title>
+    <link>
+      <title>Dateplots</title>
+      <ref>mea_heatbox/dateplot.php?type=multidateplot</ref>
+    </link>
+    <link>
+      <title>Type 9</title>
+      <ref>mea_heatbox/xyplot.php?type=deposition</ref>
+    </link>
+    <link>
+      <title>Type 4</title>
+      <ref>mea_heatbox/xyplot.php?type=massspectrum</ref>
+    </link>
+  </setup>
 </setups>
