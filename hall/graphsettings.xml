@@ -162,15 +162,12 @@
       <!-- Container 1, contains the second plot -->
       <container1>
 	<type>date_figure</type>
-	<title>N5 Argon Pressure [bar]</title>
+	<title>Humidity [%]</title>
 	<!-- <bgcolor>#E7E7E7</bgcolor>-->
 	<width>400</width>
 	<height>350</height>
 	<jump_ahead>0.3</jump_ahead>
-	<x_window>86400</x_window>
-	<!-- Experimental, to fix bad y-range selection with log plot and
-	     constant values -->
-	<!-- <yrangepad>10</yrangepad> -->
+	<x_window>6400</x_window>
 	<line_width>3</line_width>
 	<data_reduction>
 	  <time>600</time>
@@ -178,11 +175,11 @@
 	</data_reduction>
 	<figure>
 	  <plot0>
-	    <data_channel>rasppi01:n5_argon_pressure</data_channel>
-	    <label>N5 Argon Pressure [bar]</label>
-	    <color>#009900</color>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="n5_argon_pressure") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot0>	  
+	    <data_channel>rasppi66:hall_humidity</data_channel>
+	    <label>Humidity</label>
+	    <color>#009999</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="hall_humidity") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot0>
 	</figure>
       </container1>
 
@@ -285,11 +282,11 @@
 	    <unit>bar</unit>
 	  </item0>
 	  <item1>
-	    <data_channel>rasppi01:n5_argon_pressure</data_channel>
-	    <label>N5 Argon pressure</label>
+	    <data_channel>rasppi66:hall_humidity</data_channel>
+	    <label>Hall humidity</label>
 	    <color>#009900</color>
 	    <format>.1f</format>
-	    <unit>bar</unit>
+	    <unit>%</unit>
 	  </item1>
 	  <item2>
 	    <data_channel>rasppi61:cooling_water_hot</data_channel>
@@ -330,37 +327,10 @@
     <containers>
 
       <!-- Container 1, contains the second plot -->
+
       <container0>
 	<type>date_figure</type>
-	<title>Cooling Water Pressure [bar]</title>
-	<!-- <bgcolor>#E7E7E7</bgcolor>-->
-	<width>480</width>
-	<height>200</height>
-	<jump_ahead>0.3</jump_ahead>
-	<x_window>6400</x_window>
-	<!-- Experimental, to fix bad y-range selection with log plot and
-	     constant values -->
-	<!-- <yrangepad>10</yrangepad> -->
-	<line_width>3</line_width>
-	<!-- reduce the amount of points that gets plotted -->
-	<data_reduction>
-	  <time>600</time>
-	  <absolute>0.0075</absolute>
-	</data_reduction>
-	<figure>
-	  <plot0>
-	    <data_channel>rasppi02:hall_coolingwater_pressure</data_channel>
-	    <label>Cooling Water Pressure [bar]</label>
-	    <color>#990099</color>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="hall_coolingwater_pressure") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot0>
-	</figure>
-      </container0>
-
-      <!-- Container 1, contains the second plot -->
-      <container1>
-	<type>date_figure</type>
-	<title>N5 Argon, Hall Temperature</title>
+	<title>Hall Temperature</title>
 	<!-- <bgcolor>#E7E7E7</bgcolor>-->
 	<width>480</width>
 	<height>200</height>
@@ -375,24 +345,72 @@
 	  <absolute>0.1</absolute>
 	</data_reduction>
 	<figure>
+	  <!--
 	  <plot0>
 	    <data_channel>rasppi01:n5_argon_pressure</data_channel>
 	    <label>N5 Argon Pressure [bar]</label>
 	    <color>#009900</color>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="n5_argon_pressure") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
-	  <plot1>
+          -->
+	  <plot0>
 	    <data_channel>rasppi66:hall_temperature</data_channel>
 	    <label>Hall Temperature</label>
 	    <color>#FF0000</color>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where value > -100 and type=(SELECT id FROM dateplots_descriptions where codename="hall_temperature") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot1>	  
+	  </plot0>	  
+	</figure>
+      </container0>
+      <!-- Container 1, contains the second plot -->
+      <container1>
+	<type>date_figure</type>
+	<title>Humidity [%]</title>
+	<!-- <bgcolor>#E7E7E7</bgcolor>-->
+	<width>480</width>
+	<height>200</height>
+	<jump_ahead>0.3</jump_ahead>
+	<x_window>6400</x_window>
+	<line_width>3</line_width>
+	<data_reduction>
+	  <time>600</time>
+	  <absolute>0.1</absolute>
+	</data_reduction>
+	<figure>
+	  <plot0>
+	    <data_channel>rasppi66:hall_humidity</data_channel>
+	    <label>Humidity</label>
+	    <color>#009999</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="hall_humidity") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot0>
 	</figure>
       </container1>
 
       <container2>
 	<type>date_figure</type>
-	<title>Cooling Water Temperatures [&amp;deg;C]</title>
+	<title>Ventilation Pressure [Pa]</title>
+	<!-- <bgcolor>#E7E7E7</bgcolor>-->
+	<width>480</width>
+	<height>200</height>
+	<jump_ahead>0.3</jump_ahead>
+	<x_window>6400</x_window>
+	<line_width>3</line_width>
+	<data_reduction>
+	  <time>600</time>
+	  <absolute>0.1</absolute>
+	</data_reduction>
+	<figure>
+	  <plot0>
+	    <data_channel>rasppi66:hall_ventilation_pressure</data_channel>
+	    <label>Ventilation Pressure</label>
+	    <color>#009999</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="hall_ventilation_pressure") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot0>
+	</figure>
+      </container2>
+
+      <container3>
+	<type>date_figure</type>
+	<title>Cooling Water Temp and  Pres [&amp;deg;C] hPa</title>
 	<!-- <bgcolor>#E7E7E7</bgcolor>-->
 	<width>480</width>
 	<height>200</height>
@@ -419,172 +437,230 @@
 	    <color>#0000FF</color>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="cooling_water_cold") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot1>
-	</figure>
-      </container2>
-
-      <container3>
-	<type>date_figure</type>
-	<x_window>6400</x_window> <!-- x axis interval, seconds -->
-	<width>480</width>
-	<height>200</height>
-	<axislabelwidth>100</axislabelwidth>
-	<!-- General plot options -->
-	<bgcolor>#ffffff</bgcolor> <!-- optional color, default #FFFFFF -->
-	<!-- optional html padding string, remember to subtract the padding
-	     in the size -->
-	<padding>0px 0px 0px 0px</padding>
-	<!-- title and labels -->
-	<title>Chiller Temperature [C]</title> <!-- optional (escaped) html-->
-	<xlabel>Time</xlabel> <!-- optional (escaped) html -->
-	<!--<ylabel>Temperature [&amp;deg;C]</ylabel>--> <!-- optional (escaped) html -->
-	<!-- Plot drawing fine tuning -->
-	<draw_points>true</draw_points> <!-- optional bool, default true -->
-	<point_size>2</point_size> <!-- optional int, default 2 -->
-	<linewidth>1.5</linewidth> <!-- optional float, default 1.5 -->
-	<logscale>false</logscale> <!-- optional bool, default false -->
-	<format>.1f</format>
-	<data_reduction>
-	  <time>600</time>
-	  <absolute>0.2</absolute>
-	</data_reduction>
-	<figure>
-	  <plot0>
-            <color>#0000FF</color>
-            <data_channel>rasppi57:thetaprobe_chiller_temperature</data_channel>
-            <label>Thetaprobe Temperature</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_thetaprobe where type=(SELECT id FROM dateplots_descriptions where codename="thetaprobe_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot0>
-	  <plot1>
-            <color>#00FF00</color>
-            <data_channel>rasppi60:xrd_chiller_temperature</data_channel>
-            <label>XRD Temperature</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_xrd where type=(SELECT id FROM dateplots_descriptions where codename="xrd_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot1>
 	  <plot2>
-            <color>#FF0000</color>
-            <data_channel>rasppi21:sputterchamber_chiller_temperature</data_channel>
-            <label>Sputterchamber Temperature</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_sputterchamber where type=(SELECT id FROM dateplots_descriptions where codename="sputterchamber_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
+	    <data_channel>rasppi02:hall_coolingwater_pressure</data_channel>
+	    <label>Cooling Water Pressure [bar]</label>
+	    <color>#990099</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="hall_coolingwater_pressure") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot2>
-	  <plot3>
-            <color>#00FFFF</color>
-            <data_channel>rasppi97:uhv_sputterchamber_chiller_temperature</data_channel>
-            <label>UHV Sputterchamber Temperature</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_uhv_sputterchamber where type=(SELECT id FROM dateplots_descriptions where codename="uhv_sputterchamber_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot3>
-	  <plot4>
-            <color>#aa5500</color>
-            <data_channel>rasppi20:omicron_chiller_temperature</data_channel>
-            <label>Omicron Temperature</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot4>
-	  <plot5>
-            <color>#000000</color>
-            <data_channel>rasppi60:new_xrd_chiller_temperature</data_channel>
-            <label>New XRD Temperature</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_new_xrd where type=(SELECT id FROM dateplots_descriptions where codename="new_xrd_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot5>
-	  <plot6>
-            <color>#00aa55</color>
-            <data_channel>rasppi94:gc_ms_chiller_temperature</data_channel>
-            <label>GCMS Temperature</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_gc_ms where type=(SELECT id FROM dateplots_descriptions where codename="gc_ms_chiller_temperature") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot6>
 	</figure>
       </container3>
 
       <container4>
 	<type>date_figure</type>
-	<x_window>6400</x_window> <!-- x axis interval, seconds -->
-	<width>480</width>
-	<height>200</height>
-	<axislabelwidth>150</axislabelwidth>
-	<!-- General plot options -->
-	<bgcolor>#ffffff</bgcolor> <!-- optional color, default #FFFFFF -->
-	<!-- optional html padding string, remember to subtract the padding
-	     in the size -->
-	<padding>0px 0px 0px 0px</padding>
-	<!-- title and labels -->
-	<title>Chiller Pressure [Bar]</title> <!-- optional (escaped) html-->
-	<xlabel>Time</xlabel> <!-- optional (escaped) html -->
-	<!--<ylabel>Temperature [&amp;deg;C]</ylabel>--> <!-- optional (escaped) html -->
-	<!-- Plot drawing fine tuning -->
-	<draw_points>true</draw_points> <!-- optional bool, default true -->
-	<point_size>2</point_size> <!-- optional int, default 2 -->
-	<linewidth>1.5</linewidth> <!-- optional float, default 1.5 -->
-	<logscale>false</logscale> <!-- optional bool, default false -->
-	<format>.1f</format>
-	<data_reduction>
-	  <time>600</time>
-	  <absolute>0.1</absolute>
-	</data_reduction>
-	<figure>
-	  <plot0>
-            <color>#0000FF</color>
-            <data_channel>rasppi57:thetaprobe_chiller_pressure</data_channel>
-            <label>Thetaprobe pressure</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_thetaprobe where type=(SELECT id FROM dateplots_descriptions where codename="thetaprobe_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot0>
-	  <plot1>
-            <color>#00FF00</color>
-            <data_channel>rasppi60:xrd_chiller_pressure</data_channel>
-            <label>XRD pressure</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_xrd where type=(SELECT id FROM dateplots_descriptions where codename="xrd_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot1>
-	  <plot2>
-            <color>#FF0000</color>
-            <data_channel>rasppi21:sputterchamber_chiller_pressure</data_channel>
-            <label>Sputterchamber pressure</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_sputterchamber where type=(SELECT id FROM dateplots_descriptions where codename="sputterchamber_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot2>
-	  <plot3>
-            <color>#00FFFF</color>
-            <data_channel>rasppi97:uhv_sputterchamber_chiller_pressure</data_channel>
-            <label>UHV Sputterchamber pressure</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_uhv_sputterchamber where type=(SELECT id FROM dateplots_descriptions where codename="uhv_sputterchamber_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot3>
-	  <plot4>
-            <color>#aa5500</color>
-            <data_channel>rasppi20:omicron_chiller_pressure</data_channel>
-            <label>Omicron pressure</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot4>
-	  <plot5>
-            <color>#000000</color>
-            <data_channel>rasppi60:new_xrd_chiller_pressure</data_channel>
-            <label>New XRD pressure</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_new_xrd where type=(SELECT id FROM dateplots_descriptions where codename="new_xrd_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot5>
-	  <plot6>
-            <color>#00aa55</color>
-            <data_channel>rasppi94:gc_ms_chiller_pressure</data_channel>
-            <label>GCMS pressure</label>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_gc_ms where type=(SELECT id FROM dateplots_descriptions where codename="gc_ms_chiller_pressure") and unix_timestamp(time) > {from}</old_data_query>
-	  </plot6>
-	</figure>
-      </container4>
-
-      <container5>
-	<type>date_figure</type>
-	<title>Ventilation Pressure [Pa]</title>
+	<title>Gas levels 307</title>
 	<!-- <bgcolor>#E7E7E7</bgcolor>-->
 	<width>480</width>
 	<height>200</height>
 	<jump_ahead>0.3</jump_ahead>
-	<x_window>6400</x_window>
+	<x_window>86400</x_window> <!-- 1 day -->
+	<!-- Experimental, to fix bad y-range selection with log plot and
+	     constant values -->
+	<yrangepad>10</yrangepad>
 	<line_width>3</line_width>
 	<data_reduction>
 	  <time>600</time>
-	  <absolute>0.1</absolute>
+	  <absolute>0.15</absolute>
 	</data_reduction>
 	<figure>
-	  <plot0>
-	    <data_channel>rasppi66:hall_ventilation_pressure</data_channel>
-	    <label>Ventilation Pressure</label>
-	    <color>#009999</color>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="hall_ventilation_pressure") and unix_timestamp(time) > {from}</old_data_query>
+<!--	  <plot0>
+	    <data_channel>rasppi99:gassupply_307_ch4_right</data_channel>
+	    <label>CH4 Right</label>
+	    <color>#77583A</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_ch4_right") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
+	  <plot1>
+	    <data_channel>rasppi99:gassupply_307_ch4_left</data_channel>
+	    <label>CH4 Left</label>
+	    <color>#77583A</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_ch4_left") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot1>-->
+	  <plot0>
+	    <data_channel>rasppi99:gassupply_307_h2_right</data_channel>
+	    <label>H2 Right</label>
+	    <color>#FF0000</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_h2_right") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot0>
+	  <plot1>
+	    <data_channel>rasppi99:gassupply_307_h2_left</data_channel>
+	    <label>H2 Left</label>
+	    <color>#FF0000</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_h2_left") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot1>
+	  <plot2>
+	    <data_channel>rasppi99:gassupply_307_CO_left</data_channel>
+	    <label>CO Left</label>
+	    <color>#009933</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_CO_left") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot2>
+	  <plot3>
+	    <data_channel>rasppi99:gassupply_307_CO_right</data_channel>
+	    <label>CO Right</label>
+	    <color>#009933</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_CO_right") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot3>
+	  <plot4>
+	    <data_channel>rasppi99:gassupply_307_Ar_right</data_channel>
+	    <label>Ar Right</label>
+	    <color>#0000FF</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_Ar_right") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot4>
+	  <plot5>
+	    <data_channel>rasppi99:gassupply_307_Ar_left</data_channel>
+	    <label>Ar Left</label>
+	    <color>#0000FF</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_Ar_left") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot5>
+	  <plot6>
+	    <data_channel>rasppi99:gassupply_307_O2_right</data_channel>
+	    <label>O2 Right</label>
+	    <color>#CCCC00</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_O2_right") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot6>
+	  <plot7>
+	    <data_channel>rasppi99:gassupply_307_O2_left</data_channel>
+	    <label>O2 Left</label>
+	    <color>#CCCC00</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_O2_left") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot7>
+	  <plot8>
+	    <data_channel>rasppi99:gassupply_307_N2_right</data_channel>
+	    <label>N2 Right</label>
+	    <color>#990099</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_N2_right") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot8>
+	  <plot9>
+	    <data_channel>rasppi99:gassupply_307_N2_left</data_channel>
+	    <label>N2 Left</label>
+	    <color>#990099</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_N2_left") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot9>
+	  <plot10>
+	    <data_channel>rasppi99:gassupply_307_He_right</data_channel>
+	    <label>He Right</label>
+	    <color>#112233</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_He_right") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot10>
+	  <plot11>
+	    <data_channel>rasppi99:gassupply_307_He_left</data_channel>
+	    <label>He Left</label>
+	    <color>#112233</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_gassupply where type=(SELECT id FROM dateplots_descriptions where codename="gassupply_307_He_left") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot11>
 	</figure>
+      </container4>
+
+      <!-- Container 1, table with all values -->
+      <container5>
+	<type>table</type>
+	<!--<bgcolor>#00FF00</bgcolor>-->
+	<width>400</width>
+	<height>200</height>
+	<fontsize>14</fontsize>
+	<!-- optional html padding string, remember to subtract the padding in
+	     the size -->
+	<padding>20px 0px 0px 80px</padding>
+	<data>
+<!--	  <item0>
+	    <data_channel>rasppi99:gassupply_307_ch4_right</data_channel>
+	    <label>CH4 Right</label>
+	    <color>#77583A</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item0>
+	  <item1>
+	    <data_channel>rasppi99:gassupply_307_ch4_left</data_channel>
+	    <label>CH4 Left</label>
+	    <color>#77583A</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item1>
+-->
+	  <item0>
+	    <data_channel>rasppi99:gassupply_307_h2_right</data_channel>
+	    <label>H2 Right</label>
+	    <color>#FF0000</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item0>
+	  <item1>
+	    <data_channel>rasppi99:gassupply_307_h2_left</data_channel>
+	    <label>H2 Left</label>
+	    <color>#FF0000</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item1>
+	  <item2>
+	    <data_channel>rasppi99:gassupply_307_CO_left</data_channel>
+	    <label>CO Left</label>
+	    <color>#009933</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item2>
+	  <item3>
+	    <data_channel>rasppi99:gassupply_307_CO_right</data_channel>
+	    <label>CO Right</label>
+	    <color>#009933</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item3>
+	  <item4>
+	    <data_channel>rasppi99:gassupply_307_Ar_right</data_channel>
+	    <label>Ar Right</label>
+	    <color>#0000FF</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item4>
+	  <item5>
+	    <data_channel>rasppi99:gassupply_307_Ar_left</data_channel>
+	    <label>Ar Left</label>
+	    <color>#0000FF</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item5>
+	  <item6>
+	    <data_channel>rasppi99:gassupply_307_O2_right</data_channel>
+	    <label>O2 Right</label>
+	    <color>#CCCC00</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item6>
+	  <item7>
+	    <data_channel>rasppi99:gassupply_307_O2_left</data_channel>
+	    <label>O2 Left</label>
+	    <color>#CCCC00</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item7>
+	  <item8>
+	    <data_channel>rasppi99:gassupply_307_N2_right</data_channel>
+	    <label>N2 Right</label>
+	    <color>#990099</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item8>
+	  <item9>
+	    <data_channel>rasppi99:gassupply_307_N2_left</data_channel>
+	    <label>N2 Left</label>
+	    <color>#990099</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item9>
+	  <item10>
+	    <data_channel>rasppi99:gassupply_307_He_right</data_channel>
+	    <label>He Right</label>
+	    <color>#112233</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item10>
+	  <item11>
+	    <data_channel>rasppi99:gassupply_307_He_left</data_channel>
+	    <label>He Left</label>
+	    <color>#112233</color>
+	    <format>.1f</format>
+	    <unit>bar</unit>
+	  </item11>
+	</data>
       </container5>
 
       <container6>
@@ -599,7 +675,7 @@
 	<padding>0px 0px 0px 0px</padding>
 	<!-- title and labels -->
 	<title>kVA [kW]</title> <!-- optional (escaped) html-->
-	<xlabel>Time</xlabel> <!-- optional (escaped) html -->
+	<!--<xlabel>Time</xlabel> optional (escaped) html -->
 	<!-- <ylabel>Temperature [&amp;deg;C]</ylabel> --><!-- optional (escaped) html -->
 	<!-- Plot drawing fine tuning -->
 	<draw_points>true</draw_points> <!-- optional bool, default true -->
@@ -631,31 +707,36 @@
 	  </plot2>
 	</figure>
       </container6>
-
+<!--
       <container7>
 	<type>date_figure</type>
-	<title>Humidity [%]</title>
+	<title>Cooling Water Pressure [bar]</title>-->
 	<!-- <bgcolor>#E7E7E7</bgcolor>-->
-	<width>480</width>
+<!--	<width>480</width>
 	<height>200</height>
 	<jump_ahead>0.3</jump_ahead>
-	<x_window>6400</x_window>
-	<line_width>3</line_width>
+	<x_window>6400</x_window>-->
+	<!-- Experimental, to fix bad y-range selection with log plot and
+	     constant values -->
+	<!-- <yrangepad>10</yrangepad> -->
+<!--	<line_width>3</line_width>-->
+	<!-- reduce the amount of points that gets plotted -->
+<!--
 	<data_reduction>
 	  <time>600</time>
-	  <absolute>0.1</absolute>
+	  <absolute>0.0075</absolute>
 	</data_reduction>
 	<figure>
 	  <plot0>
-	    <data_channel>rasppi66:hall_humidity</data_channel>
-	    <label>Humidity</label>
-	    <color>#009999</color>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="hall_humidity") and unix_timestamp(time) > {from}</old_data_query>
+	    <data_channel>rasppi02:hall_coolingwater_pressure</data_channel>
+	    <label>Cooling Water Pressure [bar]</label>
+	    <color>#990099</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_hall where type=(SELECT id FROM dateplots_descriptions where codename="hall_coolingwater_pressure") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
 	</figure>
       </container7>
-
-      <container8>
+-->
+      <container7>
 	<type>table</type>
 	<!--<bgcolor>#FF0000</bgcolor>-->
 	<width>400</width>
@@ -663,7 +744,7 @@
 	<fontsize>14</fontsize>
 	<!-- optional html padding string, remember to subtract the padding in
 	     the size top, right, bottom, top, right, bottom, left-->
-	<padding>40px 0px 0px 0px</padding>
+	<padding>20px 0px 0px 80px</padding>
 	<data>
 	  <item0>
 	    <data_channel>rasppi02:hall_coolingwater_pressure</data_channel>
@@ -673,11 +754,11 @@
 	    <unit>bar</unit>
 	  </item0>
 	  <item1>
-	    <data_channel>rasppi01:n5_argon_pressure</data_channel>
-	    <label>N5 Argon pressure</label>
+	    <data_channel>rasppi57:thetaprobe_chiller_temperature</data_channel>
+	    <label>Thetaprobe chiller</label>
 	    <color>#009900</color>
 	    <format>.1f</format>
-	    <unit>bar</unit>
+	    <unit>&amp;amp;deg;C</unit>
 	  </item1>
 	  <item2>
 	    <data_channel>rasppi61:cooling_water_hot</data_channel>
@@ -696,7 +777,7 @@
 	  <item4>
 	    <data_channel>rasppi66:hall_temperature</data_channel>
 	    <label>Hall temperature</label>
-	    <color>#0000FF</color>
+	    <color>#FF0000</color>
 	    <format>.2f</format>
 	    <unit>&amp;amp;deg;C</unit>
 	  </item4>
@@ -708,7 +789,7 @@
 	    <unit>Pa</unit>
 	  </item5>
 	</data>
-      </container8>
+      </container7>
     </containers>
   </graph>
 
