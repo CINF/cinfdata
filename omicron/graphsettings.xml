@@ -1,5 +1,5 @@
 <?xml version='1.0' standalone='yes'?>
-<graphs>
+<graphs> 
   <!-- multidateplot -->
   <graph type="multidateplot">
     <default_xscale>dat</default_xscale>
@@ -375,7 +375,7 @@
 	<!-- <yrangepad>10</yrangepad> -->
 	<yrangepad>100</yrangepad>
 	<line_width>3</line_width>
-	<format>.0e</format>
+	<format>.2e</format>
 	<data_reduction>
 	  <time>600</time>
 	  <relative>0.05</relative>
@@ -439,13 +439,27 @@
 	    <format>.2e</format>
 	    <unit>mbar</unit>
 	  </item4>
+	  <item5>
+	    <data_channel>rasppi08:omicron_nanobeam_pressure</data_channel>
+	    <label>Nanobeam pressure</label>
+	    <color>#00AAA0</color>
+	    <format>.2e</format>
+	    <unit>mbar</unit>
+	  </item5>
+	  <item6>
+	    <data_channel>rasppi08:omicron_nanobeam_temperature</data_channel>
+	    <label>Nanobeam temp</label>
+	    <color>#17DF01</color>
+	    <format>.1f</format>
+	    <unit>Celcius</unit>
+	  </item6>
 	</data>
       </container1>
 
       <!-- Container 2, contains the second plot -->
       <container2>
 	<type>date_figure</type>
-	<title>Rough ana [mbar]</title>
+	<title>Roughing pressures [mbar]</title>
 	<!-- <bgcolor>#E7E7E7</bgcolor>-->
 	<width>420</width>
 	<height>300</height>
@@ -463,17 +477,29 @@
 	<figure>
 	  <plot0>
 	    <data_channel>rasppi98:omicron_roughing_1_ana</data_channel>
-	    <label>Load lock pressure [mbar]</label>
+	    <label>Rough ana [mbar]</label>
 	    <color>#088A08</color>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_roughing_1_ana") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
+	  <plot1>
+	    <data_channel>rasppi98:omicron_roughing_2_prep</data_channel>
+	    <label>Rough prep [mbar]</label>
+	    <color>#00FF00</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_roughing_2_prep") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot1>
+	  <plot2>
+	    <data_channel>rasppi98:omicron_roughing_3_diff</data_channel>
+	    <label>Rough diff [mbar]</label>
+	    <color>#D7DF01</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_roughing_3_diff") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot2>
 	</figure>
       </container2>
 
       <!-- Container 2, contains the second plot -->
       <container3>
 	<type>date_figure</type>
-	<title>Rough prep [mbar]</title>
+	<title>Nanobeam pressure [mbar]</title>
 	<!-- <bgcolor>#E7E7E7</bgcolor>-->
 	<width>420</width>
 	<height>300</height>
@@ -490,10 +516,10 @@
 	</data_reduction>
 	<figure>
 	  <plot0>
-	    <data_channel>rasppi98:omicron_roughing_2_prep</data_channel>
-	    <label>Rough prep [mbar]</label>
-	    <color>#000000</color>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_roughing_2_prep") and unix_timestamp(time) > {from}</old_data_query>
+	    <data_channel>rasppi08:omicron_nanobeam_pressure</data_channel>
+	    <label>Main pressure [mbar]</label>
+	    <color>#00AAA0</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_nanobeam_pressure") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
 	</figure>
       </container3>
@@ -501,13 +527,13 @@
       <!-- Container 2, contains the second plot -->
       <container4>
 	<type>date_figure</type>
-	<title>Rough diff [mbar]</title>
+	<title>Nanobeam temperature [C]</title>
 	<!-- <bgcolor>#E7E7E7</bgcolor>-->
 	<width>420</width>
 	<height>300</height>
 	<jump_ahead>0.3</jump_ahead>
 	<x_window>3600</x_window>
-	<logscale>true</logscale>
+	<logscale>false</logscale>
 	<!-- Experimental, to fix bad y-range selection with log plot and
 	     constant values -->
 	<!-- <yrangepad>10</yrangepad> -->
@@ -518,10 +544,10 @@
 	</data_reduction>
 	<figure>
 	  <plot0>
-	    <data_channel>rasppi98:omicron_roughing_3_diff</data_channel>
-	    <label>Rough diff [mbar]</label>
-	    <color>#D7DF01</color>
-	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_roughing_3_diff") and unix_timestamp(time) > {from}</old_data_query>
+	    <data_channel>rasppi08:omicron_nanobeam_temperature</data_channel>
+	    <label>Temperature [C]</label>
+	    <color>#17DF01</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_omicron where type=(SELECT id FROM dateplots_descriptions where codename="omicron_nanobeam_temperature") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot0>
 	</figure>
       </container4>
