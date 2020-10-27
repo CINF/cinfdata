@@ -42,14 +42,17 @@ foreach (array('left_plotlist', 'right_plotlist') as $list){
 $from_to  = $_GET['from'] . ',' . $_GET['to'];
 
 ### Plugin settings
-$mysqli = std_dbi();
+$db = std_db();
 $plugin_settings_json = html_entity_decode($_GET['plugin_settings']);
-$plugin_settings_json = $mysqli->real_escape_string($plugin_settings_json);
 # Form intry in input table and get ID
 
-$query = "INSERT INTO plot_com_in (input) values ('$plugin_settings_json')";
-$mysqli->query($query);
-$input_id = $mysqli->insert_id;
+$query = "INSERT INTO plot_com_in (input) values (:plugin_settings)";
+$stmt = $db->prepare($query);
+$stmt->bindParam (":plugin_settings", $plugin_settings_json, PDO::PARAM_STR);
+$stmt->execute();
+
+$stmt = $db->query("SELECT LAST_INSERT_ID()");
+$input_id = $stmt->fetchColumn();
 
 # Call python plot backend
 $command = './plot.py --type ' . $_GET['type'] .
@@ -64,7 +67,6 @@ $command = './plot.py --type ' . $_GET['type'] .
   ' --manual_labels_n_titel "' . $manual_labels_n_titel . '"' .
   ' --input_id "' . $input_id . '"' .
   ' 2>&1';
-
 # Grab raw output of python plotting command
 ob_start();
 passthru($command, $return_code);
@@ -120,7 +122,6 @@ if ($content_type == "unknown"){
 if ($_GET['debug'] == 'checked'){
   $content_type = 'debug';
 }
-
 switch ($content_type) {
 case "png":
   header('Content-type: image/png');

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 This file is part of the CINF Data Presentation Website
@@ -31,10 +31,13 @@ from datetime import datetime
 from graphsettings import graphSettings
 import re
 import json
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import traceback
 import cgi
-
+import xmltodict
 
 class dataBaseBackend():
     ''' This class will fetch measurement data and measurement information from the
@@ -57,11 +60,17 @@ class dataBaseBackend():
                              'to': self.o['from_to'][1]}
         self.plotlist = self.o['left_plotlist'] + self.o['right_plotlist']
 
+        
+        with open('../site_settings.xml') as fd:
+            settings = xmltodict.parse(fd.read())
+        settings = settings['db_settings']
+
         # Create MySQL session and cursor
-        self.conn = MySQLdb.connect(host='servcinf-sql',
-                                    user="cinf_reader",
-                                    passwd="cinf_reader",
-                                    db="cinfdata")
+        self.conn = MySQLdb.connect(host=settings['db_host'],
+                                    user=settings['db_user'],
+                                    passwd=settings['db_password'],
+                                    db=settings['db_database'],
+                                    charset = 'utf8')
         self.cursor = self.conn.cursor()
         self.data = None
 
@@ -200,9 +209,9 @@ class dataBaseBackend():
         query = 'SELECT input FROM plot_com_in WHERE id={0}'.\
             format(self.o['input_id'])
         self.cursor.execute(query)
-        input_settings = json.loads(self.cursor.fetchall()[0][0])
+        input_settings = json.loads(self.cursor.fetchall()[0][0].decode())
         # Get the output_id
-        output_id = input_settings.pop('output_id')
+        output_id = int(input_settings.pop('output_id'))
 
         # Check if there are any plugins to be run
         run_plugins = False
@@ -237,10 +246,13 @@ class dataBaseBackend():
         # Send the output, if any, to the db
         if output_id > -1:
             output_string = json.dumps(output)
-            query = "UPDATE plot_com_out SET output=%s WHERE id={0}".format(output_id)
-            self.cursor.execute(query, (output_string))
-            self.conn.commit()
-
+            query = "UPDATE plot_com_out SET output='{0}' WHERE id={1}".format(output_string, output_id)
+            try:
+                #self.cursor.execute(query, (output_string))
+                self.cursor.execute(query)
+                self.conn.commit()
+            except:
+                raise Exception(query)
         # Restore stdout
         sys.stdout = oldout
 

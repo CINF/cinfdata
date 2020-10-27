@@ -21,9 +21,7 @@
 
 include("graphsettings.php");
 include("../common_functions_v2.php");
-
 $db = std_db();
-$mysqli = std_dbi();
 $type = $_GET["type"];
 $settings = plot_settings($type);
 if (empty($settings)){
@@ -33,8 +31,8 @@ if (empty($settings)){
 
 // Get the id-number and timestamp of the newest measurement
 $query = "SELECT id, " . $settings["grouping_column"] . " FROM " . $settings["measurements_table"] . " where type = " . $settings["type"] . " order by time desc limit 1";
-$latest_id = single_sql_value($db,$query,0);
-$latest_time = single_sql_value($db,$query,1);
+$latest_id = single_sql_value($db, $query, 0);
+$latest_time = single_sql_value($db, $query, 1);
 
 // If graphsettings.xml do not have a specific grouping column setting we will default to "time"
 if(in_array("grouping_column",array_keys($settings)) != "1"){
@@ -89,8 +87,8 @@ if (array_key_exists("plugins", $settings)){
 // Make an entry in the plot_com_out table for the output from the plugins
 if ($produce_output){
   $query = "INSERT INTO plot_com_out (output) values ('')";
-  $mysqli->query($query);
-  $plugin_settings['output_id'] = $mysqli->insert_id;
+  $db->query($query);
+  $plugin_settings['output_id'] = $db->lastInsertId();
 } else {
   $plugin_settings['output_id'] = -1;
 }
@@ -105,12 +103,12 @@ function microtime_float()
 }
 
 // Get all available measurements to populate selection boxes
-$query = "SELECT distinct " . $settings["grouping_column"] . ", comment FROM " .  $settings["measurements_table"] . " where type = " . $settings["type"] . " order by time desc, id limit 25000";
-$result  = mysql_query($query,$db);
-  while ($row = mysql_fetch_array($result)){
+$query = "SELECT distinct " . $settings["grouping_column"] . ", comment FROM " .  $settings["measurements_table"] . " where type = " . $settings["type"] . " order by time desc limit 25000";
+
+foreach ($db->query($query) as $row){
     $datelist[] = $row[0];
     $commentlist[] = $row[1];
-  }
+}
 
 // $chosen_group is the list of timestamps that is currently active. This is either the timestamplist from the url or the latest measurement
 $sql_times = "";
@@ -123,10 +121,9 @@ $sql_times  = substr($sql_times, 0, -1);  // Remove the trailing comma
 $query = "SELECT id, time, " . $settings["label_column"] . " FROM " .  $settings["measurements_table"] . " where " . $settings["grouping_column"] . " in (" . $sql_times . ") and type = " . $settings["type"] . " order by " . $settings["sort_dataset_by_column"] . " desc, id limit 20000";
 
 // replace \ with \\ in comments (Some setups have bad habits...)
-$query = str_replace("\\","\\\\",$query);
+$query = str_replace("\\","\\\\", $query);
 
-$result  = mysql_query($query,$db);
-while ($row = mysql_fetch_array($result)){
+foreach ($db->query($query) as $row){
     $individ_idlist[] = $row[0];
     $individ_datelist[] = $row[1];
     $individ_labellist[] = $row[2];
@@ -420,8 +417,10 @@ if (array_key_exists("plugins", $settings))
 	      foreach($plotlist as $id){
 	        echo("<div class=\"infobox\">");
 		$query = "SELECT * from {$settings['measurements_table']} WHERE id=$id";
-		$result = mysql_query($query);
-		$meta = mysql_fetch_array($result);
+		$stmt = $db->prepare($query);
+		$stmt->execute();
+		$meta = $stmt->fetch(PDO::FETCH_ASSOC);
+
 		if (in_array("mandatory_export_fields", array_keys($settings)) == "1"){
 		  $keys = array_keys($settings["mandatory_export_fields"]);
 		  natsort($keys);

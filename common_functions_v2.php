@@ -1,26 +1,19 @@
 <?php
-
 date_default_timezone_set("Europe/Copenhagen");
 
 /** Returns a handle to the standard database
     @return object 
   */
-function std_db($user = "cinf_reader"){
-    //$db = mysql_connect("localhost", "root", "CINF123");  
-    //$db = mysql_connect("localhost", "cinf_reader", "cinf_reader");
-    $db = mysql_connect("servcinf-sql", $user, $user);
-    mysql_select_db("cinfdata",$db);
-    return($db);
+function std_db(){
+  $xml=simplexml_load_file("../site_settings.xml");
+  $conn_str = 'mysql:host=' . $xml->db_host . ';dbname=' . $xml->db_database . ';charset=utf8';
+  $pdo = new PDO($conn_str, $xml->db_user, $xml->db_password);
+  return $pdo;
 }
 
-function std_dbi($user = "cinf_reader"){
-  $mysqli = new mysqli("servcinf-sql", $user, $user, "cinfdata");
-  return $mysqli;
-}
-
-function single_sql_value($db,$query,$column){
-    $result  = mysql_query($query,$db);
-    $row = mysql_fetch_array($result);
+function single_sql_value($db, $query, $column){
+    $stmt = $db->prepare($query);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $value = $row[$column];
     return($value);
 }
