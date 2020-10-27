@@ -424,10 +424,11 @@ class CheckAlarms(object):
                     ).format(repr(exp), arguments)
                 body = message + body
 
+        sender = 'Floormanagers@fysik.dtu.dk' # 'no-reply@fysik.dtu.dk'
         msg = MIMEText(body)
         # Header info
         msg['Subject'] = subject
-        msg['From'] = 'no-reply@fysik.dtu.dk'
+        msg['From'] = sender
         msg['To'] = ', '.join(recipients)
         msg['Reply-To'] = ', '.join(recipients)
 
@@ -436,7 +437,7 @@ class CheckAlarms(object):
         while attempts < 3:
             try:
                 smtp_server = smtplib.SMTP(self._smtp_server_address)
-                smtp_server.sendmail('no-reply@fysik.dtu.dk', recipients, msg.as_string())
+                smtp_server.sendmail(sender, recipients, msg.as_string())
                 smtp_server.quit()
                 break
             except smtplib.SMTPException:
