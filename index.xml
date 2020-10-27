@@ -345,6 +345,10 @@
       <title>Temperatures</title>
       <ref>mgw/dateplot.php?type=multidateplot&amp;left_plotlist[]=4&amp;left_plotlist[]=6&amp;left_plotlist[]=7&amp;left_plotlist[]=8&amp;left_plotlist[]=9&amp;left_plotlist[]=10&amp;left_plotlist[]=11&amp;left_plotlist[]=12</ref>
     </link>
+    <link>
+      <title>Live page</title>
+      <ref>mgw/live.php?type=live_page</ref>
+    </link>
   </setup>
 
   <!--PV Setup-->
