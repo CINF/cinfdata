@@ -810,6 +810,10 @@
       <title>Chiller Flow</title>
       <ref>uhv_sputterchamber/dateplot.php?type=multidateplot&amp;left_ymin=0&amp;left_ymax=0&amp;left_plotlist[]=4&amp;right_ymin=0&amp;right_ymax=0</ref>
     </link>
+    <link>
+      <title>Live Pressures</title>
+      <ref>uhv_sputterchamber/live.php?type=live_pressures</ref>
+    </link>
   </setup>
 
 

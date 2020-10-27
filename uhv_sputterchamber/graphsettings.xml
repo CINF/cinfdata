@@ -207,6 +207,111 @@
     </linscale_right_y0>
   </graph>
 
+  <graph type="live_pressures">
+    <page_width>1280</page_width>
+    <page_title>UHV Sputterchamber Live Plots</page_title> <!-- option page title -->
+    <containers>
+
+      <!-- Container 1, contains the second plot -->
+      <container0>
+	<type>date_figure</type>
+	<min_update_time>1</min_update_time>
+	<title>Main Chamber Pressure [mbar]</title>
+	<!--<bgcolor>#E7E7E7</bgcolor>-->
+	<width>700</width>
+	<height>500</height>
+	<jump_ahead>0.3</jump_ahead>
+	<x_window>3600</x_window>
+	<logscale>true</logscale>
+	<!-- Experimental, to fix bad y-range selection with log plot and
+	     constant values -->
+	<!-- <yrangepad>10</yrangepad> -->
+	<line_width>3</line_width>
+	<format>.1e</format>
+	<data_reduction>
+	  <time>600</time>
+	  <relative>0.05</relative>
+	</data_reduction>
+	<figure>
+	  <plot0>
+	    <data_channel>rasppi96:uhv_sputterchamber_pressure_iongauge</data_channel>
+	    <label>Main chamber pressure [mbar]</label>
+	    <color>#0000FF</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_uhv_sputterchamber where type=(SELECT id FROM dateplots_descriptions where codename="uhv_sputterchamber_pressure_iongauge") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot0>
+	</figure> 
+      </container0>
+
+      <container1>
+	<type>table</type>
+	<!--<bgcolor>#FF00FF</bgcolor>-->
+	<width>550</width>
+	<height>500</height>
+	<fontsize>24</fontsize>
+	<!--<show_diff>true</show_diff>-->
+	<data>
+	  <item0>
+	    <data_channel>rasppi96:uhv_sputterchamber_pressure_iongauge</data_channel>
+	    <label>Main Ion Gauge</label>
+	    <color>#0000FF</color>
+	    <format>.2e</format>
+	    <unit>mbar</unit>
+	  </item0>
+	  <item1>
+	    <data_channel>rasppi96:uhv_sputterchamber_rough_pressure</data_channel>
+	    <label>Main Turbo Rough</label>
+	    <color>#FF0000</color>
+	    <format>.2e</format>
+	    <unit>mbar</unit>
+	  </item1>
+	  <item2>
+	    <data_channel>rasppi96:uhv_sputterchamber_pressure_pirani</data_channel>
+	    <label>Main Pirani</label>
+	    <color>#088A08</color>
+	    <format>.2e</format>
+	    <unit>mbar</unit>
+	  </item2>
+	  <item3>
+	    <data_channel>rasppi96:uhv_sputterchamber_baratron_pressure</data_channel>
+	    <label>Main Baratron</label>
+	    <color>#000000</color>
+	    <format>.2e</format>
+	    <unit>mbar</unit>
+	  </item3>
+	</data>
+      </container1>
+      <container2>
+	<type>date_figure</type>
+	<min_update_time>1</min_update_time>
+	<title>Rough Pressures [mbar]</title>
+	<!--<bgcolor>#E7E7E7</bgcolor>-->
+	<width>700</width>
+	<height>500</height>
+	<jump_ahead>0.3</jump_ahead>
+	<x_window>3600</x_window>
+	<logscale>true</logscale>
+	<!-- Experimental, to fix bad y-range selection with log plot and
+	     constant values -->
+	<!-- <yrangepad>10</yrangepad> -->
+	<line_width>3</line_width>
+	<format>.1e</format>
+	<data_reduction>
+	  <time>600</time>
+	  <relative>0.05</relative>
+	</data_reduction>
+	<figure>
+	  <plot0>
+	    <data_channel>rasppi96:uhv_sputterchamber_rough_pressure</data_channel>
+	    <label>Main chamber turbo roughing pressure [mbar]</label>
+	    <color>#FF0000</color>
+	    <old_data_query>select unix_timestamp(time), value from dateplots_uhv_sputterchamber where type=(SELECT id FROM dateplots_descriptions where codename="uhv_sputterchamber_rough_pressure") and unix_timestamp(time) > {from}</old_data_query>
+	  </plot0>
+	</figure>
+      </container2>
+    </containers>
+  </graph>
+
+
   <global_settings>
     <measurements_table>measurements_uhv_sputterchamber</measurements_table>
     <xyvalues_table>xy_values_uhv_sputterchamber</xyvalues_table>
