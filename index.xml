@@ -126,6 +126,10 @@
   <setup codename="furnaceroom">
     <setup_title>Furnace room</setup_title>
     <link>
+      <title>Live temperatures, furnace 1</title>
+      <ref>furnaceroom/live.php?type=livetemperatures</ref>
+    </link>
+    <link>
       <title>Temperature, furnace 1</title>
       <ref>furnaceroom/dateplot.php?type=multidateplot&amp;left_plotlist[]=1</ref>
     </link>

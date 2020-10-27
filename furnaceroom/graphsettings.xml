@@ -64,8 +64,72 @@
       <ylabel>Dutycycle</ylabel>
       <color>6</color>
     </dateplot6>
+  </graph>
 
-
+  <graph type="livetemperatures">
+    <page_width>1280</page_width>
+    <page_title>Furnace 1 b307 r149 - Temperatures</page_title> <!-- option page title -->
+    <containers>
+ <!-- Container 1, contains the second plot -->
+      <container0>
+	<type>date_figure</type>
+	<min_update_time>1</min_update_time>
+	<title>Temperatures [Celcius]</title>
+	<!--<bgcolor>#E7E7E7</bgcolor>-->
+	<width>700</width>
+	<height>500</height>
+	<jump_ahead>0.3</jump_ahead>
+	<x_window>3600</x_window>
+	<logscale>false</logscale>
+	<!-- Experimental, to fix bad y-range selection with log plot and
+	          constant values -->
+	<!-- <yrangepad>10</yrangepad> -->
+	<yrangepad>100</yrangepad>
+	<line_width>3</line_width>
+	<format>.1f</format>
+	<data_reduction>
+	    <time>600</time>
+	      <relative>0.05</relative>
+	      </data_reduction>
+	<figure>
+	    <plot0>
+	          <data_channel>rasppi88:fr307_furnace_1_T</data_channel>
+		      <label>Main temperature [C]</label>
+		          <color>#0000FF</color>
+			      <old_data_query>select unix_timestamp(time), value from dateplots_furnaceroom307 where type=(SELECT id FROM dateplots_descriptions where codename="fr307_furnace_1_T") and unix_timestamp(time) > {from}</old_data_query>
+			        </plot0>
+	      <plot1>
+		    <data_channel>rasppi88:fr307_furnace_2_T</data_channel>
+		        <label>Secondary temperature [C]</label>
+			    <color>#FF0000</color>
+			        <old_data_query>select unix_timestamp(time), value from dateplots_furnaceroom307 where type=(SELECT id FROM dateplots_descriptions where codename="fr307_furnace_2_T") and unix_timestamp(time) > {from}</old_data_query>
+				  </plot1>
+	      </figure>
+      </container0>
+      <container1>
+	<type>table</type>
+	<width>580</width>
+	<height>500</height>
+	<fontsize>24</fontsize>
+	<!--<show_diff>true</show_diff>-->
+	<data>
+	  <item0>
+	    <data_channel>rasppi88:fr307_furnace_1_T</data_channel>
+	    <label>Main temperature</label>
+	    <color>#0000FF</color>
+	    <format>.1f</format>
+	    <unit>C</unit>
+	  </item0>
+	  <item1>
+	    <data_channel>rasppi88:fr307_furnace_2_T</data_channel>
+	    <label>Secondary temperature</label>
+	    <color>#FF0000</color>
+	    <format>.1f</format>
+	    <unit>C</unit>
+	  </item1>
+	</data>
+      </container1>
+    </containers>
   </graph>
 
   <global_settings>
