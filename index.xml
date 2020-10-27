@@ -139,6 +139,15 @@
     </link>
   </setup>
 
+  <!--Furnace in B312-->
+  <setup codename="furnace312">
+    <setup_title>Furnace in B312</setup_title>
+    <link>
+      <title>Temperatures</title>
+      <ref>furnace312/dateplot.php?type=multidateplot&amp;left_plotlist[]=2</ref>
+    </link>
+  </setup>
+
   <!--Gas alarm, 307-->
   <setup codename="gasalarm307">
     <setup_title>Gas alarm, 307</setup_title>
