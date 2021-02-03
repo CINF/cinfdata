@@ -38,7 +38,8 @@ class OverflowFilter(object):
             if diff > 0:
                 changes = True
                 print('{0} overflow values removed'.format(diff))
-
+            else:
+                print('No changes were made')
         if changes:
             message = 'Overflow data removed'
             self.label_additions['y_left_label_addition'] = message
@@ -70,7 +71,7 @@ class CalculateCoverage(object):
             # Don't apply to mass scans (contains x-data less than 3 "seconds")
             init_time_array = data['data'][:10, 0] < 3
             if not init_time_array.any():
-                msg = 'ID {0} "{1}" is considered a mass scan and skipped.'
+                msg = 'ID {0} "--{1}--" is considered a mass scan and skipped.'
                 print(msg.format(meta['id'], meta['Comment']))
                 continue
 

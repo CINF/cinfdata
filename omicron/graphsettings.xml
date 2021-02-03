@@ -210,7 +210,7 @@
     <grouping_column>time</grouping_column>
     <right_legend_suffix> (r)</right_legend_suffix>
     <default_xscale>lin</default_xscale>
-    <image_format>pdf</image_format>
+    <image_format>png</image_format>
     <type>10</type>
     <!-- queries -->
     <queries>
