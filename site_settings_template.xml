@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<db_settings>
+ <db_host>localhost</db_host>
+ <db_user>username</db_user>
+ <db_password>passwd</db_password>
+ <db_database>database_name</db_database>
+</db_settings>
