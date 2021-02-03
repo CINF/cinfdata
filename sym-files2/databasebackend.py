@@ -228,7 +228,7 @@ class dataBaseBackend():
         sys.path = old_path
 
         # Remove the plugins from settings that should not be run
-        for name, settings in input_settings.items():
+        for name, settings in list(input_settings.items()):
             if settings.get('activate') != 'checked':
                 input_settings.pop(name)
 
@@ -317,7 +317,7 @@ class dataBaseBackend():
             pass
         # If not html assume raw
         else:
-            outstr = cgi.escape(outstr.strip('\n'))
+            outstr = cgi.escape(outstr.strip('\n'), quote=True)
             outstr = '<pre>{0}</pre>'.format(outstr)
         return outstr
 

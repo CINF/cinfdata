@@ -2,7 +2,6 @@
 function fetchOutput(id){
     //document.getElementById("Factor_output").innerHTML = "Man";
     
-    console.log('NOW!');
     if (window.XMLHttpRequest){
         xmlhttp = new XMLHttpRequest();
     }
@@ -25,5 +24,4 @@ function fetchOutput(id){
     }
     xmlhttp.open("GET", "get_output.php?output_id=".concat(id), true); //retrieve data from MySQL using PHP
     xmlhttp.send();
-    
 }

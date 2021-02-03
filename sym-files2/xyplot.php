@@ -28,7 +28,6 @@ if (empty($settings)){
   echo("Type \"$type\" not found in graphsettings.xml. Bailing out!");
   exit(42);
 }
-
 // Get the id-number and timestamp of the newest measurement
 $query = "SELECT id, " . $settings["grouping_column"] . " FROM " . $settings["measurements_table"] . " where type = " . $settings["type"] . " order by time desc limit 1";
 $latest_id = single_sql_value($db, $query, 0);
@@ -171,12 +170,15 @@ foreach(array('left_plotlist', 'right_plotlist') as $value){
   }
 }
 
-// ... and the seialized pluging settings
+// ... and the serialized pluging settings
 $options_line .= '&plugin_settings=' . htmlentities(json_encode($plugin_settings));
 
 // ... and append imageformat to them
+//         Generate shown figure
 $plot_php_line = 'plot.php?type=' . $type . $options_line . '&image_format=' . 'png';
+//         Link to follow if figure is clicked
 $plot_php_line_graph = 'plot.php?type=' . $type . $options_line . '&image_format=' . $settings['image_format'];
+//         Link to export data:
 $export_php_line = 'export_data.php?type=' . $type . $options_line . '&image_format=' . 'png';
 
 // Read page charset from graphsettings.xml
@@ -312,7 +314,7 @@ function display_plugin($name, $plugin){
   echo("$plugin[title]: <input type=\"checkbox\" name=\"plugin_settings[{$name}][activate]\" value=\"checked\" $activated><br>\n");
   # If this array takes input
   if (array_key_exists("input", $plugin)){
-    $plugin['size'] = isset($plugin['size']) ? $plugin['size']-1.3 : '10';
+    $plugin['size'] = isset($plugin['size']) ? $plugin['size']-1.3 : '10'; // set width of input field
     $input = isset($my_plugin["input"]) ? $my_plugin["input"] : "";
     echo("$plugin[input]: <input name=\"plugin_settings[{$name}][input]\" type=\"text\" value=\"$input\" style=\"width:$plugin[size]%\"><br>\n");
   }
@@ -352,7 +354,6 @@ if (array_key_exists("plugins", $settings))
   <b>y-max:</b><input name="right_ymax" type="text" size="7" value="<?php echo($right_ymax);?>"><br>
 </div>
 <div style="clear: both;"></div>
-
 <div id="list_components">
   <div id="left_y">
     <!--LEFT Y COMPONENTS-->
@@ -379,7 +380,7 @@ if (array_key_exists("plugins", $settings))
                        }
 		       ?>
 	 </select>
-  </div>   
+  </div>
 </div>
           <div id="list_measurements">
            <!--LIST OF MEASUREMENTS-->

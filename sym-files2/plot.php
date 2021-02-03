@@ -31,9 +31,11 @@ $manual_labels_n_titel = 'title=' . $_GET['title'] . ',xlabel=' . $_GET['xlabel'
 $left_plotlist = ''; $right_plotlist = '';
 foreach (array('left_plotlist', 'right_plotlist') as $list){
   $$list = '';
-  if (count($_GET[$list]) > 0){
-    foreach($_GET[$list] as $id){
-      $$list .= ',' . $id;
+  if (is_array($_GET[$list])){
+    if (count($_GET[$list]) > 0){
+      foreach($_GET[$list] as $id){
+        $$list .= ',' . $id;
+      }
     }
   }
 }
@@ -44,7 +46,7 @@ $from_to  = $_GET['from'] . ',' . $_GET['to'];
 ### Plugin settings
 $db = std_db();
 $plugin_settings_json = html_entity_decode($_GET['plugin_settings']);
-# Form intry in input table and get ID
+# Form entry in input table and get ID
 
 $query = "INSERT INTO plot_com_in (input) values (:plugin_settings)";
 $stmt = $db->prepare($query);

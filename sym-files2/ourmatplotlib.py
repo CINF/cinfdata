@@ -118,7 +118,7 @@ class Plot():
         self.fig = plt.figure(1)
         self.ax1 = self.fig.add_subplot(111)
 
-        # We only activate the right y-axis, if there there points to put on it
+        # We only activate the right y-axis, if there are points to put on it
         self.right_yaxis = sum([len(dat['data']) for dat in data['right']]) > 0
 
         if self.right_yaxis:
@@ -369,11 +369,11 @@ class Plot():
         tight = ''
         if 'title' in plot_info:
             tight = 'tight'
-        # For some wierd reason we cannot write directly to sys.stdout when it
+        # For some weird reason we cannot write directly to sys.stdout when it
         # is a pdf file, so therefore we use a the StringIO object workaround
         if self.o['image_format'] == 'pdf':
-            import StringIO
-            out = StringIO.StringIO()
+            import io
+            out = io.StringIO()
             self.fig.savefig(out, bbox_inches=tight, pad_inches=0.03,
                              format=self.o['image_format'])
             sys.stdout.write(out.getvalue())

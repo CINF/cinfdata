@@ -19,6 +19,14 @@
     <http://www.gnu.org/licenses/>.
   */
 
+  /*
+  PURPOSE
+    This script fetches plugin output from the database and relays the contents to
+    the requesting web page. Anything that is written from this script is relayed
+    via a XMLHttpRequest "text" response type. Make sure that only a valid JSON
+    object is printed in this script - this is expected on the other end.
+  */
+
 include("../common_functions_v2.php");
 date_default_timezone_set("Europe/Copenhagen");
 include("graphsettings.php");
@@ -32,7 +40,10 @@ $stmt->execute();
 
 if ($stmt->rowCount() == 1){
   $line = $stmt->fetch(PDO::FETCH_BOTH);;
-  print_r($line[0]);
+  // ensure newlines and tabs are not mistranslated in the XMLHttpRequest
+  $replace_from = Array("\n", "\t");
+  $replace_to = Array("<br>", "    ");
+  print_r(str_replace($replace_from, $replace_to, $line[0])); // <-- return JSON object
 } else {
   echo("no output");
 }
