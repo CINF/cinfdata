@@ -176,13 +176,13 @@
 	  </plot0>
 	  <plot1>
             <color>#0000FF</color>
-	    <data_channel>rasppi124:read_main_pressure_NG</data_channel>
+	    <data_channel>rasppi124:IGMC</data_channel>
             <label>Ion Gauge / mbar</label>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_microreactorNG where type=(SELECT id FROM dateplots_descriptions where codename="microreactorng_pressure") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot1>
 	  <plot2>
             <color>#00BB00</color>
-	    <data_channel>rasppi124:read_containment_pressure_NG</data_channel>
+	    <data_channel>rasppi124:CNV3</data_channel>
             <label>Containment Pressure / mbar</label>
 	    <old_data_query>select unix_timestamp(time), value from dateplots_microreactorNG where type=(SELECT id FROM dateplots_descriptions where codename="microreactorng_pressure_containment") and unix_timestamp(time) > {from}</old_data_query>
 	  </plot2>
