@@ -16,22 +16,28 @@ foreach (array('left_logscale', 'right_logscale', 'matplotlib', 'small_plot',
 	       'linscale_x1', 'linscale_x2', 'linscale_right_y0',
 	       'linscale_right_y1', 'linscale_right_y2',
 	       'diff_right_y') as $value){
-  $boolean_options .= ',' . $value . ':' . $_GET[$value];
+  $boolean_options .= ',' . $value . ':' . ($_GET[$value] ?? False);
 }
 
 # Scales
 $left_yscale_bounding = $_GET['left_ymin'] . ',' . $_GET['left_ymax'];
 $right_yscale_bounding = $_GET['right_ymin'] . ',' . $_GET['right_ymax'];
-$xscale_bounding = $_GET['xmin'] . ',' . $_GET['xmax'];
+// $xscale_bounding = $_GET['xmin'] . ',' . $_GET['xmax'];
+$xscale_bounding = ($_GET['xmin'] ?? '') . ',' . ($_GET['xmax'] ?? '');
+
 # Strings
 $image_format = $_GET['image_format'];
-$manual_labels_n_titel = 'title=' . $_GET['title'] . ',xlabel=' . $_GET['xlabel'] .
-  ',left_ylabel=' . $_GET['left_ylabel'] . ',right_ylabel=' . $_GET['right_ylabel'];
+$title = $_GET['title'] ?? '';
+$xlabel = $_GET['xlabel'] ?? '';
+$left_ylabel = $_GET['left_ylabel'] ?? '';
+$right_ylabel = $_GET['right_ylabel'] ?? '';
+$manual_labels_n_titel = 'title=' . $title . ',xlabel=' . $xlabel .
+  ',left_ylabel=' . $left_ylabel . ',right_ylabel=' . $right_ylabel;
 # Plotlists
 $left_plotlist = ''; $right_plotlist = '';
 foreach (array('left_plotlist', 'right_plotlist') as $list){
   $$list = '';
-  if (is_array($_GET[$list])){
+  if (is_array($_GET[$list] ?? '')){
     if (count($_GET[$list]) > 0){
       foreach($_GET[$list] as $id){
         $$list .= ',' . $id;
@@ -45,7 +51,9 @@ $from_to  = $_GET['from'] . ',' . $_GET['to'];
 
 ### Plugin settings
 $db = std_db();
-$plugin_settings_json = html_entity_decode($_GET['plugin_settings']);
+
+$plugin_settings = $_GET['plugin_settings'] ?? '';
+$plugin_settings_json = html_entity_decode($plugin_settings);
 # Form entry in input table and get ID
 
 $query = "INSERT INTO plot_com_in (input) values (:plugin_settings)";
@@ -121,7 +129,8 @@ if ($content_type == "unknown"){
   }
 }
 
-if ($_GET['debug'] == 'checked'){
+$debug = $_GET['debug'] ?? '';
+if ($debug == 'checked'){
   $content_type = 'debug';
 }
 switch ($content_type) {
