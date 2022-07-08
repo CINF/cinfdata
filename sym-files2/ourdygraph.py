@@ -146,8 +146,15 @@ class Plot():
             # Loop over points in that series
             for index, item in enumerate(dat['data']):
                 if index % self.reduction == 0:
+                    # Dygraph will interpret x-values as dates if the first x value has a string
+                    # length of 8 unless negative
+                    x = str(item[0])
+                    if n == 0 and index == 0:
+                        if len(x) == 8: # Prepend a zero
+                            if not x[0] == "-":
+                                x = '0' + x
                     # Insert x in column 0 and y in appropriate column
-                    this_line[0] = str(item[0])
+                    this_line[0] = x
                     this_line[n+1] = str(item[1])
                     out.write(','.join(this_line) + '\n')
 
