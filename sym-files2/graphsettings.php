@@ -72,15 +72,14 @@ function plot_settings($type, $params="", $ignore_invalid_type=False, $gs_file='
   if (!$type_found and !$ignore_invalid_type){
     return NULL;
   }
-  
-  
-  if (gettype($params) == 'array'){
-    foreach($settings as $s_key => $s_value){
-      foreach($params as $p_key => $p_value){
-	$settings[$s_key] = str_replace('{'.$p_key.'}', $p_value, $settings[$s_key]);
-      }
-    }
-  }
+
+  // if (gettype($params) == 'array'){
+  //   foreach($settings as $s_key => $s_value){
+  //     foreach($params as $p_key => $p_value){
+  //       $settings[$s_key] = str_replace('{'.$p_key.'}', $p_value, $settings[$s_key]);
+  //     }
+  //   }
+  // }
   
   return $settings;
   }
