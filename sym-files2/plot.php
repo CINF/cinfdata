@@ -20,13 +20,12 @@ foreach (array('left_logscale', 'right_logscale', 'matplotlib', 'small_plot',
 }
 
 # Scales
-$left_yscale_bounding = $_GET['left_ymin'] . ',' . $_GET['left_ymax'];
-$right_yscale_bounding = $_GET['right_ymin'] . ',' . $_GET['right_ymax'];
-// $xscale_bounding = $_GET['xmin'] . ',' . $_GET['xmax'];
+$left_yscale_bounding = ($_GET['left_ymin'] ?? '') . ',' . ($_GET['left_ymax'] ?? '');
+$right_yscale_bounding = ($_GET['right_ymin'] ?? '') . ',' . ($_GET['right_ymax'] ?? '');
 $xscale_bounding = ($_GET['xmin'] ?? '') . ',' . ($_GET['xmax'] ?? '');
 
 # Strings
-$image_format = $_GET['image_format'];
+$image_format = ($_GET['image_format'] ?? '');
 $title = $_GET['title'] ?? '';
 $xlabel = $_GET['xlabel'] ?? '';
 $left_ylabel = $_GET['left_ylabel'] ?? '';
@@ -47,7 +46,7 @@ foreach (array('left_plotlist', 'right_plotlist') as $list){
 }
 
 ### Dateplot specific
-$from_to  = $_GET['from'] . ',' . $_GET['to'];
+$from_to  = ($_GET['from'] ?? '') . ',' . ($_GET['to'] ?? '');
 
 ### Plugin settings
 $db = std_db();
@@ -83,16 +82,17 @@ passthru($command, $return_code);
 $content_grabbed=ob_get_contents();
 ob_end_clean();
 
+$matplotlib = $_GET['matplotlib'] ?? '';
 # Python command generated an error, show output as clear text
 if ($return_code > 0){
-  if ($_GET['matplotlib'] == "checked"){echo("<pre>\n");}
+  if ($matplotlib == "checked"){echo("<pre>\n");}
   echo($content_grabbed);
-  if ($_GET['matplotlib'] == "checked"){echo("</pre>");}
+  if ($matplotlib == "checked"){echo("</pre>");}
   exit();
 }
 
 # If dygraph output the javascript code
-if ($_GET['matplotlib'] != "checked"){
+if ($matplotlib != "checked"){
   header('Content-type: text/javascript');
   echo($content_grabbed);
   exit();

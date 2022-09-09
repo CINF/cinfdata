@@ -37,17 +37,17 @@ if (array_key_exists('default_time', $uninit_settings)){
 $xscale = date_xscale(0, 0, $default_time);
 
 # Remember settings after submitting
-$from              = isset($_GET["from"])               ? $_GET["from"]           : $xscale["from"];
-$to                = isset($_GET["to"])                 ? $_GET["to"]             : $xscale["to"];
-$left_ymax         = isset($_GET["left_ymax"])          ? $_GET["left_ymax"]      : 0;
-$left_ymin         = isset($_GET["left_ymin"])          ? $_GET["left_ymin"]      : 0;
-$right_ymax        = isset($_GET["right_ymax"])         ? $_GET["right_ymax"]     : 0;
-$right_ymin        = isset($_GET["right_ymin"])         ? $_GET["right_ymin"]     : 0;
-$left_logscale     = isset($_GET["left_logscale"])      ? "checked"               : "";
-$right_logscale    = isset($_GET["right_logscale"])     ? "checked"               : "";
-$left_plotlist     = isset($_GET["left_plotlist"])      ? $_GET["left_plotlist"]  : array();
-$right_plotlist    = isset($_GET["right_plotlist"])     ? $_GET["right_plotlist"] : array();
-$matplotlib        = isset($_GET["matplotlib"])         ? "checked"               : "";
+$from              = !empty($_GET["from"])               ? $_GET["from"]           : $xscale["from"];
+$to                = !empty($_GET["to"])                 ? $_GET["to"]             : $xscale["to"];
+$left_ymax         = !empty($_GET["left_ymax"])          ? $_GET["left_ymax"]      : 0;
+$left_ymin         = !empty($_GET["left_ymin"])          ? $_GET["left_ymin"]      : 0;
+$right_ymax        = !empty($_GET["right_ymax"])         ? $_GET["right_ymax"]     : 0;
+$right_ymin        = !empty($_GET["right_ymin"])         ? $_GET["right_ymin"]     : 0;
+$left_logscale     = !empty($_GET["left_logscale"])      ? "checked"               : "";
+$right_logscale    = !empty($_GET["right_logscale"])     ? "checked"               : "";
+$left_plotlist     = !empty($_GET["left_plotlist"])      ? $_GET["left_plotlist"]  : array();
+$right_plotlist    = !empty($_GET["right_plotlist"])     ? $_GET["right_plotlist"] : array();
+$matplotlib        = !empty($_GET["matplotlib"])         ? "checked"               : "";
 
 # Get the fully initialized version of the settings
 $settings = plot_settings($type, Array("from" => $from, "to" => $to));
