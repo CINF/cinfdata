@@ -13,7 +13,8 @@ function std_db(){
 
 function single_sql_value($db, $query, $column){
     $stmt = $db->prepare($query);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->execute();
+    $row = $stmt->fetch();
     $value = $row[$column];
     return($value);
 }
@@ -61,10 +62,10 @@ function xscale($max,$min,$manual,$log){
     @return array
   */
 function date_xscale($from="",$to="",$defaulthours=24){
-  $xscale["to"] = date('Y-m-d H:i',time() + 60); // Default, 1 minute into the future, to be shure get the whole plot                         
+  $xscale["to"] = date('Y-m-d H:i',time() + 60 * 60 * 24 * 30); // Default, 1 month into the feature
   $xscale["from"] = date('Y-m-d H:i',time() - 60 * 60 * $defaulthours);
-  $xscale["from"] = ($from == "") ? $xscale["from"] : $from; // If we get an argument, skip the defaults
-  $xscale["to"] = ($to == "") ? $xscale["to"] : $to;
+  $xscale["from"] = empty($from) ? $xscale["from"] : $from; // If we get an argument, skip the defaults
+  $xscale["to"] = empty($to) ? $xscale["to"] : $to;
   return($xscale);
 }
 
