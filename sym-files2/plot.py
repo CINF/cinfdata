@@ -266,11 +266,10 @@ class Plot():
 
     def _legends_xyplot(self, data):
         """ Determine the legends for the xyplots """
-        # Find the legend reg exps                                                                                                  
+        # Find the legend reg exps
         reg_exp_tags = [k for k in self.ggs['legend'].keys()
                     if k.find('pattern') == 0]
         reg_exp_tags.sort()
-
         # Left legends
         for dat in data['left']:
             dat['lgs']['legend'] = self.ggs['legend']['default']
