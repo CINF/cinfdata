@@ -73,13 +73,28 @@ function plot_settings($type, $params="", $ignore_invalid_type=False, $gs_file='
     return NULL;
   }
 
-  // if (gettype($params) == 'array'){
-  //   foreach($settings as $s_key => $s_value){
-  //     foreach($params as $p_key => $p_value){
-  //       $settings[$s_key] = str_replace('{'.$p_key.'}', $p_value, $settings[$s_key]);
-  //     }
-  //   }
-  // }
+  // Handle the replacement of {label} markers in the settings
+  // This is a rather primitive non-recursive (works only to 2 levels deep, and
+  // this only by explicit handling of second level) way of doing it. Some happy
+  // day we should re-write this
+  if (gettype($params) == 'array'){
+    foreach($settings as $s_key => $s_value){
+      if (gettype($s_value) == 'array'){
+        foreach($s_value as $sub_s_key => $sub_s_value){
+          foreach($params as $p_key => $p_value){
+	    $settings[$s_key][$sub_s_key] = str_replace(
+	         '{'.$p_key.'}', $p_value, $settings[$s_key][$sub_s_key]);
+          }
+        }
+      }
+
+      if (gettype($s_value) == 'string'){
+        foreach($params as $p_key => $p_value){
+           $settings[$s_key] = str_replace('{'.$p_key.'}', $p_value, $settings[$s_key]);
+        }
+      }
+    }
+  }
   
   return $settings;
   }
