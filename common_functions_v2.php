@@ -27,8 +27,9 @@ function latest_sql_row($db, $query){
   if (strpos($query, " limit ") == false){
     $query .= " limit 1";
   }
-  $result  = mysql_query($query, $db);
-  $row = mysql_fetch_array($result);
+  $stmt = $db->prepare($query);
+  $stmt->execute();
+  $row = $stmt->fetch();
   return($row);
 }
 
