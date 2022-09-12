@@ -194,19 +194,19 @@ if ($matplotlib == 'checked'){
 	  <h3>Sql-statements for this graph, left side:</h3>
 	  <?php
 	     foreach ($left_plotlist as $index){
-	     $latest = latest_sql_row($db, $settings["dateplot" . $index]["query"]);
-	     echo("<p><b>Dateplot {$index}:</b><br>");
-	     echo("<b>Query: </b>" . $settings["dateplot" . $index]["query"] . "<br>");
-	     echo("<b>Latest value: </b>{$latest[1]}@" . date("Y-m-d H:i:s", $latest[0]) . "</p>");
+	       $latest = latest_sql_row($db, $settings["dateplot" . $index]["query"]);
+	       echo("<p><b>Dateplot {$index}:</b><br>");
+	       echo("<b>Query: </b>" . $settings["dateplot" . $index]["query"] . "<br>");
+	       echo("<b>Latest value: </b>{$latest[1]}@" . date("Y-m-d H:i:s", $latest[0]) . "</p>");
 	     }
 	     ?>
 	  <h3>Sql-statements for this graph, right side:</h3>
 	  <?php
 	     foreach ($right_plotlist as $index){
-	     $latest = latest_sql_row($db, $settings["dateplot" . $index]["query"]);
-	     echo("<p><b>Dateplot {$index}:</b><br>");
-	     echo("<b>Query: </b>" . $settings["dateplot" . $index]["query"] . "<br>");
-	     echo("<b>Latest value: </b>{$latest[1]}@" . date("Y-m-d H:i:s", $latest[0]) . "</p>");
+	       $latest = latest_sql_row($db, $settings["dateplot" . $index]["query"]);
+	       echo("<p><b>Dateplot {$index}:</b><br>");
+	       echo("<b>Query: </b>" . $settings["dateplot" . $index]["query"] . "<br>");
+	       echo("<b>Latest value: </b>{$latest[1]}@" . date("Y-m-d H:i:s", $latest[0]) . "</p>");
 	     }
 	     ?>
 	</div>
