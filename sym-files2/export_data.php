@@ -35,7 +35,7 @@ foreach (array('left_plotlist', 'right_plotlist') as $list){
 }
 
 ### Dateplot specific
-$from_to  = $_GET['from'] . ',' . $_GET['to'];
+$from_to  = ($_GET['from'] ?? '') . ',' . ($_GET['to'] ?? '');
 
 ### Plugin settings
 $db = std_db();
