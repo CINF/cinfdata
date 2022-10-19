@@ -22,13 +22,6 @@ along with The CINF Data Presentation Website.  If not, see
 """
 
 # db
-import MySQLdb
-from scipy import array
-from scipy.interpolate import interp1d
-import numpy as np
-#from time import mktime
-from datetime import datetime
-from graphsettings import graphSettings
 import re
 import json
 try:
@@ -36,8 +29,14 @@ try:
 except ImportError:
     from io import StringIO
 import traceback
-import cgi
+import html
+
+from scipy import array
+from scipy.interpolate import interp1d
+import numpy as np
+from graphsettings import graphSettings
 import xmltodict
+import MySQLdb
 
 class dataBaseBackend():
     ''' This class will fetch measurement data and measurement information from the
@@ -60,17 +59,18 @@ class dataBaseBackend():
                              'to': self.o['from_to'][1]}
         self.plotlist = self.o['left_plotlist'] + self.o['right_plotlist']
 
-        
         with open('../site_settings.xml') as fd:
             settings = xmltodict.parse(fd.read())
         settings = settings['db_settings']
 
         # Create MySQL session and cursor
-        self.conn = MySQLdb.connect(host=settings['db_host'],
-                                    user=settings['db_user'],
-                                    passwd=settings['db_password'],
-                                    db=settings['db_database'],
-                                    charset = 'utf8')
+        self.conn = MySQLdb.connect(
+            host=settings['db_host'],
+            user=settings['db_user'],
+            passwd=settings['db_password'],
+            db=settings['db_database'],
+            charset='utf8'
+        )
         self.cursor = self.conn.cursor()
         self.data = None
 
@@ -136,12 +136,11 @@ class dataBaseBackend():
                }
         return ret
 
-
     def _get_meta_info(self, gs, id_):
         # Fetch table headers from measurements table
         query = "DESCRIBE {0}".format(gs['measurements_table'])
         self.meas_table_headers = self._result_from_query(query)
-        
+
         # Fetch measurements table values
         query = "SELECT * FROM {0} WHERE ID = {1}".format(
             gs['measurements_table'],
@@ -153,7 +152,7 @@ class dataBaseBackend():
         return dict(
             [[header[0], value] for header, value in
              zip(self.meas_table_headers, table_contents[0])])
-        
+
     def _result_from_query(self, query):
         self.cursor.execute(query)
         return self.cursor.fetchall()
@@ -166,38 +165,50 @@ class dataBaseBackend():
             'xlabel_addition': '',
             'y_left_label_addition': '',
             'y_right_label_addition': '',
-            } 
+            }
         # Don't do data processing on date data
         if self.ggs['default_xscale'] == 'dat':
             return
-        # Run plugin(s) on data
-        self._plugins()
+
         # Convert the data to be as a function of ...
         if self.o['as_function_of']:
             self._as_function_of()
+
+        # Run plugin(s) on data
+        self._plugins()
+
         # Linearly scale x axis
-        if (self.o['linscale_x0'] or
-            self.o['linscale_x1'] or
-            self.o['linscale_x2']):
+        if (
+                self.o['linscale_x0'] or
+                self.o['linscale_x1'] or
+                self.o['linscale_x2']
+        ):
             self._linscale_x()
         # Linearly scale y axis
-        if (self.o['linscale_left_y0'] or
-            self.o['linscale_left_y1'] or
-            self.o['linscale_left_y2']):
+        if (
+                self.o['linscale_left_y0'] or
+                self.o['linscale_left_y1'] or
+                self.o['linscale_left_y2']
+        ):
             self._linscale_y('left')
-        if (self.o['linscale_right_y0'] or
-            self.o['linscale_right_y1'] or
-            self.o['linscale_right_y2']):
+        if (
+                self.o['linscale_right_y0'] or
+                self.o['linscale_right_y1'] or
+                self.o['linscale_right_y2']
+        ):
             self._linscale_y('right')
 
-         # Differentiate data on one or two axis
-        if ((self.o['diff_left_y'] or self.o['diff_right_y']) and
-            not self.o['as_function_of']):
-
+        # Differentiate data on one or two axis
+        if (
+                (
+                    self.o['diff_left_y'] or self.o['diff_right_y']
+                ) and
+                not self.o['as_function_of']
+        ):
             self._differentiate()
         return
 
-    ### Functions that does data manipulation ###
+    # Functions that does data manipulation #
     #############################################
 
     def _plugins(self):
@@ -209,7 +220,17 @@ class dataBaseBackend():
         query = 'SELECT input FROM plot_com_in WHERE id={0}'.\
             format(self.o['input_id'])
         self.cursor.execute(query)
-        input_settings = json.loads(self.cursor.fetchall()[0][0].decode())
+        result = self.cursor.fetchall()[0][0].decode()
+
+        # I do not fully understand when result is empty, generally it is
+        # wanted to move away from plot_com_in and plot_com_out and rather
+        # use redis. Until then, the following line ensures that the code
+        # does not crash when there is not plugin. It has been verified
+        # that plugins do work also after adding this.
+        if not result:
+            return
+        input_settings = json.loads(result)
+
         # Get the output_id
         output_id = int(input_settings.pop('output_id'))
 
@@ -240,21 +261,26 @@ class dataBaseBackend():
             output_single = self._plugin_single(name, settings, sys, plugins)
 
             # Channel captured output to dict or old stdout depending
-            if output_id > -1 and self.ggs['plugins'][name].get('output') in ['raw', 'html']:
+            if (
+                    output_id > -1 and
+                    self.ggs['plugins'][name].get('output') in ['raw', 'html']
+            ):
                 output[name] = output_single
 
         # Send the output, if any, to the db
         if output_id > -1:
             output_string = json.dumps(output)
-            query = "UPDATE plot_com_out SET output='{0}' WHERE id={1}".format(output_string, output_id)
+            query = "UPDATE plot_com_out SET output='{0}' WHERE id={1}"
+            query = query.format(output_string, output_id)
             try:
-                #self.cursor.execute(query, (output_string))
+                # self.cursor.execute(query, (output_string))
                 self.cursor.execute(query)
                 self.conn.commit()
-            except:
+            except Exception:
                 raise Exception(query)
         # Restore stdout
         sys.stdout = oldout
+        return run_plugins
 
     def _plugin_single(self, name, settings, sys, plugins):
         # Assign a new StringIO object as stdout
@@ -296,7 +322,6 @@ class dataBaseBackend():
                 dat['lgs']['warning4'] = warning
             else:
                 dat['lgs']['warning4'] += warning
-                
 
         # Raise exception if the additions are not properly filled in
         if not isinstance(additions, dict):
@@ -305,7 +330,7 @@ class dataBaseBackend():
             raise TypeError(message)
         for key in ['xlabel_addition', 'y_left_label_addition',
                     'y_right_label_addition']:
-            if not key in additions:
+            if key not in additions:
                 message = 'The dict returned by a plugins \'run\' method '\
                     'must contain the key {0}'.format(key)
             self._plot_info_add_string(key, additions[key])
@@ -317,7 +342,7 @@ class dataBaseBackend():
             pass
         # If not html assume raw
         else:
-            outstr = cgi.escape(outstr.strip('\n'), quote=True)
+            outstr = html.escape(outstr.strip('\n'), quote=True)
             outstr = '<pre>{0}</pre>'.format(outstr)
         return outstr
 
@@ -329,13 +354,13 @@ class dataBaseBackend():
                                self.ggs['measurements_table'],
                                dat['lgs']['id']))
             # datetime object
-            datetime = self._result_from_query(query)[0][0]
+            timestamp = self._result_from_query(query)[0][0]
 
             # Fetch all sets of id and label that is from the same time
             query = ('SELECT id, {0} FROM {1} WHERE TIME = \"{2}\"'
                      ''.format(self.ggs['as_function_of']['column'],
                                self.ggs['measurements_table'],
-                               datetime.strftime("%Y-%m-%d %H:%M:%S")))
+                               timestamp.strftime("%Y-%m-%d %H:%M:%S")))
             measurements = self._result_from_query(query)
 
             # Find the one that has a label that contains the requested match
@@ -346,10 +371,10 @@ class dataBaseBackend():
                                    measurement[1])
                 try:
                     if len(search.group(0)) > 0:
-                        new_x_id = measurement[0]                        
+                        new_x_id = measurement[0]
                 except AttributeError:
                     pass
-        
+
             # If there is a new x-scale (that is not None)
             if new_x_id:
                 # Change the x-axis label
@@ -361,22 +386,23 @@ class dataBaseBackend():
                 x-axis (typically time) and transforms the y-axis
                 for new_x into the x-axis for dat
                 """
-                x_axis = interp1d(new_x['data'][:,0], new_x['data'][:,1])
-                
+                x_axis = interp1d(new_x['data'][:, 0], new_x['data'][:, 1])
+
                 # Cut of the ends of self.data where we have no interpolation data
-                start=0; end = dat['data'].shape[0]
-                nx_min = new_x['data'][:,0].min()
-                nx_max = new_x['data'][:,0].max()
+                start = 0
+                end = dat['data'].shape[0]
+                nx_min = new_x['data'][:, 0].min()
+                nx_max = new_x['data'][:, 0].max()
                 uncut = (start, end)
                 while dat['data'][start, 0] < nx_min:
                     start += 1
                 while dat['data'][end-1, 0] > nx_max:
                     end -= 1
                 if (start, end) != uncut:
-                    dat['data'] = dat['data'][start:end,:]
+                    dat['data'] = dat['data'][start:end, :]
 
                 # Transform the axis
-                dat['data'][:,0] = x_axis(dat['data'][:,0])
+                dat['data'][:, 0] = x_axis(dat['data'][:, 0])
 
                 # Add warning about the operation to export
                 dat['lgs']['warning0'] = 'As function of transformation'
@@ -389,12 +415,13 @@ class dataBaseBackend():
         scales.sort()
         warning = 'Linear transformation of x'
         for scale in scales:
-            warning += ', {0}x+{1}'.format(self.ggs[scale]['a'], self.ggs[scale]['b'])
+            warning += ', {0}x+{1}'.format(
+                self.ggs[scale]['a'], self.ggs[scale]['b'])
         for scale in scales:
             for dat in self.data['left'] + self.data['right']:
                 a = np.float(dat['lgs'][scale]['a'])
                 b = np.float(dat['lgs'][scale]['b'])
-                dat['data'][:,0] = dat['data'][:,0] * a + b
+                dat['data'][:, 0] = dat['data'][:, 0] * a + b
                 dat['lgs']['warning1'] = warning
 
             self._plot_info_add_string('xlabel_addition',
@@ -406,12 +433,13 @@ class dataBaseBackend():
         scales.sort()
         warning = 'Linear transformation of y'
         for scale in scales:
-            warning += ', {0}x+{1}'.format(self.ggs[scale]['a'], self.ggs[scale]['b'])
+            warning += ', {0}x+{1}'.format(
+                self.ggs[scale]['a'], self.ggs[scale]['b'])
         for scale in scales:
             for dat in self.data[axis]:
                 a = np.float(dat['lgs'][scale]['a'])
                 b = np.float(dat['lgs'][scale]['b'])
-                dat['data'][:,1] = dat['data'][:,1] * a + b
+                dat['data'][:, 1] = dat['data'][:, 1] * a + b
                 dat['lgs']['warning2'] = warning
 
             self._plot_info_add_string('y_{0}_label_addition'.format(axis),
@@ -425,16 +453,15 @@ class dataBaseBackend():
         for side in ['left', 'right']:
             if self.o['diff_{0}_y'.format(side)]:
                 for dat in self.data[side]:
-                    x_differences = np.diff(dat['data'][:,0])
+                    x_differences = np.diff(dat['data'][:, 0])
                     x_step_av = np.sum(x_differences)/len(x_differences)
-                    dat['data'][:,1] = np.gradient(dat['data'][:,1], x_step_av)
+                    dat['data'][:, 1] = np.gradient(dat['data'][:, 1], x_step_av)
                     dat['lgs']['warning3'] = "Differentiation of y"
-                    
+
                 self._plot_info_add_string(
                     'y_{0}_label_addition'.format(side),
                     self.ggs['diff_{0}_y'.format(side)]['ylabel_addition']
                     )
-
 
     def _plot_info_add_string(self, key, string):
         if self.data['data_treatment'][key] == '':
