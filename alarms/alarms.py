@@ -211,7 +211,7 @@ class CheckAlarms(object):
                 # When the recipients JSON is broken, we cannot send them an
                 # email about it! Send it to Robert and Kenneth instead.
                 if 'recipients' not in alarm:
-                    alarm['recipients'] = ['pyexplabsys-error@fysik.dtu.dk']
+                    alarm['recipients'] = [SETTINGS['error_contact_email']]
                     subject = 'Error in parsing recipients alarm JSON'
                     body += '\n\nTHIS EMAIL WAS ONLY SENT TO YOU'
                 else:
