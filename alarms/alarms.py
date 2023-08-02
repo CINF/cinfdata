@@ -137,15 +137,15 @@ class CheckAlarms(object):
         _db = dbmodule.connect(
             host=SETTINGS['db_host'],
             db=SETTINGS['db_name'],
-            user=SETTINGS['reader_user'],
-            passwd=SETTINGS['reader_pw'],
+            user=SETTINGS['alarm_user'],
+            passwd=SETTINGS['alarm_pw'],
         )
         self._alarm_cursor = _db.cursor()
         _db = dbmodule.connect(
             host=SETTINGS['db_host'],
             db=SETTINGS['db_name'],
-            user=SETTINGS['alarm_user'],
-            passwd=SETTINGS['alarm_pw'],
+            user=SETTINGS['reader_user'],
+            passwd=SETTINGS['reader_pw'],
         )
         self._reader_cursor = _db.cursor()
         self._smtp_server_address = SETTINGS['smtp_host']
@@ -249,7 +249,7 @@ class CheckAlarms(object):
                 _LOG.debug("Raise alarm for check string {0}".format(check_string))
                 self._raise_alarm(alarm, check_string, arguments)
             else:
-                _LOG.debug("No alarm for chech string {0}".format(check_string))
+                _LOG.debug("No alarm for check string {0}".format(check_string))
 
     def _check_single_alarm(self, alarm, arguments):
         _LOG.debug('_check_single_alarm(alarm={0}, arguments={1}")'\
@@ -308,9 +308,9 @@ class CheckAlarms(object):
                 diff = time.time() - last_alarm_time
                 _LOG.debug('No previous alarm within no_repeat_interval. Time '
                            'since last: {0:.1f}'.format(diff))
-
-            query = "INSERT INTO alarm_log (alarm_id) VALUES (%s)"
-            self._alarm_cursor.execute(query, (alarm['id']))
+            # Todo: Consider to write a prepared statement rather than using format
+            query = 'INSERT INTO alarm_log set alarm_id={}'.format(alarm['id'])
+            self._alarm_cursor.execute(query)
 
             subject = alarm['subject']
             if subject == '':
@@ -327,9 +327,11 @@ class CheckAlarms(object):
     def _get_time_of_last_alarm(self, alarm_id):
         """Returns the time of last alarm for alarm_id"""
         _LOG.debug('_get_time_of_last_alarm(alarm_id={0})'.format(alarm_id))
-        query = 'select unix_timestamp(time) from alarm_log where alarm_id = '\
-                '%s order by time desc limit 1;'
-        self._alarm_cursor.execute(query, (alarm_id))
+        # Todo: Consider to write a prepared statement rather than using format
+        query = 'select unix_timestamp(time) from alarm_log '
+        query += 'where alarm_id = {} order by time desc limit 1;'
+        query = query.format(alarm_id)
+        self._alarm_cursor.execute(query)
         result = self._alarm_cursor.fetchall()
         if len(result) == 0:
             return None
