@@ -443,15 +443,15 @@ function delete_alarm($alarm_number){
   # If the data is insufficient, set the screen message and return
   $query = "UPDATE alarm SET visible=0 WHERE `id`=?";
   $statement = $db->prepare($query);
-  $statement->bind_param('i', $alarm_number);
+  $statement->bindParam(1, $alarm_number, PDO::PARAM_INT);
+
   if($statement->execute()){
-    $message_out = "<p>Alarm " . $data["id"] . " successfully deleted</p>";
+    $message_out = "<p>Alarm " . $alarm_number . " successfully deleted</p>";
   } else {
     $message_out = msg("The following error occurred while trying to delete " .
-		       "the alarm: (" . $mysqli->errno . ") " . $mysqli->error,
+		       "the alarm: " . $db->errorInfo(),
 		       $alarm=true);
   }
-  $statement->close();
 
 }
 
