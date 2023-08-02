@@ -485,30 +485,26 @@ function update_existing(){
     "WHERE `id`=?";
 
   $statement = $db->prepare($query);
-
-  # bind parameters for markers, where (s = string, i = integer, d = double,
-  #                                     b = blob)
   $data["id"] = (int) $data["id"];
   $data["active"] = (int) $data["active"];
-  $statement->bind_param('sssissssii',
-			 $data["quiries_json"],
-			 $data["parameters_json"],
-			 $data["check"],
-			 $data["no_repeat_interval"],
-			 $data["message"],
-			 $data["recipients_json"],
-			 $data["description"],
-			 $data["subject"],
-			 $data["active"],
-			 $data["id"]);
+  $statement->bindParam(1, $data["quiries_json"], PDO::PARAM_STR);
+  $statement->bindParam(2, $data["parameters_json"], PDO::PARAM_STR);
+  $statement->bindParam(3, $data["check"], PDO::PARAM_STR);
+  $statement->bindParam(4, $data["no_repeat_interval"], PDO::PARAM_INT);
+  $statement->bindParam(5, $data["message"], PDO::PARAM_STR);
+  $statement->bindParam(6, $data["recipients_json"], PDO::PARAM_STR);
+  $statement->bindParam(7, $data["description"], PDO::PARAM_STR);
+  $statement->bindParam(8, $data["subject"], PDO::PARAM_STR);
+  $statement->bindParam(9, $data["active"], PDO::PARAM_INT);
+  $statement->bindParam(10, $data["id"], PDO::PARAM_INT);
+
   if($statement->execute()){
     $message_out = "<p>Alarm " . $data["id"] . " was successfully updated</p>";
   } else {
     $message_out = msg("The following error occurred while trying to update " .
-		       "the alarm: (" . $mysqli->errno . ") " . $mysqli->error,
+		       "the alarm: " . $db->errorInfo(),
 		       $alarm=true);
   }
-  $statement->close();
 
   return true;
 }
@@ -568,9 +564,11 @@ if ($action == "new"){
 } elseif ($action == "continue edit"){
   echo("<h1><a id=\"edit_alarm\"></a>Edit alarm number $alarm_number</h1>\n");
   edit_table($action);
-} else {
+} elseif (strpos('edit+', $action) > -1)  {
   echo("<h1><a id=\"edit_alarm\"></a>Edit alarm number $alarm_number</h1>\n");
   edit_table($alarm_data[$alarm_number]);
+} else {
+ // Do nothing
 }
 
 echo("\n\n\n");
