@@ -65,6 +65,7 @@ def read_settings():
     expected_elements = (
         'smtp_host', 'db_host', 'log_file_name', 'db_name',
         'reader_user', 'reader_pw', 'alarm_user', 'alarm_pw',
+        'error_contact_email', 'mail_sender'
     )
     system_global = xml.etree.ElementTree.ElementTree()
     system_global.parse('global_settings.xml')
@@ -147,7 +148,7 @@ class CheckAlarms(object):
             passwd=SETTINGS['alarm_pw'],
         )
         self._reader_cursor = _db.cursor()
-        self._smtp_server_address = SETTINGS['db_host']
+        self._smtp_server_address = SETTINGS['smtp_host']
 
     def _get_alarms(self):
         """Get the list of alarms to check"""
@@ -452,7 +453,7 @@ class CheckAlarms(object):
                     ).format(repr(exp), arguments)
                 body = message + body
 
-        sender = 'Floormanagers@fysik.dtu.dk' # 'no-reply@fysik.dtu.dk'
+        sender = SETTINGS['mail_sender']
         msg = MIMEText(body)
         # Header info
         msg['Subject'] = subject
@@ -506,7 +507,7 @@ def main():
         _LOG.exception("An error occoured during alarm script")
         check_alarms._send_email("Alarm script generated error",
                                  str(exp.args),
-                                 ['jejsor@fysik.dtu.dk'])
+                                 [SETTINGS['error_contact_email']])
 
     _LOG.debug('Execution time: {0}'.format(time.time() - start_time))
 
