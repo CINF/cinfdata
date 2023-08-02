@@ -32,8 +32,6 @@ q0 < v0 and q1 > v1
 
 """
 
-
-from __future__ import print_function
 import re
 import os
 import sys
@@ -47,6 +45,8 @@ from logging.handlers import RotatingFileHandler
 import numpy as np
 import psutil
 import MySQLdb
+import xml.etree.ElementTree
+
 
 # Regular expression used to match the check, which are in the form:
 # "q0 < p0" or "dqdt0 < p0"
@@ -58,6 +58,25 @@ REPLACEMENTS = [
     (re.compile(r'(isfalse)'), r'== 0'),
 ]
 MARKER_SIMPLIFICATION = re.compile(r'{(\w*):?.*?}')
+
+
+def read_settings():
+    settings = {}
+    expected_elements = (
+        'smtp_host', 'db_host', 'log_file_name', 'db_name',
+        'reader_user', 'reader_pw', 'alarm_user', 'alarm_pw',
+    )
+    system_global = xml.etree.ElementTree.ElementTree()
+    system_global.parse('global_settings.xml')
+    system_global = system_global.getroot()
+
+    for child in system_global:
+        if child.tag == 'mail_alarm_settings':
+            break
+    for element in child:
+        if element.tag in expected_elements:
+            settings[element.tag] = element.text
+    return settings
 
 
 # pylint: disable=too-many-arguments, too-many-locals
@@ -97,8 +116,9 @@ def get_logger(name, level='INFO', terminal_log=True, file_log=False,
     return logger
 
 
+SETTINGS = read_settings()
 _LOG = get_logger(__file__, level='debug', file_log=True,
-                  file_name='/var/www/cinfdata/alarms/alarm_log',
+                  file_name=SETTINGS['log_file_name'],
                   terminal_log=False)
 
 
@@ -113,13 +133,21 @@ class CheckAlarms(object):
 
     def __init__(self, dbmodule=MySQLdb):
         _LOG.debug('__init__(dbmodule={0})'.format(dbmodule))
-        _db = dbmodule.connect(host='servcinf-sql', user='alarm',
-                               passwd='alarm', db='cinfdata')
+        _db = dbmodule.connect(
+            host=SETTINGS['db_host'],
+            db=SETTINGS['db_name'],
+            user=SETTINGS['reader_user'],
+            passwd=SETTINGS['reader_pw'],
+        )
         self._alarm_cursor = _db.cursor()
-        _db = dbmodule.connect(host='servcinf-sql', user='cinf_reader',
-                               passwd='cinf_reader', db='cinfdata')
+        _db = dbmodule.connect(
+            host=SETTINGS['db_host'],
+            db=SETTINGS['db_name'],
+            user=SETTINGS['alarm_user'],
+            passwd=SETTINGS['alarm_pw'],
+        )
         self._reader_cursor = _db.cursor()
-        self._smtp_server_address = '127.0.0.1'
+        self._smtp_server_address = SETTINGS['db_host']
 
     def _get_alarms(self):
         """Get the list of alarms to check"""
