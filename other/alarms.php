@@ -1,9 +1,13 @@
 <?php
-
-
 include("../common_functions_v2.php");
+
+// https://github.com/jdorn/sql-formatter/tree/master
+// https://raw.githubusercontent.com/jdorn/sql-formatter/master/lib/SqlFormatter.php
+// Todo: Either investigate if license allows bundling, or find a version with a cdn
 require("SqlFormatter.php");
-$dbi = std_dbi("alarm");
+
+// $dbi = std_dbi("alarm");
+$db = std_db();
 
 # Holds the data on existing alarms
 $alarm_data = Array();
@@ -63,12 +67,12 @@ function prepare_table_data($row){
 
 /** Produces the HTML for the existing alarms table */
 function existing_alarms(){
-  global $dbi;
+  global $db;
   global $alarm_data;
 
   # Get the alarms
   $query = "SELECT * FROM alarm WHERE visible=1 order by id";
-  $result = $dbi->query($query);
+  $result = $db->query($query);
 
   # Start the table
   echo("<div style=\"width:45%;float:left\">");
@@ -79,7 +83,7 @@ function existing_alarms(){
   echo("</tr>");
 
   # Loop over alarms
-  while($row = $result->fetch_row()) {
+  while($row = $result->fetch()) {
     # Save the alarm data for use in the edit table
     $alarm_data[$row[0]] = $row;
     # Generate the single alarm row
@@ -377,7 +381,7 @@ function prepare_db_data(){
 
 /** Insert a new alarm from the URL data into the database */
 function insert_new(){
-  global $dbi;
+  global $db;
   global $message_out;
 
   # If the data is insufficient, set the screen message and return
@@ -395,39 +399,33 @@ function insert_new(){
     "message, " .
     "recipients_json, " .
     "locked, " .
+    "visible, " .
     "description, " .
     "subject, " .
     "active" .
-    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-  $statement = $dbi->prepare($query);
-  # bind parameters for markers, where (s = string, i = integer, d = double,
-  #                                     b = blob)
+    ") VALUES (?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?)";
+  // New rules are never locked and always visible
+  $statement = $db->prepare($query);
 
-  $locked = 0;
-  $statement->bind_param('sssississi',
-			 $data["quiries_json"],
-			 $data["parameters_json"],
-			 $data["check"],
-			 $data["no_repeat_interval"],
-			 $data["message"],
-			 $data["recipients_json"],
-			 $locked,
-			 $data["description"],
-			 $data["subject"],
-			 $data["active"]
-			 );
+  $statement->bindParam(1, $data["quiries_json"], PDO::PARAM_STR);
+  $statement->bindParam(2, $data["parameters_json"], PDO::PARAM_STR);
+  $statement->bindParam(3, $data["check"], PDO::PARAM_STR);
+  $statement->bindParam(4, $data["no_repeat_interval"], PDO::PARAM_INT);
+  $statement->bindParam(5, $data["message"], PDO::PARAM_STR);
+  $statement->bindParam(6, $data["recipients_json"], PDO::PARAM_STR);
+  $statement->bindParam(7, $data["description"], PDO::PARAM_STR);
+  $statement->bindParam(8, $data["subject"], PDO::PARAM_STR);
+  $statement->bindParam(9, $data["active"], PDO::PARAM_INT);
 
   if($statement->execute()){
+    $latest_id = $db->lastInsertID();
     $message_out = msg("The new alarm was successfully added and given ID " .
-		       "number: " . $statement->insert_id);
+                       "number: " . $latest_id);
   } else {
     $message_out = msg("The following error occurred while " .
-		       "trying to insert the new alarm: (" . $mysqli->errno .
-		       ") " . $mysqli->error,
+		       "trying to insert the new alarm: " . $db->errorInfo(),
 		       $alarm=true);
   }
-  $statement->close();
-
   return true;
 }
 
@@ -439,12 +437,12 @@ function insert_new(){
 
 */
 function delete_alarm($alarm_number){
-  global $dbi;
+  global $db;
   global $message_out;
 
   # If the data is insufficient, set the screen message and return
   $query = "UPDATE alarm SET visible=0 WHERE `id`=?";
-  $statement = $dbi->prepare($query);
+  $statement = $db->prepare($query);
   $statement->bind_param('i', $alarm_number);
   if($statement->execute()){
     $message_out = "<p>Alarm " . $data["id"] . " successfully deleted</p>";
@@ -464,7 +462,7 @@ function delete_alarm($alarm_number){
        update
 */
 function update_existing(){
-  global $dbi;
+  global $db;
   global $message_out;
 
   # If the data is insufficient, set the screen message and return
@@ -486,7 +484,7 @@ function update_existing(){
     "active=? " .
     "WHERE `id`=?";
 
-  $statement = $dbi->prepare($query);
+  $statement = $db->prepare($query);
 
   # bind parameters for markers, where (s = string, i = integer, d = double,
   #                                     b = blob)
