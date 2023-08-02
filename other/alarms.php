@@ -196,9 +196,9 @@ function edit_table($row){
     $alarm_id = isset($_GET["alarm_id"]) ? $_GET["alarm_id"] : null;
     $check = isset($_GET["check"]) ? $_GET["check"] : "";
     $no_repeat_interval = isset($_GET["no_repeat_interval"]) ? $_GET["no_repeat_interval"] : 3600;
-    $quiries = isset($_GET["quiries"]) ? $_GET["quiries"] : array_fill(0, NUM_INPUTS, "");
-    $recipients = isset($_GET["recipients"]) ? $_GET["recipients"] : array_fill(0, NUM_INPUTS, "");
-    $parameters = isset($_GET["parameters"]) ? $_GET["parameters"] : array_fill(0, NUM_INPUTS, "");
+    $quiries = isset($_GET["quiries"]) ? $_GET["quiries"] : array_fill(0, NUM_INPUTS + 1, "");
+    $recipients = isset($_GET["recipients"]) ? $_GET["recipients"] : array_fill(0, NUM_INPUTS + 1, "");
+    $parameters = isset($_GET["parameters"]) ? $_GET["parameters"] : array_fill(0, NUM_INPUTS + 1, "");
     $message = isset($_GET["message"]) ? $_GET["message"] : "";
     $description = isset($_GET["description"]) ? $_GET["description"] : "";
     $subject = isset($_GET["subject"]) ? $_GET["subject"] : "";
@@ -207,9 +207,9 @@ function edit_table($row){
     $alarm_id = null;
     $check = "";
     $no_repeat_interval = 3600;
-    $quiries = array_fill(0, NUM_INPUTS, "");
-    $recipients = array_fill(0, NUM_INPUTS, "");
-    $parameters = array_fill(0, NUM_INPUTS, "");
+    $quiries = array_fill(0, NUM_INPUTS + 1, "");
+    $recipients = array_fill(0, NUM_INPUTS + 1, "");
+    $parameters = array_fill(0, NUM_INPUTS + 1, "");
     $message = "";
     $description = "";
     $subject = "";
