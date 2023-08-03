@@ -37,6 +37,7 @@ import os
 import sys
 import json
 import time
+import pathlib
 import smtplib
 from email.mime.text import MIMEText
 from collections import defaultdict, namedtuple
@@ -68,7 +69,8 @@ def read_settings():
         'error_contact_email', 'mail_sender'
     )
     system_global = xml.etree.ElementTree.ElementTree()
-    system_global.parse('global_settings.xml')
+    conf = pathlib.Path(__file__).resolve().parent.parent / 'global_settings.xml'
+    system_global.parse(conf)
     system_global = system_global.getroot()
 
     for child in system_global:
