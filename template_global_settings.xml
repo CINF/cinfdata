@@ -1,0 +1,16 @@
+<?xml version='1.0' standalone='yes'?>
+<global_settings>
+  <sort_dataset_by_column>time</sort_dataset_by_column>
+  <mail_alarm_settings>
+    <smtp_host>smtp.com</smtp_host>
+    <db_host>127.0.0.1</db_host>
+    <db_name>DBNAME</db_name>
+    <reader_user>reader</reader_user>
+    <reader_pw>reader</reader_pw>
+    <alarm_user>mail_alarm</alarm_user>
+    <alarm_pw>mail_alarm</alarm_pw>
+    <log_file_name>/var/www/html/cinfdata/alarms/alarm_log.txt</log_file_name>
+    <error_contact_email>mail@mail.com</error_contact_email>
+    <mail_sender>operator@mail.com</mail_sender>
+  </mail_alarm_settings>
+</global_settings>
