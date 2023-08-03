@@ -34,13 +34,12 @@ q0 < v0 and q1 > v1
 
 import re
 import os
-import sys
 import json
 import time
 import pathlib
 import smtplib
 from email.mime.text import MIMEText
-from collections import defaultdict, namedtuple
+from collections import defaultdict
 import logging
 from logging.handlers import RotatingFileHandler
 import numpy as np
@@ -161,8 +160,9 @@ class CheckAlarms(object):
         # Column names needs to be excaped with backticks, because
         # someone was stupid enough to pick one which is a reserved
         # word (check)
-        fields_string =' ,'.join(['`{0}`'.format(field) for field in fields])
-        query = 'SELECT {0} FROM alarm WHERE visible=1 AND active=1'.format(fields_string)
+        fields_string = ' ,'.join(['`{0}`'.format(field) for field in fields])
+        query = 'SELECT {0} FROM alarm WHERE visible = 1 AND active = 1'
+        query = query.format(fields_string)
         self._alarm_cursor.execute(query)
 
         # Turns column names and rows into dict and decode json
@@ -205,7 +205,7 @@ class CheckAlarms(object):
             if 'error' in alarm:
                 # Send email about error parsing the json
                 body = (
-                    'At least one error occurred while trying to parse the '\
+                    'At least one error occurred while trying to parse the '
                     'alarm. The error message(s) was:{0}\n\n'
                     'The entire (half parsed) alarm definition was:\n\n{1}'
                 ).format(alarm['error'], dict(alarm))
@@ -254,8 +254,9 @@ class CheckAlarms(object):
                 _LOG.debug("No alarm for check string {0}".format(check_string))
 
     def _check_single_alarm(self, alarm, arguments):
-        _LOG.debug('_check_single_alarm(alarm={0}, arguments={1}")'\
-                       .format(alarm, arguments))
+        _LOG.debug(
+            '_check_single_alarm(alarm={0}, arguments={1}")'.format(alarm, arguments)
+        )
 
         # Check whether all parts of the check was understood
         check_tokens = alarm['check_tokens']
@@ -302,7 +303,10 @@ class CheckAlarms(object):
         last_alarm_time = self._get_time_of_last_alarm(alarm['id'])
 
         # Alarm is not inhibited by no_repeat_interval
-        if last_alarm_time is None or time.time() - last_alarm_time > alarm['no_repeat_interval']:
+        if (
+                last_alarm_time is None or
+                time.time() - last_alarm_time > alarm['no_repeat_interval']
+        ):
             if last_alarm_time is None:
                 _LOG.debug('No previous alarm within no_repeat_interval. '
                            'No previous alarm.')
@@ -503,7 +507,6 @@ def main():
         _LOG.debug('Writing pid file with pid: {0}'.format(pid))
         file_.write(str(pid))
 
-
     check_alarms = CheckAlarms()
     try:
         check_alarms.check_alarms()
@@ -514,6 +517,7 @@ def main():
                                  [SETTINGS['error_contact_email']])
 
     _LOG.debug('Execution time: {0}'.format(time.time() - start_time))
+
 
 if __name__ == '__main__':
     main()
