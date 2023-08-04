@@ -1,6 +1,6 @@
 <?php
 include("../common_functions_v2.php");
-$dbi = std_dbi();
+$db = std_db();
 
 # pylint output from database
 $id = $_GET['id'];
@@ -10,10 +10,9 @@ $github_link = "";
 $github_raw_link = "";
 
 # Get messages from the database
-$rows = $dbi->query($query);
-$row = $rows->fetch_row();
+$rows = $db->query($query);
+$row = $rows->fetch();
 $messages = json_decode($row[0]);
-
 
 # Organize messages by line
 $by_line = Array();
@@ -28,7 +27,7 @@ foreach($messages as $message){
 
 # Get file source code, first form path
 $path = $messages[0]->path;
-$path = str_replace("/home/kenni/pylint_pyexplabsys/PyExpLabSys/", "", $path, $count=1);
+$path = str_replace("/home/service/pylint_pyexplabsys/PyExpLabSys/", "", $path, $count=1);
 # Get contents and split by newline
 $github_link = "https://github.com/CINF/PyExpLabSys/blob/$commit/$path";
 $github_raw_link = "https://raw.githubusercontent.com/CINF/PyExpLabSys/$commit/$path";

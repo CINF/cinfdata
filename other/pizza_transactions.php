@@ -1,7 +1,7 @@
 <?php
 #include("graphsettings.php");
 include("../common_functions_v2.php");
-$dbi = std_dbi();
+$db = std_db();
 
 echo(html_header());
 $full = isset($_GET['full']);
@@ -39,8 +39,8 @@ if ($full){
   $query = "select * from pizza_transactions WHERE user_id != \"test\" AND time > DATE_SUB(now(), INTERVAL 7 MONTH) order by time desc";
 }
 
-$result = $dbi->query($query);
-while($row = $result->fetch_row()){
+$stmt = $db->query($query);
+while ($row = $stmt->fetch(PDO::FETCH_NUM)){
   echo("<tr>\n");
 
   foreach($row as $item){
