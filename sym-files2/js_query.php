@@ -31,7 +31,7 @@ $query = $_GET["query"];
 $result = $db->query($query);
 
 $out = Array();
-while($row = $result->fetch_row()) {
+while($row = $result->fetch()) {
   $row[0] = (int) $row[0];
   $row[1] = (float) $row[1];
   $out[] = $row;
