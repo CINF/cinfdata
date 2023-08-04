@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!../.virtualpython/bin/cinf-python
 # pylint: disable=star-args
 
 """Script that checks the user defined alarms on logged values
@@ -40,6 +40,7 @@ import sys
 import json
 import time
 import smtplib
+import socket
 from email.mime.text import MIMEText
 from collections import defaultdict, namedtuple
 import logging
@@ -98,9 +99,8 @@ def get_logger(name, level='INFO', terminal_log=True, file_log=False,
 
 
 _LOG = get_logger(__file__, level='debug', file_log=True,
-                  file_name='/var/www/cinfdata/alarms/alarm_log',
+                  file_name='/var/www/surfdata/alarms/alarm_log',
                   terminal_log=False)
-
 
 class ErrorDuringCheck(Exception):
     """Exception for a bad check definition"""
@@ -112,11 +112,12 @@ class CheckAlarms(object):
     """Class that runs the alarm checks"""
 
     def __init__(self, dbmodule=MySQLdb):
+        HOST = 'servcinf-sql.fysik.dtu.dk'
         _LOG.debug('__init__(dbmodule={0})'.format(dbmodule))
-        _db = dbmodule.connect(host='servcinf-sql', user='alarm',
+        _db = dbmodule.connect(host=HOST, user='alarm',
                                passwd='alarm', db='cinfdata')
         self._alarm_cursor = _db.cursor()
-        _db = dbmodule.connect(host='servcinf-sql', user='cinf_reader',
+        _db = dbmodule.connect(host=HOST, user='cinf_reader',
                                passwd='cinf_reader', db='cinfdata')
         self._reader_cursor = _db.cursor()
         self._smtp_server_address = '127.0.0.1'
@@ -182,7 +183,7 @@ class CheckAlarms(object):
                 # When the recipients JSON is broken, we cannot send them an
                 # email about it! Send it to Robert and Kenneth instead.
                 if 'recipients' not in alarm:
-                    alarm['recipients'] = ['pyexplabsys-error@fysik.dtu.dk']
+                    alarm['recipients'] = ['jejsor@fysik.dtu.dk']
                     subject = 'Error in parsing recipients alarm JSON'
                     body += '\n\nTHIS EMAIL WAS ONLY SENT TO YOU'
                 else:
@@ -281,7 +282,7 @@ class CheckAlarms(object):
                            'since last: {0:.1f}'.format(diff))
 
             query = "INSERT INTO alarm_log (alarm_id) VALUES (%s)"
-            self._alarm_cursor.execute(query, (alarm['id']))
+            self._alarm_cursor.execute(query, (alarm['id'],))
 
             subject = alarm['subject']
             if subject == '':
@@ -300,7 +301,7 @@ class CheckAlarms(object):
         _LOG.debug('_get_time_of_last_alarm(alarm_id={0})'.format(alarm_id))
         query = 'select unix_timestamp(time) from alarm_log where alarm_id = '\
                 '%s order by time desc limit 1;'
-        self._alarm_cursor.execute(query, (alarm_id))
+        self._alarm_cursor.execute(query, (alarm_id,))
         result = self._alarm_cursor.fetchall()
         if len(result) == 0:
             return None
@@ -423,6 +424,9 @@ class CheckAlarms(object):
                     "---------------------------------------------------------\n"
                     ).format(repr(exp), arguments)
                 body = message + body
+
+        # Tag it with server host name
+        body = body + '\n\nEmail generated at server: {}'.format(socket.gethostname())
 
         sender = 'Floormanagers@fysik.dtu.dk' # 'no-reply@fysik.dtu.dk'
         msg = MIMEText(body)

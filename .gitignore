@@ -1,5 +1,6 @@
 sym-files2/error_log.txt
-site_settings.xml
+*_settings.xml
+.virtualpython*
 /figures
 *.pyc
 *.pyo
