@@ -7,8 +7,8 @@ $db = std_db();
 echo(html_header());
 ?>
 
-<script src="sortable-0.5.0/js/sortable.min.js"></script>
-<link rel="stylesheet" href="sortable-0.5.0/css/sortable-theme-finder.css" />
+<script src="https://cdn.tutorialjinni.com/sortable/0.8.0/js/sortable.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.tutorialjinni.com/sortable/0.8.0/css/sortable-theme-finder.min.css" />
 
 <?php
 
@@ -22,8 +22,10 @@ echo("</thead>\n\n");
 echo("<tbody>\n");
 
 $query = "select id, codename, description from dateplots_descriptions order by id";
-$result  = mysql_query($query, $db);
-while ($row = mysql_fetch_array($result)){
+$stmt = $db->prepare($query);
+$stmt->execute();
+$stmt = $db->query($query);
+while ($row = $stmt->fetch()){
   echo("<tr>");
   echo('<td>' . $row[0] . '</td>');
   echo('<td>' . $row[1] . '</td>');
