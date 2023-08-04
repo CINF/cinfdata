@@ -1,6 +1,6 @@
 <?php
 include("../common_functions_v2.php");
-$dbi = std_dbi();
+$db = std_db();
 
 echo(html_header());
 
@@ -16,11 +16,11 @@ echo("</tr>");
 
 # Get items from database
 $query = "select name, alc, volume, brewery, price from fridays_items order by name";
-$result = $dbi->query($query);
+$result = $db->query($query);
 
 # Fill in rows with items
 $color = false;
-while($row = $result->fetch_row()){
+while($row = $result->fetch(PDO::FETCH_NUM)){
   if ($color){
     echo("<tr bgcolor=\"#EEEEEE\">\n");
     $color = false;

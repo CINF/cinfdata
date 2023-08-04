@@ -1,14 +1,14 @@
 <?php
 #include("graphsettings.php");
 include("../common_functions_v2.php");
-$dbi = std_dbi();
+$db = std_db();
 
 
 function items_from_query($query, $type="int"){
-  global $dbi;
-  $result = $dbi->query($query);
+  global $db;
+  $result = $db->query($query);
   $data = Array();
-  while($row = $result->fetch_row()) {
+  while($row = $result->fetch(PDO::FETCH_NUM)) {
     if ($type == "int"){
       $data[] = Array($row[0], (int) $row[1]);
     } else {

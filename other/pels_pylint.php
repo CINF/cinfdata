@@ -1,7 +1,8 @@
 <?php
 #include("graphsettings.php");
 include("../common_functions_v2.php");
-$dbi = std_dbi();
+//$dbi = std_dbi();
+$db = std_db();
 
 # Load in pylint error message descriptions
 $msgs_raw = file_get_contents("msgs_json");
@@ -22,9 +23,10 @@ $query = "select id, time, identifier, value, commit from pylint " .
   "where time=(SELECT max(time) FROM pylint) " .
   "and commit=(SELECT commit FROM pylint order by time desc limit 1) " .
   "and isfile=1 order by value desc";
-$result = $dbi->query($query);
+$stmt = $db->prepare($query);
+$stmt->execute();
 $files = Array();
-while ($row = $result->fetch_row()){
+while ($row = $stmt->fetch(PDO::FETCH_NUM)){
   $files[] = $row;
 }
 $commit = substr($files[0][4], 0, 7);
@@ -53,10 +55,11 @@ $query = "select time, identifier, value from pylint where " .
   "time=(SELECT max(time) FROM pylint) and isfile=0 " .
   "and commit=(SELECT commit FROM pylint order by time desc limit 1) " .
   "order by value desc;";
-$result = $dbi->query($query);
+$stmt = $db->prepare($query);
+$stmt->execute();
 echo("<table class=\"nicetable\"\n");
 echo("<tr><th>Error symbol</th><th>Number of errors</th></tr>\n");
-while ($error = $result->fetch_row()){
+while ($error = $stmt->fetch(PDO::FETCH_NUM)){
   echo("<tr>\n");
   echo("<td><a href=\"pylint_error_view.php?symbol=$error[1]&commit=$commit_full\">{$error[1]}</a></td>\n");
   echo("<td>{$error[2]}</td>\n");
