@@ -480,36 +480,60 @@
     </dateplot8>
 
     <dateplot9>
+      <title>Broken stuff</title>
+      <legend>Broken</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_hall WHERE type = (SELECT id FROM dateplots_descriptions where codename="trello_list_broken_stuff") and time between "{from}" and "{to}" order by time</query>
+      <ylabel>[n]</ylabel>
+      <color>10</color>
+    </dateplot9>
+
+    <dateplot10>
       <title>Kenneth</title>
       <legend>Kenneth</legend>
       <query>SELECT unix_timestamp(time), value FROM dateplots_hall WHERE type = (SELECT id FROM dateplots_descriptions where codename="trello_user_kenneth") and time between "{from}" and "{to}" order by time</query>
       <ylabel>[n]</ylabel>
       <color>2</color>
-    </dateplot9>
+    </dateplot10>
 
-    <dateplot10>
+    <dateplot11>
       <title>Robert</title>
       <legend>Robert</legend>
       <query>SELECT unix_timestamp(time), value FROM dateplots_hall WHERE type = (SELECT id FROM dateplots_descriptions where codename="trello_user_robert") and time between "{from}" and "{to}" order by time</query>
       <ylabel>[n]</ylabel>
       <color>3</color>
-    </dateplot10>
+    </dateplot11>
 
-    <dateplot11>
+    <dateplot12>
       <title>Brian</title>
       <legend>Brian</legend>
       <query>SELECT unix_timestamp(time), value FROM dateplots_hall WHERE type = (SELECT id FROM dateplots_descriptions where codename="trello_user_brian") and time between "{from}" and "{to}" order by time</query>
       <ylabel>[n]</ylabel>
       <color>4</color>
-    </dateplot11>
+    </dateplot12>
 
-    <dateplot12>
+    <dateplot13>
+      <title>Patrick</title>
+      <legend>Patrick</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_hall WHERE type = (SELECT id FROM dateplots_descriptions where codename="trello_user_patrick") and time between "{from}" and "{to}" order by time</query>
+      <ylabel>[n]</ylabel>
+      <color>5</color>
+    </dateplot13>
+
+    <dateplot14>
+      <title>Jakob</title>
+      <legend>Jakob</legend>
+      <query>SELECT unix_timestamp(time), value FROM dateplots_hall WHERE type = (SELECT id FROM dateplots_descriptions where codename="trello_user_jakob") and time between "{from}" and "{to}" order by time</query>
+      <ylabel>[n]</ylabel>
+      <color>6</color>
+    </dateplot14>
+
+    <dateplot15>
       <title>Total</title>
       <legend>Total</legend>
       <query>SELECT unix_timestamp(time), value FROM dateplots_hall WHERE type = (SELECT id FROM dateplots_descriptions where codename="trello_total") and time between "{from}" and "{to}" order by time</query>
       <ylabel>[n]</ylabel>
       <color>1</color>
-    </dateplot12>
+    </dateplot15>
   </graph>
 
 
