@@ -22,12 +22,13 @@ echo("</thead>\n\n");
 echo("<tbody>\n");
 
 $query = "select id, codename, description from dateplots_descriptions order by id";
-$result  = mysql_query($query, $db);
-while ($row = mysql_fetch_array($result)){
+$stmt = $db->prepare($query);
+$stmt->execute();
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
   echo("<tr>");
-  echo('<td>' . $row[0] . '</td>');
-  echo('<td>' . $row[1] . '</td>');
-  echo('<td>' . $row[2] . '</td>');
+  echo('<td>' . $row["id"] . '</td>');
+  echo('<td>' . $row["codename"] . '</td>');
+  echo('<td>' . $row["description"] . '</td>');
   echo("</tr>\n");
 }
 echo("</tbody></table>");
