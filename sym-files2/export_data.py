@@ -128,7 +128,7 @@ class ExportData:
         """
         ### Find header fields to output
         # Add the four mandatory header fields (lists [field,name])        
-        mandatory_fields = self.ggs['mandatory_export_fields'].keys()
+        mandatory_fields = list(self.ggs['mandatory_export_fields'].keys())
         mandatory_fields.sort()
         header_fields = []
         for field in mandatory_fields:
@@ -138,8 +138,8 @@ class ExportData:
                     ])
 
         # Add the user defined header fields for this type of graph
-        if self.ggs.has_key('parameters'):
-            keys = self.ggs['parameters'].keys()
+        if 'parameters' in self.ggs:
+            keys = list(self.ggs['parameters'].keys())
             keys.sort()
             for key in keys:
                 header_fields.append([
@@ -161,7 +161,7 @@ class ExportData:
             for key in ['warning' + str(n) for n in range(5)]:
                 # If the current warning key is found in graphsettings and we
                 # don't already have it in warning_keys, add it
-                if (dat['lgs'].has_key(key) and (warning_keys.count(key)) == 0):
+                if (key in dat['lgs'] and (warning_keys.count(key)) == 0):
                     warning_keys.append(key)
 
         # Produce warnings
@@ -170,7 +170,7 @@ class ExportData:
             for n, d in enumerate(data['left'] + data['right']):
                 # Only make output if the current warning key is present in the
                 # current datasets graphsettings
-                if d['lgs'].has_key(warning):
+                if warning in d['lgs']:
                     out += ['"' + warning + '"', '"' + d['lgs'][warning] + '"']
                 else:
                     out += ['', '']

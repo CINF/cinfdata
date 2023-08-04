@@ -4,8 +4,8 @@ include("../common_functions_v2.php");
 echo(html_header());
 
 # Echo extra html to set up sortable tables
-echo("<script src=\"sortable-0.5.0/js/sortable.min.js\"></script>\n" .
-     "<link rel=\"stylesheet\" href=\"sortable-0.5.0/css/sortable-theme-finder.css\" />");
+echo("<script src=\"https://cdn.tutorialjinni.com/sortable/0.8.0/js/sortable.min.js\"></script>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.tutorialjinni.com/sortable/0.8.0/css/sortable-theme-finder.min.css\" />");
 
 $db = std_db();
 
@@ -82,10 +82,11 @@ $max_percent = 0;
 $max_percent_name = "";
 # Get tables status
 $query = "show table status";
-$result  = mysql_query($query, $db);
+$stmt = $db->prepare($query);
+$stmt->execute();
 $to_output = Array();
 # Loop over the tables and calculate size and find max etc.
-while ($row = mysql_fetch_array($result)){
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
   $row_sum = $row["Data_length"] + $row["Index_length"];
   $sum_size += $row_sum;
   $fraction_of_index = (float)$row['Auto_increment'] / (float)$max_index * 100.0;

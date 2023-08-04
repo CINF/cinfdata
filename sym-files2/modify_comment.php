@@ -1,25 +1,46 @@
 <?php
-// Read dateplot is a rather simple status page used only for graphs with dates on the x-axis.
+// Modify the comment associated with measurement identified by a timestamp
 include("../common_functions_v2.php");
 include("graphsettings.php");
 $type = "";
 $settings = plot_settings($type, $params="", $ignore_invalid_type=True);
-$db = std_db($settings["sql_username"]);
+$user = $settings["sql_username"];
+// Get password to update SQL table
+$pass = isset($_POST["password"]) ? $_POST["password"] : "";
+try {
+    $db = specific_db($user, $pass);
+} catch (PDOException $e) {
+    echo html_header();
+    echo('Enter password for user: '.$user);
+    echo('<form action="modify_comment.php" method="post">');
+    echo('<input type="password" name="password">');
+    echo('<input type="submit" value="Submit password">');
+    echo(html_footer());
+    return "";
+}
 ?>
 
 <?php echo html_header()?>
-  
+
 <?php
 if (!empty($_GET["time"])){
     $timestamp = $_GET["time"];
     $comment = $_GET["comment"];
-    $query = "select id from " . $settings["measurements_table"] . " where time = \"" . $timestamp . "\"";
-    $result  = mysql_query($query,$db);  
+    $query = "SELECT id FROM " . $settings["measurements_table"] . " WHERE time=\"$timestamp\"";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     $i = 0;
-    while ($row = mysql_fetch_array($result)){
-        $query = "update ". $settings["measurements_table"] . " set comment = \"" . $comment . "\", time = time where id = " . $row[0];
-        mysql_query($query,$db);  
-        $valid = $i++;
+    $query = "UPDATE " . $settings["measurements_table"] . " SET comment=\"$comment\", time=time WHERE id=:id";
+    $stmt = $db->prepare($query);
+    foreach ($result as $row) {
+        $ret = $stmt->execute($row);
+        if ($ret) {
+            $valid = $i++;
+        } else {
+            echo("SQL update failed<br>");
+        }
     }
     if ($i==0){
         echo("<b>Not a valid timestamp</b>");
@@ -40,12 +61,11 @@ New comment:<br>
 
 <?php
 $query = "select distinct time, comment from " . $settings["measurements_table"] . " order by time desc";
-$result  = mysql_query($query,$db);  
-while ($row = mysql_fetch_array($result)){
-    print($row[0] . " - " . $row[1] .  "<br>");
+foreach ($db->query($query) as $row) {
+    print($row["time"] . " - " . $row["comment"] .  "<br>");
 }
 ?>
 
 
 
-<?php echo new_html_footer()?>
+<?php echo html_footer()?>

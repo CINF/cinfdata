@@ -11,8 +11,16 @@ function std_db(){
   return $pdo;
 }
 
+function specific_db($user, $passwd){
+  $std_xml=simplexml_load_file("../site_settings.xml");
+  $conn_str = 'mysql:host=' . $std_xml->db_host . ';dbname=' . $std_xml->db_database . ';charset=utf8';
+  $pdo = new PDO($conn_str, $user, $passwd);
+  return $pdo;
+}
+
 function single_sql_value($db, $query, $column){
     $stmt = $db->prepare($query);
+    $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $value = $row[$column];
     return($value);
@@ -26,8 +34,8 @@ function latest_sql_row($db, $query){
   if (strpos($query, " limit ") == false){
     $query .= " limit 1";
   }
-  $result  = mysql_query($query, $db);
-  $row = mysql_fetch_array($result);
+  $stmt = $db->query($query);
+  $row = $stmt->fetch();
   return($row);
 }
 
@@ -203,8 +211,6 @@ function html_footer_normal($root, $valid_html5){
   $footer = $footer . "    </div>\n";
   $footer = $footer . "  </body>\n";
   $footer = $footer . "</html>\n";
-
-#
 
   return($footer);
 }

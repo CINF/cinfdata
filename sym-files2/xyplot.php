@@ -30,8 +30,8 @@ if (empty($settings)){
 }
 // Get the id-number and timestamp of the newest measurement
 $query = "SELECT id, " . $settings["grouping_column"] . " FROM " . $settings["measurements_table"] . " where type = " . $settings["type"] . " order by time desc limit 1";
-$latest_id = single_sql_value($db, $query, 0);
-$latest_time = single_sql_value($db, $query, 1);
+$latest_id = single_sql_value($db, $query, "id");
+$latest_time = single_sql_value($db, $query, "time");
 
 // If graphsettings.xml do not have a specific grouping column setting we will default to "time"
 if(in_array("grouping_column",array_keys($settings)) != "1"){
@@ -189,7 +189,6 @@ if (isset($settings["charset"])){
 }
 
 echo(html_header($root="../", $page_title="Data viewer", $includehead="", $charset=$charset));
-
 if ($matplotlib == 'checked'){
    echo('<a href="' . $plot_php_line_graph . '">');
    echo('<img class="matplotlib" src="' . $plot_php_line . '"/>');
