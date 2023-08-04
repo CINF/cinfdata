@@ -3,21 +3,22 @@ include("../common_functions_v2.php");
 $db = std_db();
 
 $query = 'select id, time, host, port, location, purpose, attr from host_checker';
-$result  = mysql_query($query, $db);
-while ($row = mysql_fetch_array($result)){                                               
-  if (sizeof($row[6]) > 0){
-    $data[] = json_decode($row[6], True);
+$stmt  = $db->prepare($query);
+$stmt->execute();
+while ($row = $stmt->fetch(PDO::FETCH_BOTH)){
+  if (sizeof($row["attr"]) > 0){
+    $data[] = json_decode($row["attr"], True);
   }
   else{
-    $data[] = array("hostname" => $row[2], "location" => "<i>" . $row[4] . "</i>");
+    $data[] = array("hostname" => $row["host"], "location" => "<i>" . $row["location"] . "</i>");
   }
 }
 ?>
 <html>
 <head>
 
-<script src="sortable-0.5.0/js/sortable.min.js"></script>
-<link rel="stylesheet" href="sortable-0.5.0/css/sortable-theme-finder.css" />
+<script src="https://cdn.tutorialjinni.com/sortable/0.8.0/js/sortable.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.tutorialjinni.com/sortable/0.8.0/css/sortable-theme-finder.min.css" />
 
 <style>
 .down {
