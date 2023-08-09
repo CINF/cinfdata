@@ -75,6 +75,8 @@ def read_settings():
     for child in system_global:
         if child.tag == 'mail_alarm_settings':
             break
+    else:
+       return settings
     for element in child:
         if element.tag in expected_elements:
             settings[element.tag] = element.text
