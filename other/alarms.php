@@ -6,8 +6,7 @@ include("../common_functions_v2.php");
 // Todo: Either investigate if license allows bundling, or find a version with a cdn
 require("SqlFormatter.php");
 
-// $dbi = std_dbi("alarm");
-$db = std_db();
+$db = std_db($user='alarm_user');
 
 # Holds the data on existing alarms
 $alarm_data = Array();
