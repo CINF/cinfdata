@@ -32,21 +32,21 @@ q0 < v0 and q1 > v1
 
 """
 
-
-from __future__ import print_function
 import re
 import os
-import sys
 import json
 import time
+import pathlib
 import smtplib
 from email.mime.text import MIMEText
-from collections import defaultdict, namedtuple
+from collections import defaultdict
 import logging
 from logging.handlers import RotatingFileHandler
 import numpy as np
 import psutil
 import MySQLdb
+import xml.etree.ElementTree
+
 
 # Regular expression used to match the check, which are in the form:
 # "q0 < p0" or "dqdt0 < p0"
@@ -58,6 +58,29 @@ REPLACEMENTS = [
     (re.compile(r'(isfalse)'), r'== 0'),
 ]
 MARKER_SIMPLIFICATION = re.compile(r'{(\w*):?.*?}')
+
+
+def read_settings():
+    settings = {}
+    expected_elements = (
+        'smtp_host', 'db_host', 'log_file_name', 'db_name',
+        'reader_user', 'reader_pw', 'alarm_user', 'alarm_pw',
+        'error_contact_email', 'mail_sender'
+    )
+    system_global = xml.etree.ElementTree.ElementTree()
+    conf = pathlib.Path(__file__).resolve().parent.parent / 'global_settings.xml'
+    system_global.parse(conf)
+    system_global = system_global.getroot()
+
+    for child in system_global:
+        if child.tag == 'mail_alarm_settings':
+            break
+    else:
+       return settings
+    for element in child:
+        if element.tag in expected_elements:
+            settings[element.tag] = element.text
+    return settings
 
 
 # pylint: disable=too-many-arguments, too-many-locals
@@ -97,8 +120,9 @@ def get_logger(name, level='INFO', terminal_log=True, file_log=False,
     return logger
 
 
+SETTINGS = read_settings()
 _LOG = get_logger(__file__, level='debug', file_log=True,
-                  file_name='/var/www/cinfdata/alarms/alarm_log',
+                  file_name=SETTINGS['log_file_name'],
                   terminal_log=False)
 
 
@@ -113,13 +137,21 @@ class CheckAlarms(object):
 
     def __init__(self, dbmodule=MySQLdb):
         _LOG.debug('__init__(dbmodule={0})'.format(dbmodule))
-        _db = dbmodule.connect(host='servcinf-sql', user='alarm',
-                               passwd='alarm', db='cinfdata')
+        _db = dbmodule.connect(
+            host=SETTINGS['db_host'],
+            db=SETTINGS['db_name'],
+            user=SETTINGS['alarm_user'],
+            passwd=SETTINGS['alarm_pw'],
+        )
         self._alarm_cursor = _db.cursor()
-        _db = dbmodule.connect(host='servcinf-sql', user='cinf_reader',
-                               passwd='cinf_reader', db='cinfdata')
+        _db = dbmodule.connect(
+            host=SETTINGS['db_host'],
+            db=SETTINGS['db_name'],
+            user=SETTINGS['reader_user'],
+            passwd=SETTINGS['reader_pw'],
+        )
         self._reader_cursor = _db.cursor()
-        self._smtp_server_address = '127.0.0.1'
+        self._smtp_server_address = SETTINGS['smtp_host']
 
     def _get_alarms(self):
         """Get the list of alarms to check"""
@@ -130,8 +162,9 @@ class CheckAlarms(object):
         # Column names needs to be excaped with backticks, because
         # someone was stupid enough to pick one which is a reserved
         # word (check)
-        fields_string =' ,'.join(['`{0}`'.format(field) for field in fields])
-        query = 'SELECT {0} FROM alarm WHERE visible=1 AND active=1'.format(fields_string)
+        fields_string = ' ,'.join(['`{0}`'.format(field) for field in fields])
+        query = 'SELECT {0} FROM alarm WHERE visible = 1 AND active = 1'
+        query = query.format(fields_string)
         self._alarm_cursor.execute(query)
 
         # Turns column names and rows into dict and decode json
@@ -174,7 +207,7 @@ class CheckAlarms(object):
             if 'error' in alarm:
                 # Send email about error parsing the json
                 body = (
-                    'At least one error occurred while trying to parse the '\
+                    'At least one error occurred while trying to parse the '
                     'alarm. The error message(s) was:{0}\n\n'
                     'The entire (half parsed) alarm definition was:\n\n{1}'
                 ).format(alarm['error'], dict(alarm))
@@ -182,7 +215,7 @@ class CheckAlarms(object):
                 # When the recipients JSON is broken, we cannot send them an
                 # email about it! Send it to Robert and Kenneth instead.
                 if 'recipients' not in alarm:
-                    alarm['recipients'] = ['pyexplabsys-error@fysik.dtu.dk']
+                    alarm['recipients'] = [SETTINGS['error_contact_email']]
                     subject = 'Error in parsing recipients alarm JSON'
                     body += '\n\nTHIS EMAIL WAS ONLY SENT TO YOU'
                 else:
@@ -220,11 +253,12 @@ class CheckAlarms(object):
                 _LOG.debug("Raise alarm for check string {0}".format(check_string))
                 self._raise_alarm(alarm, check_string, arguments)
             else:
-                _LOG.debug("No alarm for chech string {0}".format(check_string))
+                _LOG.debug("No alarm for check string {0}".format(check_string))
 
     def _check_single_alarm(self, alarm, arguments):
-        _LOG.debug('_check_single_alarm(alarm={0}, arguments={1}")'\
-                       .format(alarm, arguments))
+        _LOG.debug(
+            '_check_single_alarm(alarm={0}, arguments={1}")'.format(alarm, arguments)
+        )
 
         # Check whether all parts of the check was understood
         check_tokens = alarm['check_tokens']
@@ -271,7 +305,10 @@ class CheckAlarms(object):
         last_alarm_time = self._get_time_of_last_alarm(alarm['id'])
 
         # Alarm is not inhibited by no_repeat_interval
-        if last_alarm_time is None or time.time() - last_alarm_time > alarm['no_repeat_interval']:
+        if (
+                last_alarm_time is None or
+                time.time() - last_alarm_time > alarm['no_repeat_interval']
+        ):
             if last_alarm_time is None:
                 _LOG.debug('No previous alarm within no_repeat_interval. '
                            'No previous alarm.')
@@ -279,9 +316,9 @@ class CheckAlarms(object):
                 diff = time.time() - last_alarm_time
                 _LOG.debug('No previous alarm within no_repeat_interval. Time '
                            'since last: {0:.1f}'.format(diff))
-
-            query = "INSERT INTO alarm_log (alarm_id) VALUES (%s)"
-            self._alarm_cursor.execute(query, (alarm['id']))
+            # Todo: Consider to write a prepared statement rather than using format
+            query = 'INSERT INTO alarm_log set alarm_id={}'.format(alarm['id'])
+            self._alarm_cursor.execute(query)
 
             subject = alarm['subject']
             if subject == '':
@@ -298,9 +335,11 @@ class CheckAlarms(object):
     def _get_time_of_last_alarm(self, alarm_id):
         """Returns the time of last alarm for alarm_id"""
         _LOG.debug('_get_time_of_last_alarm(alarm_id={0})'.format(alarm_id))
-        query = 'select unix_timestamp(time) from alarm_log where alarm_id = '\
-                '%s order by time desc limit 1;'
-        self._alarm_cursor.execute(query, (alarm_id))
+        # Todo: Consider to write a prepared statement rather than using format
+        query = 'select unix_timestamp(time) from alarm_log '
+        query += 'where alarm_id = {} order by time desc limit 1;'
+        query = query.format(alarm_id)
+        self._alarm_cursor.execute(query)
         result = self._alarm_cursor.fetchall()
         if len(result) == 0:
             return None
@@ -424,7 +463,7 @@ class CheckAlarms(object):
                     ).format(repr(exp), arguments)
                 body = message + body
 
-        sender = 'Floormanagers@fysik.dtu.dk' # 'no-reply@fysik.dtu.dk'
+        sender = SETTINGS['mail_sender']
         msg = MIMEText(body)
         # Header info
         msg['Subject'] = subject
@@ -470,7 +509,6 @@ def main():
         _LOG.debug('Writing pid file with pid: {0}'.format(pid))
         file_.write(str(pid))
 
-
     check_alarms = CheckAlarms()
     try:
         check_alarms.check_alarms()
@@ -478,9 +516,10 @@ def main():
         _LOG.exception("An error occoured during alarm script")
         check_alarms._send_email("Alarm script generated error",
                                  str(exp.args),
-                                 ['jejsor@fysik.dtu.dk'])
+                                 [SETTINGS['error_contact_email']])
 
     _LOG.debug('Execution time: {0}'.format(time.time() - start_time))
+
 
 if __name__ == '__main__':
     main()

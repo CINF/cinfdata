@@ -1,9 +1,12 @@
 <?php
-
-
 include("../common_functions_v2.php");
+
+// https://github.com/jdorn/sql-formatter/tree/master
+// https://raw.githubusercontent.com/jdorn/sql-formatter/master/lib/SqlFormatter.php
+// Todo: Either investigate if license allows bundling, or find a version with a cdn
 require("SqlFormatter.php");
-$dbi = std_dbi("alarm");
+
+$db = std_db($user='alarm_user');
 
 # Holds the data on existing alarms
 $alarm_data = Array();
@@ -63,12 +66,12 @@ function prepare_table_data($row){
 
 /** Produces the HTML for the existing alarms table */
 function existing_alarms(){
-  global $dbi;
+  global $db;
   global $alarm_data;
 
   # Get the alarms
   $query = "SELECT * FROM alarm WHERE visible=1 order by id";
-  $result = $dbi->query($query);
+  $result = $db->query($query);
 
   # Start the table
   echo("<div style=\"width:45%;float:left\">");
@@ -79,7 +82,7 @@ function existing_alarms(){
   echo("</tr>");
 
   # Loop over alarms
-  while($row = $result->fetch_row()) {
+  while($row = $result->fetch()) {
     # Save the alarm data for use in the edit table
     $alarm_data[$row[0]] = $row;
     # Generate the single alarm row
@@ -192,9 +195,9 @@ function edit_table($row){
     $alarm_id = isset($_GET["alarm_id"]) ? $_GET["alarm_id"] : null;
     $check = isset($_GET["check"]) ? $_GET["check"] : "";
     $no_repeat_interval = isset($_GET["no_repeat_interval"]) ? $_GET["no_repeat_interval"] : 3600;
-    $quiries = isset($_GET["quiries"]) ? $_GET["quiries"] : array_fill(0, NUM_INPUTS, "");
-    $recipients = isset($_GET["recipients"]) ? $_GET["recipients"] : array_fill(0, NUM_INPUTS, "");
-    $parameters = isset($_GET["parameters"]) ? $_GET["parameters"] : array_fill(0, NUM_INPUTS, "");
+    $quiries = isset($_GET["quiries"]) ? $_GET["quiries"] : array_fill(0, NUM_INPUTS + 1, "");
+    $recipients = isset($_GET["recipients"]) ? $_GET["recipients"] : array_fill(0, NUM_INPUTS + 1, "");
+    $parameters = isset($_GET["parameters"]) ? $_GET["parameters"] : array_fill(0, NUM_INPUTS + 1, "");
     $message = isset($_GET["message"]) ? $_GET["message"] : "";
     $description = isset($_GET["description"]) ? $_GET["description"] : "";
     $subject = isset($_GET["subject"]) ? $_GET["subject"] : "";
@@ -203,9 +206,9 @@ function edit_table($row){
     $alarm_id = null;
     $check = "";
     $no_repeat_interval = 3600;
-    $quiries = array_fill(0, NUM_INPUTS, "");
-    $recipients = array_fill(0, NUM_INPUTS, "");
-    $parameters = array_fill(0, NUM_INPUTS, "");
+    $quiries = array_fill(0, NUM_INPUTS + 1, "");
+    $recipients = array_fill(0, NUM_INPUTS + 1, "");
+    $parameters = array_fill(0, NUM_INPUTS + 1, "");
     $message = "";
     $description = "";
     $subject = "";
@@ -377,7 +380,7 @@ function prepare_db_data(){
 
 /** Insert a new alarm from the URL data into the database */
 function insert_new(){
-  global $dbi;
+  global $db;
   global $message_out;
 
   # If the data is insufficient, set the screen message and return
@@ -395,39 +398,33 @@ function insert_new(){
     "message, " .
     "recipients_json, " .
     "locked, " .
+    "visible, " .
     "description, " .
     "subject, " .
     "active" .
-    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-  $statement = $dbi->prepare($query);
-  # bind parameters for markers, where (s = string, i = integer, d = double,
-  #                                     b = blob)
+    ") VALUES (?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?)";
+  // New rules are never locked and always visible
+  $statement = $db->prepare($query);
 
-  $locked = 0;
-  $statement->bind_param('sssississi',
-			 $data["quiries_json"],
-			 $data["parameters_json"],
-			 $data["check"],
-			 $data["no_repeat_interval"],
-			 $data["message"],
-			 $data["recipients_json"],
-			 $locked,
-			 $data["description"],
-			 $data["subject"],
-			 $data["active"]
-			 );
+  $statement->bindParam(1, $data["quiries_json"], PDO::PARAM_STR);
+  $statement->bindParam(2, $data["parameters_json"], PDO::PARAM_STR);
+  $statement->bindParam(3, $data["check"], PDO::PARAM_STR);
+  $statement->bindParam(4, $data["no_repeat_interval"], PDO::PARAM_INT);
+  $statement->bindParam(5, $data["message"], PDO::PARAM_STR);
+  $statement->bindParam(6, $data["recipients_json"], PDO::PARAM_STR);
+  $statement->bindParam(7, $data["description"], PDO::PARAM_STR);
+  $statement->bindParam(8, $data["subject"], PDO::PARAM_STR);
+  $statement->bindParam(9, $data["active"], PDO::PARAM_INT);
 
   if($statement->execute()){
+    $latest_id = $db->lastInsertID();
     $message_out = msg("The new alarm was successfully added and given ID " .
-		       "number: " . $statement->insert_id);
+                       "number: " . $latest_id);
   } else {
     $message_out = msg("The following error occurred while " .
-		       "trying to insert the new alarm: (" . $mysqli->errno .
-		       ") " . $mysqli->error,
+		       "trying to insert the new alarm: " . $db->errorInfo(),
 		       $alarm=true);
   }
-  $statement->close();
-
   return true;
 }
 
@@ -439,21 +436,21 @@ function insert_new(){
 
 */
 function delete_alarm($alarm_number){
-  global $dbi;
+  global $db;
   global $message_out;
 
   # If the data is insufficient, set the screen message and return
   $query = "UPDATE alarm SET visible=0 WHERE `id`=?";
-  $statement = $dbi->prepare($query);
-  $statement->bind_param('i', $alarm_number);
+  $statement = $db->prepare($query);
+  $statement->bindParam(1, $alarm_number, PDO::PARAM_INT);
+
   if($statement->execute()){
-    $message_out = "<p>Alarm " . $data["id"] . " successfully deleted</p>";
+    $message_out = "<p>Alarm " . $alarm_number . " successfully deleted</p>";
   } else {
     $message_out = msg("The following error occurred while trying to delete " .
-		       "the alarm: (" . $mysqli->errno . ") " . $mysqli->error,
+		       "the alarm: " . $db->errorInfo(),
 		       $alarm=true);
   }
-  $statement->close();
 
 }
 
@@ -464,7 +461,7 @@ function delete_alarm($alarm_number){
        update
 */
 function update_existing(){
-  global $dbi;
+  global $db;
   global $message_out;
 
   # If the data is insufficient, set the screen message and return
@@ -486,31 +483,27 @@ function update_existing(){
     "active=? " .
     "WHERE `id`=?";
 
-  $statement = $dbi->prepare($query);
-
-  # bind parameters for markers, where (s = string, i = integer, d = double,
-  #                                     b = blob)
+  $statement = $db->prepare($query);
   $data["id"] = (int) $data["id"];
   $data["active"] = (int) $data["active"];
-  $statement->bind_param('sssissssii',
-			 $data["quiries_json"],
-			 $data["parameters_json"],
-			 $data["check"],
-			 $data["no_repeat_interval"],
-			 $data["message"],
-			 $data["recipients_json"],
-			 $data["description"],
-			 $data["subject"],
-			 $data["active"],
-			 $data["id"]);
+  $statement->bindParam(1, $data["quiries_json"], PDO::PARAM_STR);
+  $statement->bindParam(2, $data["parameters_json"], PDO::PARAM_STR);
+  $statement->bindParam(3, $data["check"], PDO::PARAM_STR);
+  $statement->bindParam(4, $data["no_repeat_interval"], PDO::PARAM_INT);
+  $statement->bindParam(5, $data["message"], PDO::PARAM_STR);
+  $statement->bindParam(6, $data["recipients_json"], PDO::PARAM_STR);
+  $statement->bindParam(7, $data["description"], PDO::PARAM_STR);
+  $statement->bindParam(8, $data["subject"], PDO::PARAM_STR);
+  $statement->bindParam(9, $data["active"], PDO::PARAM_INT);
+  $statement->bindParam(10, $data["id"], PDO::PARAM_INT);
+
   if($statement->execute()){
     $message_out = "<p>Alarm " . $data["id"] . " was successfully updated</p>";
   } else {
     $message_out = msg("The following error occurred while trying to update " .
-		       "the alarm: (" . $mysqli->errno . ") " . $mysqli->error,
+		       "the alarm: " . $db->errorInfo(),
 		       $alarm=true);
   }
-  $statement->close();
 
   return true;
 }
@@ -570,9 +563,11 @@ if ($action == "new"){
 } elseif ($action == "continue edit"){
   echo("<h1><a id=\"edit_alarm\"></a>Edit alarm number $alarm_number</h1>\n");
   edit_table($action);
-} else {
+} elseif (strpos('edit+', $action) > -1)  {
   echo("<h1><a id=\"edit_alarm\"></a>Edit alarm number $alarm_number</h1>\n");
   edit_table($alarm_data[$alarm_number]);
+} else {
+ // Do nothing
 }
 
 echo("\n\n\n");

@@ -1,15 +1,28 @@
 <?php
+// TODO: Remove this hard-coded timezone
 date_default_timezone_set("Europe/Copenhagen");
 
 /** Returns a handle to the standard database
     @return object 
   */
-function std_db(){
+function std_db($user_type=NULL){
+  // These two xml files will be merged in an upcomming PR
   $xml=simplexml_load_file("../site_settings.xml");
+  $global_settings=simplexml_load_file("../global_settings.xml");
+
+  if ($user_type == 'alarm_user'){
+    $db_user = $global_settings->mail_alarm_settings->alarm_user;
+    $db_password = $global_settings->mail_alarm_settings->alarm_pw;
+  } else {
+    $db_user = $xml->db_user;
+    $db_password = $xml->db_password;
+  }
+
   $conn_str = 'mysql:host=' . $xml->db_host . ';dbname=' . $xml->db_database . ';charset=utf8';
-  $pdo = new PDO($conn_str, $xml->db_user, $xml->db_password);
+  $pdo = new PDO($conn_str, $db_user, $db_password);
   return $pdo;
 }
+
 
 function single_sql_value($db, $query, $column){
     $stmt = $db->prepare($query);
