@@ -1,41 +1,25 @@
 <?php
+# This page presents the host status of devices as gathered by ~/machines/rasppi42/host_status.py
 include("../common_functions_v2.php");
 $db = std_db();
 
 $query = 'select id, time, host, port, location, purpose, attr from host_checker';
-$result  = mysql_query($query, $db);
-while ($row = mysql_fetch_array($result)){                                               
-  if (sizeof($row[6]) > 0){
-    $data[] = json_decode($row[6], True);
+$stmt  = $db->prepare($query);
+$stmt->execute();
+while ($row = $stmt->fetch(PDO::FETCH_BOTH)){
+  if (sizeof($row["attr"]) > 0){
+    $data[] = json_decode($row["attr"], True);
   }
   else{
-    $data[] = array("hostname" => $row[2], "location" => "<i>" . $row[4] . "</i>");
+    $data[] = array("hostname" => $row["host"], "location" => "<i>" . $row["location"] . "</i>");
   }
 }
 ?>
 <html>
 <head>
 
-<script src="sortable-0.5.0/js/sortable.min.js"></script>
-<link rel="stylesheet" href="sortable-0.5.0/css/sortable-theme-finder.css" />
-
-<style>
-.down {
-background: #ff0000;
-width: 15px;
-height: 15px;
-border-radius: 50%;
-}
-</style>
-
-<style>
-.up {
-background: #00ff00;
-width: 15px;
-height: 15px;
-border-radius: 50%;
-}​
-</style>
+<script src="https://cdn.tutorialjinni.com/sortable/0.8.0/js/sortable.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.tutorialjinni.com/sortable/0.8.0/css/sortable-theme-finder.min.css" />
 
 </head>
 
@@ -43,7 +27,7 @@ border-radius: 50%;
 <?php
 echo("<table class=\"sortable-theme-finder\" data-sortable>\n");
 echo("<thead>");
-echo("<th>&nbsp;</th><th>Hostname</th><th>Uptime</th><th>Load</th><th>Setup</th><th>Description</th><th>Apt</th><th>Git</th><th>Temp.</th><th>Python</th><th>Model</th>");
+echo("<th>&nbsp;</th><th>Hostname</th><th>Port</th><th>Uptime</th><th>Load</th><th>Setup</th><th>Description</th><th>Apt</th><th>Git PyExpLabSys</th><th>Git machines</th><th>Temperature</th><th>Python</th><th>OS</th><th>Model</th>");
 echo("</thead><tbody>");
 
 for ($i=0; $i<sizeof($data); $i++){
@@ -52,35 +36,43 @@ for ($i=0; $i<sizeof($data); $i++){
   $value = ($data[$i]['up_or_down'] == 0) ? "0" : "1";
 
   echo("<td data-value=\"" . $value . "\"><font color=" . $color . ">&#8226;</font></td>");
-  if (substr($data[$i]['hostname'], 0, 6) == 'rasppi'){
-    $sortval = (substr($data['hostname'], 6));
-  }
-  else{
-    $sortval = 1000;
-  }
+  # Hostname
   $sort_pos = preg_replace('/\D/', '', $data[$i]['hostname']);
   if ($sort_pos == ''){
       $sort_pos = '99999';
   }
   echo("<td data-value=\"" . $sort_pos . "\">" . $data[$i]['hostname'] . "</td>");
+  echo("<td>" . $data[$i]['port'] . "</td>");
+  # Uptime / load
   if ($data[$i]['up_or_down'] == false){
-    echo("<td colspan=2><b>Host is down</b></td>");
+    #echo("<td colspan=2><b>Host is down</b></td>"); # colspan=2 interferes with sortable
+    echo("<td><b>Host is</b></td>");
+    echo("<td><b>down</b></td>");
   }else{
        echo("<td>" . $data[$i]['up'] . "</td><td>" . $data[$i]['load'] . "</td>");
   }
+  # Other attributes
   echo("<td>" . $data[$i]['location'] . "</td>");
   echo("<td>" . $data[$i]['purpose'] . "</td>");
   echo("<td>" . $data[$i]['apt_up'] . "</td>");
-  echo("<td>" . $data[$i]['git'] . "</td>");
+  echo("<td>" . $data[$i]['git_pyexplabsys'] . "</td>");
+  echo("<td>" . $data[$i]['git_machines'] . "</td>");
   echo("<td>" . $data[$i]['host_temperature'] . "</td>");
   echo("<td>" . $data[$i]['python_version'] . "</td>");
+  # OS version
+  $version_number = substr($data[$i]['os_version'], 0, strpos($data[$i]['os_version'], ' '));
+  if (strlen($data[$i]['os_version']) == 0){
+      $sortval = 1000;
+  }else{
+      if ($data[$i]['os_version'] == 'Unavailable'){
+          $sortval = 10000;
+      }else{
+          $sortval = intval($version_number);
+      }
+  }
+  echo("<td data-value=\"" . $sortval . "\">" . $data[$i]['os_version'] . "</td>");
+  # Model
   echo("<td>" . $data[$i]['model'] . "</td>");
-  #if (strpos($row[9], '(') == True){
-  #  echo("<td>" . substr($row[9],0, strpos($row[9], '(')) . "</td>");
-  #  }
-  #  else{
-  #echo("<td>" . $row[9] . "</td>");
-  #  }
   echo("</tr>\n");
 }
 echo("</tbody></table>");
