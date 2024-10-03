@@ -1,5 +1,5 @@
 <?php
-# This page presents the host status of devices as gathered by ~/machines/rasppi42/host_status.py
+# This page presents the host status of devices as gathered by https://github.com/CINF/machines/rasppi42/host_status.py
 include("../common_functions_v2.php");
 $db = std_db();
 
@@ -18,8 +18,8 @@ while ($row = $stmt->fetch(PDO::FETCH_BOTH)){
 <html>
 <head>
 
-<script src="https://cdn.tutorialjinni.com/sortable/0.8.0/js/sortable.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.tutorialjinni.com/sortable/0.8.0/css/sortable-theme-finder.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sortable/0.8.0/js/sortable.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sortable/0.8.0/css/sortable-theme-finder.min.css" />
 
 </head>
 
@@ -27,7 +27,7 @@ while ($row = $stmt->fetch(PDO::FETCH_BOTH)){
 <?php
 echo("<table class=\"sortable-theme-finder\" data-sortable>\n");
 echo("<thead>");
-echo("<th>&nbsp;</th><th>Hostname</th><th>Port</th><th>Uptime</th><th>Load</th><th>Setup</th><th>Description</th><th>Apt</th><th>Git PyExpLabSys</th><th>Git machines</th><th>Temperature</th><th>Python</th><th>OS</th><th>Model</th>");
+echo("<th>&nbsp;</th><th>Hostname</th><th>Port</th><th>Uptime</th><th>Load</th><th>Setup</th><th>Description</th><th>Apt</th><th>Git PyExpLabSys</th><th>Git machines</th><th>Temperature</th><th>Python</th><th>OS</th><th>Model</th><th>Last check</th>");
 echo("</thead><tbody>");
 
 for ($i=0; $i<sizeof($data); $i++){
@@ -73,6 +73,9 @@ for ($i=0; $i<sizeof($data); $i++){
   echo("<td data-value=\"" . $sortval . "\">" . $data[$i]['os_version'] . "</td>");
   # Model
   echo("<td>" . $data[$i]['model'] . "</td>");
+  # Last access
+  echo("<td>" . $data[$i]['last_accessed'] . "</td>");
+  # End-of-row
   echo("</tr>\n");
 }
 echo("</tbody></table>");
