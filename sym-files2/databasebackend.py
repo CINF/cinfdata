@@ -347,6 +347,16 @@ class dataBaseBackend():
         return outstr
 
     def _as_function_of(self):
+        # If several as_function_of's are defined, func_type will tell which one
+        # - in the legacy case of only one, func type will just be the default
+        # value and not match a key - root key is (which is the only one in
+        # the classic case) is then used
+        func_type = self.o['as_function_of']
+        if func_type in self.ggs['as_function_of']:
+            settings = self.ggs['as_function_of'][func_type]
+        else:
+            settings = self.ggs['as_function_of']
+
         # Get the datetime of the measurement
         for dat in self.data['left'] + self.data['right']:
             query = ('SELECT {0} FROM {1} where id = {2}'
@@ -358,7 +368,7 @@ class dataBaseBackend():
 
             # Fetch all sets of id and label that is from the same time
             query = ('SELECT id, {0} FROM {1} WHERE TIME = \"{2}\"'
-                     ''.format(self.ggs['as_function_of']['column'],
+                     ''.format(settings['column'],
                                self.ggs['measurements_table'],
                                timestamp.strftime("%Y-%m-%d %H:%M:%S")))
             measurements = self._result_from_query(query)
@@ -367,8 +377,7 @@ class dataBaseBackend():
             # e.g.: "temperature"
             new_x_id = None
             for measurement in measurements:
-                search = re.search(self.ggs['as_function_of']['reg_match'],
-                                   measurement[1])
+                search = re.search(settings['reg_match'], measurement[1])
                 try:
                     if len(search.group(0)) > 0:
                         new_x_id = measurement[0]
@@ -379,7 +388,7 @@ class dataBaseBackend():
             if new_x_id:
                 # Change the x-axis label
                 self.data['data_treatment']['xlabel'] =\
-                    self.ggs['as_function_of']['xlabel']
+                    settings['xlabel']
                 # Fetch the pertaining temperature data
                 new_x = self.__get_data_xyplot_single(new_x_id)
                 """ Assumes both dat and new_x contains a common
