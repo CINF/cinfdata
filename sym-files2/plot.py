@@ -85,6 +85,10 @@ class Plot():
         for pair in options.boolean_options.split(',')[1:]:
             key, value = pair.split(':')
             self.o[key] = True if value == 'checked' else False
+            if key == 'as_function_of':
+                if value:
+                    self.o['as_function_of'] = value
+
         # Parse bounds
         bkeys = [s + '_bounding' for s in ['xscale', 'left_yscale', 'right_yscale']]
         for bound in bkeys:
