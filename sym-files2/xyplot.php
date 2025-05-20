@@ -53,7 +53,7 @@ $right_plotlist    = isset($_GET["right_plotlist"])     ? $_GET["right_plotlist"
 $matplotlib        = isset($_GET["matplotlib"])         ? "checked"                    : "";
 $plot_options      = isset($_GET["plot_options"])       ? "checked"                    : "";
 $flip_x            = isset($_GET["flip_x"])             ? "checked"                    : "";
-$as_function_of    = isset($_GET["as_function_of"])     ? "checked"                    : "";
+$as_function_of    = isset($_GET["as_function_of"])     ? $_GET["as_function_of"]      : "";
 $diff_left_y       = isset($_GET["diff_left_y"])        ? "checked"                    : "";
 $diff_right_y      = isset($_GET["diff_right_y"])       ? "checked"                    : "";
 $linscale_x0       = isset($_GET["linscale_x0"])        ? "checked"                    : "";
@@ -246,8 +246,23 @@ if ($matplotlib == 'checked'){
                echo($settings["flip_x"]["gui"] . "<input type=\"checkbox\" name=\"flip_x\" value=\"checked\"" . $flip_x . "><br>");
             }
             if(in_array("as_function_of",array_keys($settings)) == "1"){
-               echo($settings["as_function_of"]["gui"] . "<input type=\"checkbox\" name=\"as_function_of\" value=\"checked\"" . $as_function_of . "><br>");
+                $checked = "";
+                if ($as_function_of == 'default'){
+                   $checked = "checked";
+                }
+                echo($settings["as_function_of"]["gui"] . "<input type=\"checkbox\" name=\"as_function_of\" value=\"default\"" . $checked . "><br>");
             }
+	    # WARNING - THIS NEEDS TO BY CHECKED AND FIXED !!!!! THE OUTER IF IS ENDED TOO SOON!
+            foreach ($settings["as_function_of"] as $key => $value){
+		if (is_array($value)){
+                    $checked = "";
+                    if ($as_function_of == $key){
+                        $checked = "checked";
+                    }
+                    echo($value["gui"] . "<input type=\"checkbox\" name=\"as_function_of\" value=\"" . $key . "\"" . $checked . "><br>");
+		}
+            }
+
             if(in_array("diff_left_y",array_keys($settings)) == "1"){
                echo($settings["diff_left_y"]["gui"] . "<input type=\"checkbox\" title=\"Assumes equidistant x-spacing!\" name=\"diff_left_y\" value=\"checked\"" . $diff_left_y . "><br>");
             }
