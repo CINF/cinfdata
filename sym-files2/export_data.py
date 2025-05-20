@@ -59,6 +59,10 @@ class ExportData:
         for pair in options.boolean_options.split(',')[1:]:
             key, value = pair.split(':')
             self.o[key] = True if value == 'checked' else False
+            if key == 'as_function_of':
+                if value:
+                    self.o['as_function_of'] = value
+
         # Parse bounds
         bkeys = [s + '_bounding' for s in ['xscale', 'left_yscale', 'right_yscale']]
         for bound in bkeys:
@@ -168,7 +172,7 @@ class ExportData:
             for n, d in enumerate(data['left'] + data['right']):
                 # Only make output if the current warning key is present in the
                 # current datasets graphsettings
-                if d['lgs'].has_key(warning):
+                if warning in d['lgs']:
                     out += ['"' + warning + '"', '"' + d['lgs'][warning] + '"']
                 else:
                     out += ['', '']
