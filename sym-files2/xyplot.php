@@ -237,14 +237,15 @@ if ($matplotlib == 'checked'){
               } else {
                 $show_plot_options = "display:none";
               }
-		    ?>
-		    <span id="plot_options" style="<?php echo($show_plot_options);?>">
-		    <hr>
-		  <?php
-          // Check for specific settings defined in graphsettings.xml and print if defined
+	 ?>
+	 <span id="plot_options" style="<?php echo($show_plot_options);?>">
+	 <hr>
+	 <?php
+         // Check for specific settings defined in graphsettings.xml and print if defined
             if(in_array("flip_x",array_keys($settings)) == "1"){
                echo($settings["flip_x"]["gui"] . "<input type=\"checkbox\" name=\"flip_x\" value=\"checked\"" . $flip_x . "><br>");
             }
+
             if(in_array("as_function_of",array_keys($settings)) == "1"){
                 $checked = "";
                 if ($as_function_of == 'default'){
@@ -252,7 +253,6 @@ if ($matplotlib == 'checked'){
                 }
                 echo($settings["as_function_of"]["gui"] . "<input type=\"checkbox\" name=\"as_function_of\" value=\"default\"" . $checked . "><br>");
             }
-	    # WARNING - THIS NEEDS TO BY CHECKED AND FIXED !!!!! THE OUTER IF IS ENDED TOO SOON!
             foreach ($settings["as_function_of"] as $key => $value){
 		if (is_array($value)){
                     $checked = "";
