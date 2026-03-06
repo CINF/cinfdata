@@ -73,7 +73,8 @@ if ($action === 'reset'){
 
 if ($action=='qr'){
   ob_start();
-  $command = './qr_generator.py ' . $id;
+  $url = $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+  $command = './qr_generator.py ' . $id . ' ' . $url;
   passthru($command, $return_code);
   $content_grabbed=ob_get_contents();
   ob_end_clean();
