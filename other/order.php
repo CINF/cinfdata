@@ -2,16 +2,10 @@
 include("../common_functions_v2.php");
 echo(html_header());
 
-// purchase_reminders
-// dateplots_purchase_reminders
-
 $id = intval($_GET["id"] ?? 0);
 $action = trim(strtolower(htmlspecialchars($_GET["action"] ?? '')));
-//$id = 26;
-//$action = 'reset';
 
-$db = std_db();
-// $db = std_db($user='alarm_user');
+$db = std_db($user='alarm_user');
 
 
 /** Produces the HTML for the existing purchase_reminders */
@@ -19,7 +13,6 @@ function existing_purchase_reminders(){
   global $db;
 
   # Get the alarms
-  // $query = "SELECT * FROM alarm WHERE visible=1 order by id";
   $query = "SELECT id, description FROM alarm WHERE description like \"[purchase_reminders]%\"";
   $result = $db->query($query);
 
@@ -90,11 +83,8 @@ if ($action=='qr'){
   echo("<img src=\"../figures/qr_{$id}.png\">\n");
 }
 
-
 // Print the overview
-
 existing_purchase_reminders();
-
 
 echo("\n\n\n");
 echo(html_footer());
