@@ -425,6 +425,17 @@ function insert_new(){
 		       "trying to insert the new alarm: " . $db->errorInfo(),
 		       $alarm=true);
   }
+
+  // If this is a purchase reminder, insert first dateplot row
+  if (str_contains($data["description"], "[purchase_reminders]")){
+    $query = "INSERT INTO dateplots_purchase_reminders (type, value) values (:i, :v)";
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(':i', $latest_id);
+    $stmt->bindValue(':v', 0);
+    $stmt->execute();
+  }
+
+
   return true;
 }
 
