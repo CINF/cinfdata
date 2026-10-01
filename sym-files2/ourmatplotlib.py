@@ -358,7 +358,7 @@ class Plot():
             legends = self.ax1.legend(ax1_legends[0], ax1_legends[1], loc=0)
 
             # Make legend lines thicker
-            for legend_handle in legends.legendHandles:
+            for legend_handle in legends.legend_handles:
                 legend_handle.set_linewidth(6)
 
     def _save(self, plot_info):
