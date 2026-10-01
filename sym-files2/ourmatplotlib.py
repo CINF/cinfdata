@@ -161,6 +161,7 @@ class Plot():
             return False
 
         # Left axis
+        format_string = '-'
         for dat in data['left']:
             # Form legend
             if 'legend' in dat['lgs']:
@@ -169,16 +170,17 @@ class Plot():
                 legend = None
             # Plot
             if len(dat['data']) > 0:
-                self.ax1.plot_date(
+                self.ax1.xaxis.axis_date(self.tz)
+                self.ax1.plot(
                     (dat['data'][:,0] * 1000).astype('datetime64[ms]'), # ms precision
                     dat['data'][:,1],
+                    format_string,
                     label=legend,
-                    xdate=True,
                     color=self.c.get_color(),
-                    tz=self.tz,
-                    fmt='-')
+                )
         # Right axis
         if self.right_yaxis:
+            format_string = '-'
             for dat in data['right']:
                 # Form legend
                 if 'legend' in dat['lgs']:
@@ -187,14 +189,14 @@ class Plot():
                     legend = None
                 # Plot
                 if len(dat['data']) > 0:
-                    self.ax2.plot_date(
+                    self.ax2.xaxis.axis_date(self.tz)
+                    self.ax2.plot(
                         (dat['data'][:,0] * 1000).astype('datetime64[ms]'), # ms precision
                         dat['data'][:,1],
+                        format_string,
                         label=legend,
-                        xdate=True,
                         color=self.c.get_color(),
-                        tz=self.tz,
-                        fmt='-')
+                    )
 
         # Set xtick formatter (only if we have points)
         if self.measurement_count > 0:
