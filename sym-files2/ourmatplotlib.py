@@ -169,13 +169,14 @@ class Plot():
                 legend = None
             # Plot
             if len(dat['data']) > 0:
-                self.ax1.plot_date(mdates.epoch2num(dat['data'][:,0]),
-                                   dat['data'][:,1],
-                                   label=legend,
-                                   xdate=True,
-                                   color=self.c.get_color(),
-                                   tz=self.tz,
-                                   fmt='-')
+                self.ax1.xaxis.axis_date(self.tz)
+                self.ax1.plot(
+                    (dat['data'][:,0] * 1000).astype('datetime64[ms]'), # ms precision
+                    dat['data'][:,1],
+                    self.o['left_format'],
+                    label=legend,
+                    color=self.c.get_color(),
+                )
         # Right axis
         if self.right_yaxis:
             for dat in data['right']:
@@ -186,13 +187,14 @@ class Plot():
                     legend = None
                 # Plot
                 if len(dat['data']) > 0:
-                    self.ax2.plot_date(mdates.epoch2num(dat['data'][:,0]),
-                                       dat['data'][:,1],
-                                       label=legend,
-                                       xdate=True,
-                                       color=self.c.get_color(),
-                                       tz=self.tz,
-                                       fmt='-')
+                    self.ax2.xaxis.axis_date(self.tz)
+                    self.ax2.plot(
+                        (dat['data'][:,0] * 1000).astype('datetime64[ms]'), # ms precision
+                        dat['data'][:,1],
+                        self.o['right_format'],
+                        label=legend,
+                        color=self.c.get_color(),
+                    )
 
         # Set xtick formatter (only if we have points)
         if self.measurement_count > 0:
@@ -358,7 +360,7 @@ class Plot():
             legends = self.ax1.legend(ax1_legends[0], ax1_legends[1], loc=0)
 
             # Make legend lines thicker
-            for legend_handle in legends.legendHandles:
+            for legend_handle in legends.legend_handles:
                 legend_handle.set_linewidth(6)
 
     def _save(self, plot_info):

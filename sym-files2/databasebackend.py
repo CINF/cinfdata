@@ -37,6 +37,8 @@ import numpy as np
 from graphsettings import graphSettings
 import xmltodict
 import MySQLdb
+import MySQLdb.converters
+from MySQLdb.constants import FIELD_TYPE
 
 class dataBaseBackend():
     ''' This class will fetch measurement data and measurement information from the
@@ -63,13 +65,19 @@ class dataBaseBackend():
             settings = xmltodict.parse(fd.read())
         settings = settings['db_settings']
 
+        # If millisecond precision is added to a timestamp column, the data is returned
+        # as decimal.Decimal type data. Return it as floats instead.
+        converter_index = MySQLdb.converters.conversions.copy()
+        converter_index[FIELD_TYPE.NEWDECIMAL] = float
+
         # Create MySQL session and cursor
         self.conn = MySQLdb.connect(
             host=settings['db_host'],
             user=settings['db_user'],
             passwd=settings['db_password'],
             db=settings['db_database'],
-            charset='utf8'
+            charset='utf8',
+            conv=converter_index,
         )
         self.cursor = self.conn.cursor()
         self.data = None
