@@ -161,7 +161,6 @@ class Plot():
             return False
 
         # Left axis
-        format_string = '-'
         for dat in data['left']:
             # Form legend
             if 'legend' in dat['lgs']:
@@ -174,13 +173,12 @@ class Plot():
                 self.ax1.plot(
                     (dat['data'][:,0] * 1000).astype('datetime64[ms]'), # ms precision
                     dat['data'][:,1],
-                    format_string,
+                    self.o['left_format'],
                     label=legend,
                     color=self.c.get_color(),
                 )
         # Right axis
         if self.right_yaxis:
-            format_string = '-'
             for dat in data['right']:
                 # Form legend
                 if 'legend' in dat['lgs']:
@@ -193,7 +191,7 @@ class Plot():
                     self.ax2.plot(
                         (dat['data'][:,0] * 1000).astype('datetime64[ms]'), # ms precision
                         dat['data'][:,1],
-                        format_string,
+                        self.o['right_format'],
                         label=legend,
                         color=self.c.get_color(),
                     )

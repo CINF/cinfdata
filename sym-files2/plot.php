@@ -44,6 +44,8 @@ foreach (array('left_plotlist', 'right_plotlist') as $list){
     }
   }
 }
+$left_format = !empty($_GET['left_format']) ? $_GET['left_format'] : '-';
+$right_format = !empty($_GET['right_format']) ? $_GET['right_format'] : '-';
 
 ### Dateplot specific
 $from_to  = ($_GET['from'] ?? '') . ',' . ($_GET['to'] ?? '');
@@ -72,10 +74,13 @@ $command = './plot.py --type ' . $_GET['type'] .
   ' --left_yscale_bounding "' . $left_yscale_bounding . '"' .
   ' --right_yscale_bounding "' . $right_yscale_bounding . '"' .
   ' --from_to "' . $from_to . '"' .
+  ' --left_format "' . $left_format . '"' .
+  ' --right_format "' . $right_format . '"' .
   ' --image_format "' . $image_format . '"' .
   ' --manual_labels_n_titel "' . $manual_labels_n_titel . '"' .
   ' --input_id "' . $input_id . '"' .
   ' 2>&1';
+
 # Grab raw output of python plotting command
 ob_start();
 passthru($command, $return_code);
