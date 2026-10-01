@@ -169,13 +169,14 @@ class Plot():
                 legend = None
             # Plot
             if len(dat['data']) > 0:
-                self.ax1.plot_date(mdates.epoch2num(dat['data'][:,0]),
-                                   dat['data'][:,1],
-                                   label=legend,
-                                   xdate=True,
-                                   color=self.c.get_color(),
-                                   tz=self.tz,
-                                   fmt='-')
+                self.ax1.plot_date(
+                    (dat['data'][:,0] * 1000).astype('datetime64[ms]'), # ms precision
+                    dat['data'][:,1],
+                    label=legend,
+                    xdate=True,
+                    color=self.c.get_color(),
+                    tz=self.tz,
+                    fmt='-')
         # Right axis
         if self.right_yaxis:
             for dat in data['right']:
@@ -186,13 +187,14 @@ class Plot():
                     legend = None
                 # Plot
                 if len(dat['data']) > 0:
-                    self.ax2.plot_date(mdates.epoch2num(dat['data'][:,0]),
-                                       dat['data'][:,1],
-                                       label=legend,
-                                       xdate=True,
-                                       color=self.c.get_color(),
-                                       tz=self.tz,
-                                       fmt='-')
+                    self.ax2.plot_date(
+                        (dat['data'][:,0] * 1000).astype('datetime64[ms]'), # ms precision
+                        dat['data'][:,1],
+                        label=legend,
+                        xdate=True,
+                        color=self.c.get_color(),
+                        tz=self.tz,
+                        fmt='-')
 
         # Set xtick formatter (only if we have points)
         if self.measurement_count > 0:
