@@ -71,6 +71,8 @@ class Plot():
         parser.add_option('--left_yscale_bounding')  # Float pair
         parser.add_option('--right_yscale_bounding') # Float pair
         parser.add_option('--from_to')               # Time stamp pair NOT HANDLED
+        parser.add_option('--left_format')           # String option
+        parser.add_option('--right_format')          # String option
         parser.add_option('--image_format')          # String options
         parser.add_option('--manual_labels_n_titel') # Manual labels and title for mpl
         parser.add_option('--input_id')              # Database id for plugin input
@@ -108,7 +110,7 @@ class Plot():
                                 options.__dict__[plotlist].split(',')[1:]
                                 if int(a) > 0]
         # Parse string options
-        for key in ['type', 'image_format']:
+        for key in ['type', 'image_format', 'left_format', 'right_format']:
             self.o[key] = options.__dict__[key]
         for opt in options.manual_labels_n_titel.split(','):
             self.o[opt.split('=')[0]] = opt.split('=')[1]

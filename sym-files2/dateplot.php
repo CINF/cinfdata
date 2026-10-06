@@ -48,6 +48,8 @@ $right_logscale    = !empty($_GET["right_logscale"])     ? "checked"            
 $left_plotlist     = !empty($_GET["left_plotlist"])      ? $_GET["left_plotlist"]  : array();
 $right_plotlist    = !empty($_GET["right_plotlist"])     ? $_GET["right_plotlist"] : array();
 $matplotlib        = !empty($_GET["matplotlib"])         ? "checked"               : "";
+$left_format	   = !empty($_GET["left_format"])	 ? $_GET["left_format"]	   : "-";
+$right_format	   = !empty($_GET["right_format"])	 ? $_GET["right_format"]   : "-";
 
 # Get the fully initialized version of the settings
 $settings = plot_settings($type, Array("from" => $from, "to" => $to));
@@ -67,6 +69,7 @@ $options = array('from', 'to',
 		 'left_ymax', 'left_ymin',
 		 'right_ymax', 'right_ymin', 
 		 'left_logscale', 'right_logscale',
+		 'left_format', 'right_format',
 		 'matplotlib');
 # ... add values ...
 foreach($options as $value){
@@ -140,6 +143,7 @@ if ($matplotlib == 'checked'){
 	      <b>Log-scale</b><input type="checkbox" name="left_logscale" value="checked" <?php echo($left_logscale);?>><br>
 	      <b>Y-Min:</b><input name="left_ymin" type="text" size="7" value="<?php echo($left_ymin);?>"><br>
 	      <b>Y-Max:</b><input name="left_ymax" type="text" size="7" value="<?php echo($left_ymax);?>"><br>
+	      <b>Format:</b><input name="left_format" type="text" title="Left data matplotlib line format string" value="<?php echo($left_format);?>" size="13"></b><br>
 	      <b>Select measurement:</b><br>
 	      <select class="select" multiple size="8" name="left_plotlist[]">
 		<?php
@@ -169,6 +173,7 @@ if ($matplotlib == 'checked'){
 	      <b>Log-scale</b><input type="checkbox" name="right_logscale" value="checked" <?php echo($right_logscale);?>><br>
 	      <b>Y-Min:</b><input name="right_ymin" type="text" size="7" value="<?php echo($right_ymin);?>"><br>
 	      <b>Y-Max:</b><input name="right_ymax" type="text" size="7" value="<?php echo($right_ymax);?>"><br>
+	      <b>Format:</b><input name="right_format" type="text" title="Right data matplotlib line format string" value="<?php echo($right_format);?>" size="13"></b><br>
 	      <b>Select measurement:</b><br>
 	      <select class="select" multiple size="8" name="right_plotlist[]">
 		<?php
