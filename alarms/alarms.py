@@ -520,6 +520,33 @@ def main():
 
     _LOG.debug('Execution time: {0}'.format(time.time() - start_time))
 
+def test_mail(recipients):
+    check_alarms = CheckAlarms()
+
+    sender = SETTINGS['mail_sender']
+    msg = MIMEText("This is a test mail from cinfdata.")
+    # Header info
+    msg['Subject'] = "Test mail"
+    msg['From'] = sender
+    if recipients and isinstance(recipients, list):
+        msg['To'] = ', '.join(recipients)
+        msg['Reply-To'] = ', '.join(recipients)
+    else:
+        raise ValueError('recipients must be a list')
+
+    # Send the message via our own SMTP server
+    attempts = 0
+    while attempts < 3:
+        try:
+            smtp_server = smtplib.SMTP(check_alarms._smtp_server_address)
+            smtp_server.sendmail(sender, recipients, msg.as_string())
+            smtp_server.quit()
+            break
+        except smtplib.SMTPException:
+            attempts += 1
+            time.sleep(10)
+    else:
+        raise IOError('Unable to send email')
 
 if __name__ == '__main__':
     main()
