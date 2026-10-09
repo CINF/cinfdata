@@ -28,11 +28,11 @@ import re
 
 # set HOME environment variable to a directory the httpd server can write to
 import os
-from pathlib import Path
-p = Path.cwd()
-os.environ[ 'HOME' ] = str(p.parents[0] / 'figures')
+import pathlib
+p = pathlib.Path(__file__).resolve()
+os.environ['HOME'] = str(p.parents[1] / 'figures')
 # System-wide ctypes cannot be run by apache... strange...
-sys.path.insert(1, p.parents[0])
+#sys.path.insert(1, p.parents[1])
 
 # Matplotlib must be imported before MySQLdb (in dataBaseBackend), otherwise we
 # get an ugly error

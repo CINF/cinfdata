@@ -17,6 +17,15 @@ prompt(){
 }
 
 
+PREFIX=../cinfdata_setup
+# Assume a hardcoded directory named "cinfdata_setup" in the subdirectory
+if ! [ -d  $PREFIX ]; then
+    echo "cinfdata_setup doesn't exist in the proper location"
+    exit 13
+else
+    echo "existence of cinfdata_setup verified"
+fi
+
 if [ $# -ne 1 ]; then
     echo "This script needs exactly one argument, the folder name for the new chamber, to proceed"
     exit 30
@@ -24,16 +33,16 @@ fi
 
 echo "Make new folder named: $1"
 echo "Ok to preceed (y/n)?"
-mkdir $1
+mkdir $PREFIX/$1
 prompt
 
-cd $1
+cd $PREFIX/$1
 echo "Current folder is: "`pwd`
 echo "Ready to make links (y/n)?"
 prompt
 
 echo "Linking python files"
-ln -s ../sym-files2/*.py .
+ln -s ../../cinfdata/sym-files2/*.py .
 if [ $? -eq 0 ]; then
     echo -e "...OK\n\n"
 else
@@ -42,7 +51,7 @@ else
 fi
 
 echo "Linking php files"
-ln -s ../sym-files2/*.php .
+ln -s ../../cinfdata/sym-files2/*.php .
 if [ $? -eq 0 ]; then
     echo -e "...OK\n\n"
 else

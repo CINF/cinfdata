@@ -20,7 +20,7 @@
   */
 
 include("graphsettings.php");
-include("../common_functions_v2.php");
+include(dirname(__DIR__) . "/common_functions_v2.php");
 $db = std_db();
 
 # Get the plot type

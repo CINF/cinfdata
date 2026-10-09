@@ -1,5 +1,5 @@
 <?php
-include("../common_functions_v2.php");
+include(dirname(__DIR__) . "/common_functions_v2.php");
 include("graphsettings.php");
 
 error_reporting (E_ALL ^ E_NOTICE);
