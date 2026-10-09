@@ -26,6 +26,7 @@ import time
 import sys
 import uuid
 import json
+import pathlib
 from common import Color
 
 
@@ -106,9 +107,11 @@ class Plot():
         _data_*** function
         """
         # Generate a random filename for the data
-        filename = '../figures/{0}.csv'.format(uuid.uuid4())
-        self.out.write('{0}"{1}",\n'.format(self.tab, filename))
-        file_ = open(filename, 'w')
+        relative_path = '/figures' # used by website
+        absolute_path = pathlib.Path(__file__).resolve().parents[1] / 'figures' # used by Python
+        filename = '{0}.csv'.format(uuid.uuid4())
+        self.out.write('{0}"{1}",\n'.format(self.tab, relative_path + '/' + filename))
+        file_ = open(absolute_path / filename, 'w')
         if self.ggs['default_xscale'] == 'dat':
             self._data_dateplot(file_, data)
         else:

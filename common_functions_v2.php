@@ -1,28 +1,37 @@
 <?php
-// TODO: Remove this hard-coded timezone
+// TODO: Remove this hard-coded timezone -> Can be set in php.ini
 date_default_timezone_set("Europe/Copenhagen");
 
 /** Returns a handle to the standard database
     @return object 
   */
 function std_db($user_type=NULL){
-  // These two xml files will be merged in an upcomming PR
-  $xml=simplexml_load_file("../site_settings.xml");
-  $global_settings=simplexml_load_file("../global_settings.xml");
+  $global_settings=simplexml_load_file(__DIR__ . "/global_settings.xml");
 
   if ($user_type == 'alarm_user'){
     $db_user = $global_settings->mail_alarm_settings->alarm_user;
     $db_password = $global_settings->mail_alarm_settings->alarm_pw;
   } else {
-    $db_user = $xml->db_user;
-    $db_password = $xml->db_password;
+    $db_user = $global_settings->db_settings->db_user;
+    $db_password = $global_settings->db_settings->db_password;
   }
 
-  $conn_str = 'mysql:host=' . $xml->db_host . ';dbname=' . $xml->db_database . ';charset=utf8';
+  $conn_str = 'mysql:host=' . $global_settings->db_settings->db_host . ';dbname=' . $global_settings->db_settings->db_database . ';charset=utf8';
   $pdo = new PDO($conn_str, $db_user, $db_password);
   return $pdo;
 }
 
+function setup_db($user_type=NULL){
+  // retrieve username and password from settings file
+  $global_settings=simplexml_load_file(__DIR__ . "/global_settings.xml");
+
+  $db_user = $global_settings->$user_type->db_user;
+  $db_password = $global_settings->$user_type->db_password;
+
+  $conn_str = 'mysql:host=' . $global_settings->db_settings->db_host . ';dbname=' . $global_settings->db_settings->db_database . ';charset=utf8';
+  $pdo = new PDO($conn_str, $db_user, $db_password);
+  return $pdo;
+}
 
 function single_sql_value($db, $query, $column){
     $stmt = $db->prepare($query);
@@ -119,7 +128,7 @@ function weed($str){
  *  @return string
  */
 
-function html_header($root="../", $title="Data viewer", $includehead="", $charset="UTF-8", $width=null, $html5=false){
+function html_header($root="/", $title="Data viewer", $includehead="", $charset="UTF-8", $width=null, $html5=false){
   if ($width != null){
     $width = " style=\"width:{$width}px\" ";
   } else {
@@ -156,7 +165,7 @@ function html_header_normal($root, $title, $includehead, $charset, $width, $html
   $header = $header . "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset={$charset}\">\n";
   $header = $header . "    <title>SurfCat data logging</title>\n";
   $header = $header . "    <link rel=\"StyleSheet\" href=\"{$root}css/style.css\" type=\"text/css\" media=\"screen\">\n";
-  if ($root == "../"){
+  if ($root == "/"){
     # $header = $header . "    <script type=\"text/javascript\" src=\"dygraph/dygraph-dev.js\"></script>\n";
     $header = $header . "    <script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.0.0/dygraph.js\"></script>\n";
     $header = $header . "    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.0.0/dygraph.css\">\n";
