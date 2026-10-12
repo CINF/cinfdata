@@ -16,24 +16,24 @@ prompt(){
     fi
 }
 
-
-PREFIX=../cinfdata_setup
-# Assume a hardcoded directory named "cinfdata_setup" in the subdirectory
-if ! [ -d  $PREFIX ]; then
-    echo "cinfdata_setup doesn't exist in the proper location"
+# Get reference directories from current dir and settings file
+cinfdata=$(pwd)
+cinfdata_setup=$(xmllint --xpath "string(//cinfdata_setup)" global_settings.xml)
+if ! [ -d  $cinfdata_setup ]; then
+    echo "Expected cinfdata_setup in $cinfdata_setup, but destination doesn't exist - aborting.."
     exit 13
-else
-    echo "existence of cinfdata_setup verified"
 fi
 
-cwd=`pwd`
-for dir in ../cinfdata_setup/*/; do
+for dir in $cinfdata_setup/*/; do
+    if [[ $dir = "$cinfdata_setup/figures/" ]]; then
+	continue
+    fi
     echo "$dir"
-    cd $cwd && cd $dir
+    cd $dir
     echo "Current working directory: "`pwd`
 
     echo "Linking python files"
-    ln -sfn ../../cinfdata/sym-files2/*.py .
+    ln -sfn $cinfdata/sym-files2/*.py .
     if [ $? -eq 0 ]; then
 	echo -e "...OK\n\n"
     else
@@ -42,7 +42,7 @@ for dir in ../cinfdata_setup/*/; do
     fi
 
     echo "Linking php files"
-    ln -sfn ../../cinfdata/sym-files2/*.php .
+    ln -sfn $cinfdata/sym-files2/*.php .
     if [ $? -eq 0 ]; then
 	echo -e "...OK\n\n"
     else
