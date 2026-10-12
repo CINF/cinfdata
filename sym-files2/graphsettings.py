@@ -21,6 +21,7 @@ along with The CINF Data Presentation Website.  If not, see
 <http://www.gnu.org/licenses/>.
 """
 
+import pathlib
 import xml.etree.ElementTree
 
 class graphSettings(dict):
@@ -49,7 +50,7 @@ class graphSettings(dict):
 
         # Update with global settings
         system_global = xml.etree.ElementTree.ElementTree()
-        system_global.parse('../global_settings.xml')
+        system_global.parse(pathlib.Path(__file__).resolve().parents[1] / 'global_settings.xml')
         system_global = system_global.getroot()
         self._update_settings_with_xml(system_global)
 

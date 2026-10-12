@@ -19,7 +19,7 @@
     <http://www.gnu.org/licenses/>.
   */
 
-include("../common_functions_v2.php");
+include(dirname(__DIR__) . "/common_functions_v2.php");
 date_default_timezone_set("Europe/Copenhagen");
 include("graphsettings.php");
 $db = std_db();

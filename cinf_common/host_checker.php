@@ -1,13 +1,14 @@
 <?php
 # This page presents the host status of devices as gathered by https://github.com/CINF/machines/rasppi42/host_status.py
-include("../common_functions_v2.php");
+include(dirname(__DIR__) . "/common_functions_v2.php");
+echo(html_header());
 $db = std_db();
 
 $query = 'select id, time, host, port, location, purpose, attr from host_checker';
-$stmt  = $db->prepare($query);
+$stmt = $db->prepare($query);
 $stmt->execute();
 while ($row = $stmt->fetch(PDO::FETCH_BOTH)){
-  if (sizeof($row["attr"]) > 0){
+  if (strlen($row["attr"]) > 0){
     $data[] = json_decode($row["attr"], True);
   }
   else{

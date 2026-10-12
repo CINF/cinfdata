@@ -23,14 +23,15 @@ include("common_functions_v2.php");
 echo(html_header($root="", $title="Data logged at SurfCat", $includehead="",
 		 $charset="UTF-8", $width=null, $html5=true));
 
-#$g = simplexml_load_file("index.xml");
 
 class IndexSpec
 {
   private $index_xml = null;
 
   public function __construct(){
-    $this->index_xml = simplexml_load_file("index.xml");
+    $settings = simplexml_load_file(__DIR__ . "/global_settings.xml");
+    $cinfdata_setup = $settings->site_settings->cinfdata_setup;
+    $this->index_xml = simplexml_load_file("$cinfdata_setup" . "/index.xml");
   }
 
   public function generate_table(){

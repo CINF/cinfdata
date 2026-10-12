@@ -16,6 +16,13 @@ prompt(){
     fi
 }
 
+# Get reference directories from current dir and settings file
+cinfdata=$(pwd)
+cinfdata_setup=$(xmllint --xpath "string(//cinfdata_setup)" global_settings.xml)
+if ! [ -d  $cinfdata_setup ]; then
+    echo "Expected cinfdata_setup in $cinfdata_setup, but destination doesn't exist - aborting.."
+    exit 13
+fi
 
 if [ $# -ne 1 ]; then
     echo "This script needs exactly one argument, the folder name for the new chamber, to proceed"
@@ -24,16 +31,16 @@ fi
 
 echo "Make new folder named: $1"
 echo "Ok to preceed (y/n)?"
-mkdir $1
+mkdir $cinfdata_setup/$1
 prompt
 
-cd $1
+cd $cinfdata_setup/$1
 echo "Current folder is: "`pwd`
 echo "Ready to make links (y/n)?"
 prompt
 
 echo "Linking python files"
-ln -s ../sym-files2/*.py .
+ln -s $cinfdata/sym-files2/*.py .
 if [ $? -eq 0 ]; then
     echo -e "...OK\n\n"
 else
@@ -42,7 +49,7 @@ else
 fi
 
 echo "Linking php files"
-ln -s ../sym-files2/*.php .
+ln -s $cinfdata/sym-files2/*.php .
 if [ $? -eq 0 ]; then
     echo -e "...OK\n\n"
 else
