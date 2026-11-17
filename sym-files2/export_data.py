@@ -40,6 +40,7 @@ class ExportData:
         # Option help at https://cinfwiki.fysik.dtu.dk/cinfwiki/Software/
         # DataWebPageDeveloperDocumentation#plot.py
         parser.add_option('--type')                  # String option
+        parser.add_option('--setup')                 # String option
         parser.add_option('--boolean_options')       # Boolean options
         parser.add_option('--left_plotlist')         # int list
         parser.add_option('--right_plotlist')        # int list
@@ -82,7 +83,7 @@ class ExportData:
                                 options.__dict__[plotlist].split(',')[1:]
                                 if int(a) > 0]
         # Parse string options
-        for key in ['type']:
+        for key in ['type', 'setup']:
             self.o[key] = options.__dict__[key]
         # From_to
         self.o['from_to'] = options.from_to.split(',')
@@ -102,7 +103,7 @@ class ExportData:
 
         # Get a (g)eneral (g)raph (s)ettings object
         # (Is not polulated with data set specific values) 
-        self.ggs = graphSettings(self.o['type'])
+        self.ggs = graphSettings(self.o['type'], self.o['setup'])
 
         ### Create database backend object
         self.db = dataBaseBackend(options=self.o, ggs=self.ggs)

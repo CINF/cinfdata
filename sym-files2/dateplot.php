@@ -26,8 +26,11 @@ $db = std_db();
 # Get the plot type
 $type = $_GET["type"];
 
+# Get the setup name
+$setup = $_GET["setup"];
+
 # Get the default time from an uninitialized version of the settings
-$uninit_settings = plot_settings($type);
+$uninit_settings = plot_settings($type, $setup);
 if (array_key_exists('default_time', $uninit_settings)){
   $default_time = (int) $uninit_settings['default_time'];
 } else {
@@ -52,7 +55,7 @@ $left_format	   = !empty($_GET["left_format"])	 ? $_GET["left_format"]	   : "-";
 $right_format	   = !empty($_GET["right_format"])	 ? $_GET["right_format"]   : "-";
 
 # Get the fully initialized version of the settings
-$settings = plot_settings($type, Array("from" => $from, "to" => $to));
+$settings = plot_settings($type, $setup, Array("from" => $from, "to" => $to));
 
 # Make a list of the all the graphs in the multiplot definition
 $graphs = Array();
@@ -65,7 +68,7 @@ foreach($settings as $key => $value){
 
 # Generate URL for figure ...
 $options_line = '';
-$options = array('from', 'to',
+$options = array('setup', 'from', 'to',
 		 'left_ymax', 'left_ymin',
 		 'right_ymax', 'right_ymin', 
 		 'left_logscale', 'right_logscale',
@@ -82,12 +85,12 @@ foreach(array('left_plotlist', 'right_plotlist') as $value){
   }
 }
 # ... and append imageformat to them
-$plot_php_line = 'plot.php?type=' . $type . $options_line . '&image_format=' . 'png';
-$plot_php_line_graph =  'plot.php?type=' . $type . $options_line . '&image_format=' . $settings['image_format'];
-$export_php_line = 'export_data.php?type=' . $type . $options_line . '&image_format=' . 'png';
+$plot_php_line = 'plot.php?setup=' . $setup . "&type=" . $type .  $options_line . '&image_format=' . 'png';
+$plot_php_line_graph =  'plot.php?setup=' . $setup . "&type=" . $type . $options_line . '&image_format=' . $settings['image_format'];
+$export_php_line = 'export_data.php?setup=' . $setup . "&type=" . $type . $options_line . '&image_format=' . 'png';
 
 echo(html_header());
- 
+
 if ($matplotlib == 'checked'){
   echo('<a href="' . $plot_php_line_graph . '">');
   echo('<img src="' . $plot_php_line . '"/>');

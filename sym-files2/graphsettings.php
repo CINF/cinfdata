@@ -41,7 +41,12 @@ function xml_tree_to_assiciative_arrays($xml){
   return $ret;
 }
 
-function plot_settings($type, $params="", $ignore_invalid_type=False, $gs_file='graphsettings.xml'){
+function plot_settings($type, $setup, $params="", $ignore_invalid_type=False, $gs_file='graphsettings.xml'){
+
+  # Preload global settings again
+  $settings = simplexml_load_file(dirname(__DIR__) . "/global_settings.xml");
+  $cinfdata_setup = $settings->site_settings->cinfdata_setup;
+
   # Load the system global defaults
   $gs_global = fopen(dirname(__DIR__) . "/global_settings.xml", 'r');
   $gs_global = fread($gs_global, filesize(dirname(__DIR__) . "/global_settings.xml"));
@@ -51,8 +56,9 @@ function plot_settings($type, $params="", $ignore_invalid_type=False, $gs_file='
   $settings = xml_tree_to_assiciative_arrays($gs_xml_global);
 
   # Load user graphsettings
-  $gs = fopen($gs_file, 'r');
-  $gs = fread($gs, filesize($gs_file));
+  $gs_file_ = $cinfdata_setup . "/" . $setup . "/" . $gs_file;
+  $gs = fopen($gs_file_, 'r');
+  $gs = fread($gs, filesize($gs_file_));
   $gs_xml = new SimpleXMLElement($gs);
 
   # Update the settings with the USER global settings

@@ -129,6 +129,7 @@ function weed($str){
  */
 
 function html_header($root="/", $title="Data viewer", $includehead="", $charset="UTF-8", $width=null, $html5=false){
+  $root = "";
   if ($width != null){
     $width = " style=\"width:{$width}px\" ";
   } else {
@@ -164,9 +165,9 @@ function html_header_normal($root, $title, $includehead, $charset, $width, $html
   $header = $header . "  <head>\n";
   $header = $header . "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset={$charset}\">\n";
   $header = $header . "    <title>SurfCat data logging</title>\n";
+  $header = $header . "    <link rel=\"icon\" type=\"image/x-icon\" href=\"{$root}favicon.ico\">\n";
   $header = $header . "    <link rel=\"StyleSheet\" href=\"{$root}css/style.css\" type=\"text/css\" media=\"screen\">\n";
   if ($root == "/"){
-    # $header = $header . "    <script type=\"text/javascript\" src=\"dygraph/dygraph-dev.js\"></script>\n";
     $header = $header . "    <script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.0.0/dygraph.js\"></script>\n";
     $header = $header . "    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.0.0/dygraph.css\">\n";
   }
@@ -274,6 +275,7 @@ function html_header_x($root, $title, $includehead, $charset, $width, $html5){
   $header = $header . "  <head>\n";
   $header = $header . "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset={$charset}\">\n";
   $header = $header . "    <title>SurfCat data logging</title>\n";
+  $header = $header . "    <link rel=\"icon\" type=\"image/x-icon\" href=\"{$root}favicon.ico\">\n";
   $header = $header . "    <link rel=\"StyleSheet\" href=\"{$root}css/style.css\" type=\"text/css\" media=\"screen\">\n";
   if ($root == "../"){
     #$header = $header . "    <script type=\"text/javascript\" src=\"dygraph/dygraph-dev.js\"></script>\n";    

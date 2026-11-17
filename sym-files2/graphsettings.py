@@ -28,12 +28,13 @@ class graphSettings(dict):
     """ This class parses the graphsettings from the graphsettings.xml file and
     returns them as the internal settings variables.
     """
-    def __init__(self, typed, params={}):
+    def __init__(self, typed, setup, params={}):
         """ Initialise:
 
         Parameters:
         typed(str)      The type of graph, can be either: pressure, temperature,
                         morning_pressure, iv, xps, iss, masstime or massspectrum
+        setup(str)      The name of the folder containing the graphsettings file
         params(dict)    The parameters to be inserted in the settings
         """
 
@@ -43,15 +44,18 @@ class graphSettings(dict):
         if 'id' in params and params['id'] != '':
             self['id'] = str(params['id'])
 
+        # Load global settings
+        system_global = xml.etree.ElementTree.ElementTree()
+        path = pathlib.Path(__file__).resolve().parents[1] / 'global_settings.xml'
+        system_global.parse(path)
+        system_global = system_global.getroot()
+        cinfdata_setup = pathlib.Path(list(system_global.iter('cinfdata_setup'))[0].text)
 
         gs = xml.etree.ElementTree.ElementTree()
-        gs.parse('graphsettings.xml')
+        gs.parse(cinfdata_setup / setup / 'graphsettings.xml')
         self.graphsettings_xml = gs
 
         # Update with global settings
-        system_global = xml.etree.ElementTree.ElementTree()
-        system_global.parse(pathlib.Path(__file__).resolve().parents[1] / 'global_settings.xml')
-        system_global = system_global.getroot()
         self._update_settings_with_xml(system_global)
 
         # Update with USER global settings (in graphsettings.xml)

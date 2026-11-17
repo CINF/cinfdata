@@ -64,6 +64,7 @@ class Plot():
         # Option help at https://cinfwiki.fysik.dtu.dk/cinfwiki/Software/
         # DataWebPageDeveloperDocumentation#plot.py
         parser.add_option('--type')                  # String option
+        parser.add_option('--setup')                 # String option
         parser.add_option('--boolean_options')       # Boolean options
         parser.add_option('--left_plotlist')         # int list
         parser.add_option('--right_plotlist')        # int list
@@ -110,7 +111,7 @@ class Plot():
                                 options.__dict__[plotlist].split(',')[1:]
                                 if int(a) > 0]
         # Parse string options
-        for key in ['type', 'image_format', 'left_format', 'right_format']:
+        for key in ['type', 'setup', 'image_format', 'left_format', 'right_format']:
             self.o[key] = options.__dict__[key]
         for opt in options.manual_labels_n_titel.split(','):
             self.o[opt.split('=')[0]] = opt.split('=')[1]
@@ -122,7 +123,7 @@ class Plot():
 
         # Get a (g)eneral (g)raph (s)ettings object
         # (Are not polulated with data set specific values) 
-        self.ggs = graphSettings(self.o['type'])
+        self.ggs = graphSettings(self.o['type'], self.o['setup'])
 
         # If a dateplot and called without (valid) datetimes fill them in
         try:

@@ -1,11 +1,11 @@
 <?php
-include("../common_functions_v2.php");
+include(dirname(__DIR__) . "/common_functions_v2.php");
 include("graphsettings.php");
 
 error_reporting (E_ALL ^ E_NOTICE);
 
 # Get settings and initiate argument variables
-$settings = plot_settings($_GET['type']);
+$settings = plot_settings($_GET['type'], $_GET['setup']);
 $boolean_options='';
 
 ### Common
@@ -52,6 +52,7 @@ $input_id = $stmt->fetchColumn();
 
 # Call python plot backend
 $command = './export_data.py --type ' . $_GET['type'] .
+  ' --setup "' . $_GET['setup'] . '"' .
   ' --boolean_options "' . $boolean_options . '"' .
   ' --left_plotlist "' . $left_plotlist . '"' .
   ' --right_plotlist "' . $right_plotlist . '"' .

@@ -89,6 +89,24 @@ class IndexSpec
 
     foreach ($setup->xpath("link") as $link){
       $formatted_link = $link->ref;
+      # Remove old setup dir if included
+      $pos = strpos($formatted_link, "$codename/", 0);
+      if ($pos !== false){
+          $len = strlen("$codename/");
+          $formatted_link = substr($formatted_link, $pos + $len);
+      }
+      # Inject setup name after the php call
+      $pos = strpos($formatted_link, ".php", 0);
+      $question = strpos($formatted_link, "?", 0);
+      if ($question !== false){
+          $replace = "setup=$codename&";
+          $offset = 5;
+      } else {
+          $replace = "?setup=$codename";
+          $offset = 4;
+      }
+      $formatted_link = substr_replace($formatted_link, $replace, $pos + $offset, 0);
+      # Format links
       $formatted_link = str_replace("&", "&amp;", $formatted_link);
       $formatted_link = str_replace("[", "%5B", $formatted_link);
       $formatted_link = str_replace("]", "%5D", $formatted_link);
