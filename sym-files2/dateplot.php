@@ -112,6 +112,7 @@ if ($matplotlib == 'checked'){
       <hr class="clear">
       <form action="dateplot.php" method="get">
 	<input type="hidden" name="type" value="<?php echo($type);?>">
+    <input type="hidden" name="setup" value="<?php echo($setup);?>">
 	<table class="generaloptions">
 	  <tr>
 	    <!-- NOT IMPLEMENTED
