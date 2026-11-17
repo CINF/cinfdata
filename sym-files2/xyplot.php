@@ -20,7 +20,7 @@
   */
 
 include("graphsettings.php");
-include("../common_functions_v2.php");
+include(dirname(__DIR__) . "/common_functions_v2.php");
 $db = std_db();
 $type = $_GET["type"];
 $settings = plot_settings($type);
@@ -188,7 +188,7 @@ if (isset($settings["charset"])){
   $charset = "UTF-8";
 }
 
-echo(html_header($root="../", $page_title="Data viewer", $includehead="", $charset=$charset));
+echo(html_header($root="/", $page_title="Data viewer", $includehead="", $charset=$charset));
 
 if ($matplotlib == 'checked'){
    echo('<a href="' . $plot_php_line_graph . '">');

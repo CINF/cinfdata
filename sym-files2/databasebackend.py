@@ -30,6 +30,7 @@ except ImportError:
     from io import StringIO
 import traceback
 import html
+import pathlib
 
 from scipy import array
 from scipy.interpolate import interp1d
@@ -57,13 +58,14 @@ class dataBaseBackend():
         self.ggs = ggs
         # A few covinience assigments
         self.type_ = options['type']
+        self.setup = options['setup']
         self.from_to_dict = {'from': self.o['from_to'][0],
                              'to': self.o['from_to'][1]}
         self.plotlist = self.o['left_plotlist'] + self.o['right_plotlist']
 
-        with open('../site_settings.xml') as fd:
+        with open(pathlib.Path(__file__).resolve().parents[1] / 'global_settings.xml') as fd:
             settings = xmltodict.parse(fd.read())
-        settings = settings['db_settings']
+        settings = settings['global_settings']['db_settings']
 
         # If millisecond precision is added to a timestamp column, the data is returned
         # as decimal.Decimal type data. Return it as floats instead.
@@ -98,7 +100,7 @@ class dataBaseBackend():
 
     def _get_data_dateplot(self):
         """ Get data for date plots """
-        gs = graphSettings(self.type_, params=self.from_to_dict)
+        gs = graphSettings(self.type_, self.setup, params=self.from_to_dict)
         for side in ['left', 'right']:
             for plot_n in self.o[side + '_plotlist']:
                 lgs = gs['dateplot' + str(plot_n)]
@@ -123,9 +125,9 @@ class dataBaseBackend():
         because it is called manually
         """
         # lgs is the local (specific) graphsettings
-        gs = graphSettings(self.type_)
+        gs = graphSettings(self.type_, self.setup)
         meta_info = self._get_meta_info(gs, id_=plot_n)
-        lgs = graphSettings(self.type_, params=meta_info)
+        lgs = graphSettings(self.type_, self.setup, params=meta_info)
 
         # Get the right query: Look if the value of the column defined
         # in graphsettings have the right value to use a special query,
@@ -252,7 +254,7 @@ class dataBaseBackend():
         # Import plugins from setup folder, without permanently modifying path
         import sys
         old_path = list(sys.path)  # Call list in list to create a copy
-        sys.path.insert(0, '../{0}'.format(self.ggs['folder_name']))
+        sys.path.insert(0, str(pathlib.Path.cwd()))
         import plugins
         sys.path = old_path
 

@@ -27,7 +27,7 @@
     object is printed in this script - this is expected on the other end.
   */
 
-include("../common_functions_v2.php");
+include(dirname(__DIR__) . "/common_functions_v2.php");
 date_default_timezone_set("Europe/Copenhagen");
 include("graphsettings.php");
 $db = std_db();

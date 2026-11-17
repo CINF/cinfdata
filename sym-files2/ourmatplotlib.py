@@ -27,9 +27,11 @@ import hashlib
 
 # set HOME environment variable to a directory the httpd server can write to
 import os
-os.environ[ 'HOME' ] = '/var/www/cinfdata/figures'
+import pathlib
+#p = pathlib.Path(__file__).resolve()
+#os.environ['HOME'] = str(p.parents[1] / 'figures')
 # System-wide ctypes cannot be run by apache... strange...
-sys.path.insert(1, '/var/www/cinfdata')
+#sys.path.insert(1, p.parents[1])
 from pytz import timezone
 
 import numpy as np
